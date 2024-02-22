@@ -1,0 +1,4 @@
+﻿@model ButtonSaveViewModel
+<button class="btn btn-rounded btn-primary @Html.Raw(Model.CssClass) @Html.Raw(Model.JsSelector)" @(Model.HasFormID ? Html.Raw($"form=\"{Model.FormID}\"") : null)>
+    <i class="fa-solid fa-floppy-disk"></i> @Html.Raw(Model.ButtonText)
+</button>

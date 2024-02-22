@@ -1,0 +1,462 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="TextActive" xml:space="preserve">
+    <value>აქტიური</value>
+  </data>
+  <data name="TextAdd" xml:space="preserve">
+    <value>დამატება</value>
+  </data>
+  <data name="TextAdminWelcomeSubTitle" xml:space="preserve">
+    <value>მართვის პანელზე მოსახვედრად გთხოვთ გაიაროთ ავტორიზაცია</value>
+  </data>
+  <data name="TextAdminWelcomeTitle" xml:space="preserve">
+    <value>მოგესალმებით ადმინის მხარეს</value>
+  </data>
+  <data name="TextAllDevexpressGridFilterRaw" xml:space="preserve">
+    <value> </value>
+  </data>
+  <data name="TextAuthor" xml:space="preserve">
+    <value>ავტორი</value>
+  </data>
+  <data name="TextBackToPreviousPage" xml:space="preserve">
+    <value>წინა გვერდზე დაბრუნება</value>
+  </data>
+  <data name="TextBackToWebsite" xml:space="preserve">
+    <value>ვებ გვერდზე დაბრუნება</value>
+  </data>
+  <data name="TextBirthDate" xml:space="preserve">
+    <value>დაბადების თარიღი</value>
+  </data>
+  <data name="TextBrand" xml:space="preserve">
+    <value>ბრენდი</value>
+  </data>
+  <data name="TextCancel" xml:space="preserve">
+    <value>გაუქმება</value>
+  </data>
+  <data name="TextCaption" xml:space="preserve">
+    <value>დასახელება</value>
+  </data>
+  <data name="TextCaptionEng" xml:space="preserve">
+    <value>დასახელება Eng</value>
+  </data>
+  <data name="TextCategory" xml:space="preserve">
+    <value>კატეგორია</value>
+  </data>
+  <data name="TextCloudProperties" xml:space="preserve">
+    <value>Cloud პარამეტრები</value>
+  </data>
+  <data name="TextCode" xml:space="preserve">
+    <value>კოდი</value>
+  </data>
+  <data name="TextCodename" xml:space="preserve">
+    <value>კოდური სახელი</value>
+  </data>
+  <data name="TextConfirmDelete" xml:space="preserve">
+    <value>ნამდვილად გნებავთ ჩანაწერის წაშლა?</value>
+  </data>
+  <data name="TextConfirmDeleteImage" xml:space="preserve">
+    <value>ნამდვილად გნებავთ სურათის წაშლა?</value>
+  </data>
+  <data name="TextConfirmDeleteRecursive" xml:space="preserve">
+    <value>ჩანაწერის წაშლა აგრეთვე გამოიწვევს ყველა ქვე-ჩანაწერების წაშლას (ასეთების არსებობის შემთხვევაში). ნამდვილად გსურთ გაგრძელება?</value>
+  </data>
+  <data name="TextContactAddress" xml:space="preserve">
+    <value>საკონტაქტო მისამართი</value>
+  </data>
+  <data name="TextContactEmail" xml:space="preserve">
+    <value>საკონტაქტო ელ-ფოსტა</value>
+  </data>
+  <data name="TextContactPhone" xml:space="preserve">
+    <value>საკონტაქტო ტელეფონი</value>
+  </data>
+  <data name="TextDate" xml:space="preserve">
+    <value>თარიღი</value>
+  </data>
+  <data name="TextDateCreated" xml:space="preserve">
+    <value>შექმნის თარიღი</value>
+  </data>
+  <data name="TextDelete" xml:space="preserve">
+    <value>წაშლა</value>
+  </data>
+  <data name="TextDescription" xml:space="preserve">
+    <value>აღწერა</value>
+  </data>
+  <data name="TextDescriptionEng" xml:space="preserve">
+    <value>აღწერა Eng</value>
+  </data>
+  <data name="TextDescriptionShort" xml:space="preserve">
+    <value>მოკლე აღწერა</value>
+  </data>
+  <data name="TextDescriptionShortEng" xml:space="preserve">
+    <value>მოკლე აღწერა Eng</value>
+  </data>
+  <data name="TextDictionaryCode" xml:space="preserve">
+    <value>ცნობარის კოდი</value>
+  </data>
+  <data name="TextEmail" xml:space="preserve">
+    <value>ელ-ფოსტა</value>
+  </data>
+  <data name="TextEmailProperties" xml:space="preserve">
+    <value>ელ-ფოსტის პარამეტრები</value>
+  </data>
+  <data name="TextError" xml:space="preserve">
+    <value>უკაცრავად დაფიქსირდა შეცდომა</value>
+  </data>
+  <data name="TextExcelDownloadTemplate" xml:space="preserve">
+    <value>ექსელის შაბლონის გადმოწერა</value>
+  </data>
+  <data name="TextExcelUpload" xml:space="preserve">
+    <value>ექსელის ატვირთვა</value>
+  </data>
+  <data name="TextExport" xml:space="preserve">
+    <value>ექსპორტი</value>
+  </data>
+  <data name="TextExternalPage" xml:space="preserve">
+    <value>გარე გვერდი</value>
+  </data>
+  <data name="TextFeatured" xml:space="preserve">
+    <value>რჩეული</value>
+  </data>
+  <data name="TextFirstname" xml:space="preserve">
+    <value>სახელი</value>
+  </data>
+  <data name="TextFooter" xml:space="preserve">
+    <value>Footer</value>
+  </data>
+  <data name="TextGeneralProperties" xml:space="preserve">
+    <value>ძირითადი პარამეტრები</value>
+  </data>
+  <data name="TextGenerateFromTitle" xml:space="preserve">
+    <value>შექმნა სათაურისგან</value>
+  </data>
+  <data name="TextGetMeOuttaHere" xml:space="preserve">
+    <value>გამაცალე აქაურობას</value>
+  </data>
+  <data name="TextIntCode" xml:space="preserve">
+    <value>რიცხვითი კოდი</value>
+  </data>
+  <data name="TextLastname" xml:space="preserve">
+    <value>გვარი</value>
+  </data>
+  <data name="TextLogin" xml:space="preserve">
+    <value>ავტორიზაცია</value>
+  </data>
+  <data name="TextLogout" xml:space="preserve">
+    <value>გასვლა</value>
+  </data>
+  <data name="TextMenu" xml:space="preserve">
+    <value>მენიუ</value>
+  </data>
+  <data name="TextMenuIcon" xml:space="preserve">
+    <value>მენიუს იკონკა</value>
+  </data>
+  <data name="TextMenuTitle" xml:space="preserve">
+    <value>მენიუს სათაური</value>
+  </data>
+  <data name="TextMenuTitleEng" xml:space="preserve">
+    <value>მენიუს სათაური Eng</value>
+  </data>
+  <data name="TextName" xml:space="preserve">
+    <value>სახელი</value>
+  </data>
+  <data name="TextNameEng" xml:space="preserve">
+    <value>სახელი Eng</value>
+  </data>
+  <data name="TextNext" xml:space="preserve">
+    <value>წინა</value>
+  </data>
+  <data name="TextNo" xml:space="preserve">
+    <value>არა</value>
+  </data>
+  <data name="TextPageNotFound" xml:space="preserve">
+    <value>404 - გვერდი ვერ მოიძებნა</value>
+  </data>
+  <data name="TextPageNotFoundMessage1" xml:space="preserve">
+    <value>უკაცრავად, გვერდი ვერ მოიძებნა</value>
+  </data>
+  <data name="TextPageNotFoundMessage2" xml:space="preserve">
+    <value>რესურსი რომელიც თქვენ მოითხოვეთ ვერ მოიძებნა</value>
+  </data>
+  <data name="TextPageShortDescriptionAndImageInfo" xml:space="preserve">
+    <value>სურათი და მოკლე აღწერა გამოიყენება სოც. ქსელებში გაზიარებასა და Google - ის საძიებო სისტემაში გამოსაჩენად.</value>
+  </data>
+  <data name="TextPageUrl" xml:space="preserve">
+    <value>გვერდის მისამართი</value>
+  </data>
+  <data name="TextPassword" xml:space="preserve">
+    <value>პაროლი</value>
+  </data>
+  <data name="TextPermission" xml:space="preserve">
+    <value>უფლება</value>
+  </data>
+  <data name="TextPermissions" xml:space="preserve">
+    <value>უფლებები</value>
+  </data>
+  <data name="TextPhoneCell" xml:space="preserve">
+    <value>მობილურის ნომერი</value>
+  </data>
+  <data name="TextPhotos" xml:space="preserve">
+    <value>სურათები</value>
+  </data>
+  <data name="TextPosition" xml:space="preserve">
+    <value>პოზიცია</value>
+  </data>
+  <data name="TextPrev" xml:space="preserve">
+    <value>შემდეგი</value>
+  </data>
+  <data name="TextPrice" xml:space="preserve">
+    <value>ფასი</value>
+  </data>
+  <data name="TextPriceOld" xml:space="preserve">
+    <value>ძველი ფასი</value>
+  </data>
+  <data name="TextProducerCountry" xml:space="preserve">
+    <value>მწარმოებელი ქვეყანა</value>
+  </data>
+  <data name="TextProjectName" xml:space="preserve">
+    <value>პროექტის სახელი</value>
+  </data>
+  <data name="TextPublished" xml:space="preserve">
+    <value>გამოქვეყნებული</value>
+  </data>
+  <data name="TextRedirectFrom" xml:space="preserve">
+    <value>გადამისამართება - დან</value>
+  </data>
+  <data name="TextRedirectTo" xml:space="preserve">
+    <value>გადამისამართება - სკენ</value>
+  </data>
+  <data name="TextRelogin" xml:space="preserve">
+    <value>რეავტორიზაცია</value>
+  </data>
+  <data name="TextRemainder" xml:space="preserve">
+    <value>ნაშთი</value>
+  </data>
+  <data name="TextRemainderUpload" xml:space="preserve">
+    <value>ნაშთების ატვირთვა</value>
+  </data>
+  <data name="TextRememberMe" xml:space="preserve">
+    <value>დამიმახსოვრე</value>
+  </data>
+  <data name="TextRole" xml:space="preserve">
+    <value>როლი</value>
+  </data>
+  <data name="TextRoles" xml:space="preserve">
+    <value>როლები</value>
+  </data>
+  <data name="TextSave" xml:space="preserve">
+    <value>შენახვა</value>
+  </data>
+  <data name="TextSignIn" xml:space="preserve">
+    <value>შესვლა</value>
+  </data>
+  <data name="TextSignOut" xml:space="preserve">
+    <value>გასვლა</value>
+  </data>
+  <data name="TextSlug" xml:space="preserve">
+    <value>Slug</value>
+  </data>
+  <data name="TextSortIndex" xml:space="preserve">
+    <value>სორტ. ინდექსი</value>
+  </data>
+  <data name="TextStringCode" xml:space="preserve">
+    <value>სტრიქონული კოდი</value>
+  </data>
+  <data name="TextSuccess" xml:space="preserve">
+    <value>ოპერაცია წარმატებით შესრულდა</value>
+  </data>
+  <data name="TextTemplate" xml:space="preserve">
+    <value>შაბლონი</value>
+  </data>
+  <data name="TextTestButton" xml:space="preserve">
+    <value>გატესტვა</value>
+  </data>
+  <data name="TextTitle" xml:space="preserve">
+    <value>სათაური</value>
+  </data>
+  <data name="TextTitleEng" xml:space="preserve">
+    <value>სათაური Eng</value>
+  </data>
+  <data name="TextUpdate" xml:space="preserve">
+    <value>რედაქტირება</value>
+  </data>
+  <data name="TextUpload" xml:space="preserve">
+    <value>ატვირთვა</value>
+  </data>
+  <data name="TextUploadImage" xml:space="preserve">
+    <value>სურათის ატვირთვა</value>
+  </data>
+  <data name="TextUsername" xml:space="preserve">
+    <value>სახელი</value>
+  </data>
+  <data name="TextVideoUrl" xml:space="preserve">
+    <value>ვიდეოს მისამართი</value>
+  </data>
+  <data name="TextYes" xml:space="preserve">
+    <value>კი</value>
+  </data>
+  <data name="ValidationEmailFormatInvalid" xml:space="preserve">
+    <value>ელ-ფოსტის ფორმატი არასწორია</value>
+  </data>
+  <data name="ValidationExcelDuplicateItemFound" xml:space="preserve">
+    <value>ჩანაწერი დუბლირებულია. ხაზი {0}</value>
+  </data>
+  <data name="ValidationPasswordLength" xml:space="preserve">
+    <value>პაროლი უნდა შეიცავდეს მინიმუმ 8 სიმბოლოს</value>
+  </data>
+  <data name="ValidationPasswordOldNotMatch" xml:space="preserve">
+    <value>მიმდინარე პაროლი არასწორია</value>
+  </data>
+  <data name="ValidationPasswordsNotMatch" xml:space="preserve">
+    <value>პაროლები არ ემთხვევა</value>
+  </data>
+  <data name="ValidationPasswordStrength" xml:space="preserve">
+    <value>პაროლი უნდა შეიცავდეს მინიმუმ ერთ სიმბოლოსა და ერთ ციფრს</value>
+  </data>
+  <data name="ValidationProductNameRequired" xml:space="preserve">
+    <value>პროდუქტის სახელის შეყვანა აუცილებელია</value>
+  </data>
+  <data name="ValidationProductPriceFormatInvalid" xml:space="preserve">
+    <value>ფასი არასწორ ფორმატშია მოწოდებული. დასაშვებია მხოლოდ დადებითი ათწილადი რიცხვები (მაგ 63.5)</value>
+  </data>
+  <data name="ValidationProductPriceRequired" xml:space="preserve">
+    <value>პროდუქტის ფასის შეყვანა აუცილებელია</value>
+  </data>
+  <data name="ValidationProductRemainderFormatInvalid" xml:space="preserve">
+    <value>ნაშთი არასწორ ფორმატშია მოწოდებული. დასაშვებია მხოლოდ დადებითი მთელი რიცხვები (მაგ 63)</value>
+  </data>
+  <data name="ValidationProductRemainderRequired" xml:space="preserve">
+    <value>პროდუქტის ნაშთის შეყვანა აუცილებელია</value>
+  </data>
+  <data name="ValidationRequired" xml:space="preserve">
+    <value>ველის შეყვანა აუცილებელია</value>
+  </data>
+  <data name="ValidationSlugNotUniq" xml:space="preserve">
+    <value>URL Slug არ არის უნიკალური</value>
+  </data>
+  <data name="ValidationTextMaxLength" xml:space="preserve">
+    <value>ტექსტის მაქსიმალური ზომა {0} სიმბოლო უნდა იყოს</value>
+  </data>
+  <data name="ValidationUserEmailNotUniq" xml:space="preserve">
+    <value>მოცემული ელ-ფოსტის მისამართი უკვე გამოყენებულია</value>
+  </data>
+  <data name="ValidationUserInvalidUsernameOrPassword" xml:space="preserve">
+    <value>არასწორი სახელი ან პაროლი</value>
+  </data>
+</root>

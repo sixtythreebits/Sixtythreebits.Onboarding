@@ -1,0 +1,279 @@
+﻿:root{
+    --font-family: '63Fonts', "Work Sans", sans-serif;
+    --font-family-uppercase: '63Fonts Up', "Work Sans", sans-serif;
+}
+
+body {
+    font-family: var(--font-family);
+}
+.text-uppercase{
+    font-family: var(--font-family-uppercase);
+}
+
+/*---------- layout ----------*/
+body[data-sidebar="dark"][data-sidebar-size="sm"]{
+    min-height: unset;
+}
+
+body[data-sidebar-size="sm"] .navbar-brand-box{
+    padding: 0;
+}
+
+.sidebar-menu-wrapper{
+    position: relative;
+}
+body[data-sidebar-size="lg"] .sidebar-menu-wrapper {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 50px;
+    left: 0;
+}
+.sidebar-menu-wrapper .sidebar-menu-scroll{
+    width: 100%;
+    margin: 0;
+}
+body[data-sidebar-size="lg"] .sidebar-menu-wrapper .sidebar-menu-scroll{    
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+body[data-sidebar-size="sm"] .vertical-menu #sidebar-menu > ul > li:hover > ul {
+    width:220px;
+}
+body[data-sidebar-size="sm"] .vertical-menu #sidebar-menu > ul > li:hover > a {
+    width: calc(220px + 70px)
+}
+body[data-sidebar-size="sm"] .vertical-menu #sidebar-menu > ul > li > a i{
+    padding-right: 16px;
+}
+
+body[data-sidebar="dark"][data-sidebar-size="sm"] .main-content {
+    min-height: 100vh;
+}
+.page-content{
+    padding-bottom: 1px;
+}
+
+.sidebar-footer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 50px;
+    padding: 10px 1rem;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
+@media (max-width:991px) {
+    .sidebar-enable .hamburger-icon {
+        transform:rotate(90deg);
+    }
+}
+@media (min-width: 992px){
+    /*.vertical-menu {
+        display: flex;
+        flex-direction: column;
+    }*/
+    .sidebar-menu-wrapper {
+        top: calc(70px + 26px) !important;
+    }
+}
+/*---------- /layout ----------*/
+
+
+/*---------- icons ----------*/
+.fa-solid, .fa-regular, .fa-light {
+    font-size: 16px !important;
+}
+
+.fa-trash:not([class*=color-]):not([class*=text-]),
+.fa-trash-can:not([class*=color-]):not([class*=text-]),
+.fa-trash-alt:not([class*=color-]):not([class*=text-]),
+.fa-times:not([class*=color-]):not([class*=text-]),
+.fa-ban:not([class*=color-]):not([class*=text-]),
+.fa-file-pdf:not([class*=color-]):not([class*=text-]),
+.fa-circle-minus:not([class*=color-]):not([class*=text-]) {
+    color: #d9534f !important;
+}
+
+.fa-folder:not([class*=color-]):not([class*=text-]),
+.fa-folder-open:not([class*=color-]):not([class*=text-]) {
+    color: #f9d467 !important;
+}
+
+.fa-plus:not([class*=color-]):not([class*=text-]),
+.fa-check:not([class*=color-]):not([class*=text-]),
+.fa-file-excel:not([class*=color-]):not([class*=text-]),
+.fa-check-circle:not([class*=color-]):not([class*=text-]),
+a .fa-upload:not([class*=color-]):not([class*=text-]) {
+    color: #35B797 !important;
+}
+
+.fa-minus-circle:not([class*=color-]):not([class*=text-]) {
+    color: #d9534f !important;
+}
+
+.fa-pencil:not([class*=color-]):not([class*=text-]),
+.fa-pencil-alt:not([class*=color-]):not([class*=text-]),
+.fa-question:not([class*=color-]):not([class*=text-]),
+.fa-user-slash:not([class*=color-]):not([class*=text-]) {
+    color: #DDAA00 !important;
+}
+
+.fa-clock:not([class*=color-]):not([class*=text-]),
+.fa-euro-sign:not([class*=color-]):not([class*=text-]) {
+    color: #31B0D5 !important;
+}
+
+.fa-arrows-alt:not([class*=color-]):not([class*=text-]),
+.fa-print:not([class*=color-]):not([class*=text-]){
+    color: #7d7d7d !important;
+}
+/*--------- /icons ----------*/
+
+
+/*---------- actions row ----------*/
+.actions-row .col{
+    display:flex;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom:15px;
+}
+
+
+.actions-row .toggler {
+    height: 35px;
+}
+
+.content-heading + .actions-row{
+    margin-top:-8px;
+}
+.breadcrumb + .actions-row{
+    margin-top:-8px;
+}
+/*---------- /actions row ----------*/
+
+
+/*--------- calendar ----------*/
+.full-calendar-wrap{
+    min-height:calc(100vh - 233px - 60px);
+    margin:0;
+}
+.tab-pane .full-calendar-wrap{
+    min-height:calc(100vh - 236px - 60px);
+}
+
+.full-calendar .fc-toolbar h2{
+    font-size: 26px;
+    font-weight: 300;
+}
+
+.full-calendar .fc-toolbar .fc-button{
+    min-height:35px;
+    background: #eaeaea;
+    border-color: #eaeaea;
+    border-radius:50px;
+    box-shadow: none !important;
+    outline:none !important;
+    padding: 7px 14px 5px;
+
+    color: #747474;
+    font-family:'63Fonts UP', 'Roboto', sans-serif;
+    font-size:11px;
+    font-weight:bold;
+    line-height:20px;
+    text-transform:uppercase;
+}
+.full-calendar .fc-toolbar .fc-button:not(:disabled):not(.fc-state-disabled):hover{
+    background-color: #e5e5e5;
+    border-color: #e5e5e5;
+}
+.full-calendar .fc-toolbar .fc-button:not(:disabled):not(.fc-state-disabled):active{
+    background-color: #d8d8d8;
+    border-color: #d8d8d8;
+}
+.full-calendar .fc-toolbar .fc-state-disabled{
+    cursor:default;
+}
+
+.full-calendar .fc-toolbar .fc-prev-button,
+.full-calendar .fc-toolbar .fc-next-button{
+    width:35px;
+    border-radius:50%;
+    padding:0;
+    text-align:center;
+}
+.full-calendar .fc-toolbar .fc-next-button{
+    margin-left:8px;
+}
+
+.full-calendar td {
+    vertical-align: bottom !important;
+}
+
+.full-calendar .fc-day.fc-today{
+    background-color:#f3f3f3;
+}
+.full-calendar .fc-highlight{
+    background-color:#4e78fe;
+    opacity:0.1;
+}
+
+.full-calendar .fc-day-grid-event.fc-start{
+    border-top-left-radius:10px;
+    border-bottom-left-radius:10px;
+}
+.full-calendar .fc-day-grid-event.fc-end{
+    border-top-right-radius:10px;
+    border-bottom-right-radius:10px;
+}
+.full-calendar .fc-day-grid-event .fc-title{
+    color:#fff;
+    padding:0 4px;
+}
+
+.full-calendar .dayly-price {
+    color: #000;
+    font-size: 12px;
+    line-height: 16px;
+    text-align: right;
+    position: relative;
+    z-index: 5;
+    padding:0 4px 4px;
+    margin:0;
+}
+
+.full-calendar .dayly-price > span {
+    display:block;
+    margin-bottom:2px;
+}
+.full-calendar .dayly-price > span img{
+    height:16px;
+    position: relative;
+    top: -1px;
+}
+
+.full-calendar .dayly-price > span > *{
+    vertical-align: middle;
+    display: inline-block;
+}
+
+.full-calendar .not-available{
+    opacity:0.3;
+}
+
+.full-calendar .fc-day-grid-event.not-available {
+    opacity: 0.5;
+}
+
+@media(max-height: 850px) {
+    .full-calendar-wrap {
+        min-height: 554px !important;
+    }
+}
+/*--------- /calendar ----------*/

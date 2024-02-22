@@ -1,0 +1,89 @@
+﻿@model TreeNodeItem
+<li data-id="@Model.NodeID" class="tree-item file js-file-tree-editor-item is-open @(Model.IsNoNestingEnabled ? Html.Raw("js-no-nesting") : null)">
+    <div class="handle @(Model.IsDisabled?Html.Raw("disabled"):null)">
+        <div class="left-col">
+            <span class="drag">
+                <i class="fa-solid fa-arrows-up-down-left-right"></i>
+            </span>
+            @if (Model.IsFolder)
+            {
+                <i class="fa-solid fa-folder-open"></i>
+            }
+            else
+            {
+                <i class="fa-solid fa-file-lines"></i>
+            }
+            <div class="name">
+                <a class="js-file-tree-editor-item-caption" @(Model.HasNavigateUrl ? Html.Raw($"href=\"{Model.NavigateUrl}\"") : null) @(Model.IsTargetBlank ? Html.Raw("target =\"_blank\"") : null)>
+                    @Html.Raw(Model.Caption)
+                </a>
+            </div>
+            <input class="hidden js-file-tree-editor-item-caption-textbox" type="text" value="" />
+        </div>
+        <div class="right-col">
+            @if (Model.ShowToggler1)
+            {
+                <label class="toggler">
+                    <span>@Model.TextToggler1</span>
+                    <input type="checkbox" @(Model.IsToggler1Checked ? Html.Raw("checked") : null) class="js-file-tree-editor-item-toggler-1-checkbox" />
+                    <i></i>
+                </label>
+            }
+            @if (Model.ShowToggler2)
+            {
+                <label class="toggler">
+                    <span>@Model.TextToggler2</span>
+                    <input type="checkbox" @(Model.IsToggler2Checked ? Html.Raw("checked") : null) class="js-file-tree-editor-item-toggler-2-checkbox" />
+                    <i></i>
+                </label>
+            }
+            @if (Model.ShowToggler3)
+            {
+                <label class="toggler">
+                    <span>@Model.TextToggler3</span>
+                    <input type="checkbox" @(Model.IsToggler3Checked ? Html.Raw("checked") : null) class="js-file-tree-editor-item-toggler-3-checkbox" />
+                    <i></i>
+                </label>
+            }
+            @if (Model.ShowCustomButton && Model.ShowCustomButtonFirst)
+            {
+                <a href="#" class="js-file-tree-editor-item-custom-button">
+                    <i class="@Html.Raw(Model.CustomButtonIcon)"></i>
+                </a>
+            }
+            @if (Model.ShowAddNewButton)
+            {
+                <a href="#" class="js-file-tree-editor-item-add-new-button">
+                    <i class="fa-solid fa-plus"></i>
+                </a>
+            }
+            @if (Model.ShowEditButton)
+            {
+                <a href="#" class="js-file-tree-editor-item-add-edit-button">
+                    <i class="fa-solid fa-pencil"></i>
+                </a>
+            }
+            @if (Model.ShowDeleteButton)
+            {
+                <a href="#" class="js-file-tree-editor-item-delete-button">
+                    <i class="fa-light fa-trash-can"></i>
+                </a>
+            }
+            @if (Model.ShowCustomButton && Model.ShowCustomButtonLast)
+            {
+                <a href="#" class="js-file-tree-editor-item-custom-button">
+                    <i class="@Html.Raw(Model.CustomButtonIcon)"></i>
+                </a>
+            }
+        </div>
+    </div>
+    <ul class="js-tree-items-container">
+        @if (Model.HasChildren)
+        {
+            foreach (var Item in Model.Children)
+            {
+                @await Html.PartialAsync(ViewNames.Admin.Shared.FileTreeEditor.File, Item)
+            }
+        }
+    </ul>
+</li>
