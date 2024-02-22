@@ -19,8 +19,8 @@ namespace SixtyThreeBits.Core.Infrastructure.Repositories
         {
             _mapper = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<DBQueriesDataContext.DictionariesListEntity, DictionariesDTO>();
-                cfg.CreateMap<DBQueriesDataContext.DictionariesListByLevelAndCodeAndIsVisibleEntity, DictionariesDTO>();
+                cfg.CreateMap<DbContextQueries.DictionariesListEntity, DictionariesDTO>();
+                cfg.CreateMap<DbContextQueries.DictionariesListByLevelAndCodeAndIsVisibleEntity, DictionariesDTO>();
             }).CreateMapper();
         }
         #endregion

@@ -18,7 +18,7 @@ namespace SixtyThreeBits.Core.Infrastructure.Repositories
         {
             _mapper = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<DBQueriesDataContext.PermissionsListEntity, PermissionDTO>();
+                cfg.CreateMap<DbContextQueries.PermissionsListEntity, PermissionDTO>();
             }).CreateMapper();
         }
         #endregion

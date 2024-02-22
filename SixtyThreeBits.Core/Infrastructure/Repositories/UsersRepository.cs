@@ -20,7 +20,7 @@ namespace SixtyThreeBits.Core.Infrastructure.Repositories
         {
             _mapper = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<DBQueriesDataContext.UsersListEntity, UsersListDTO>();
+                cfg.CreateMap<DbContextQueries.UsersListEntity, UsersListDTO>();
             }).CreateMapper();
         }
         #endregion
