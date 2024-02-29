@@ -28,7 +28,7 @@ namespace SixtyThreeBits.Core.Infrastructure.Repositories
         {
             await TryExecuteAsyncTask($"{nameof(PermissionsDeleteRecursive)}({nameof(permissionID)} = {permissionID})", async () =>
             {
-                using (var db = _connectionFactory.GetDBCommandsDataContext())
+                using (var db = _connectionFactory.GetDbContextCommands())
                 {
                     await db.PermissionsDeleteRecursive(permissionID);
                 }
@@ -37,36 +37,41 @@ namespace SixtyThreeBits.Core.Infrastructure.Repositories
 
         public async Task<int?> PermissionsIUD(Enums.DatabaseActions databaseAction, int? permissionID = null, int? permissionParentID = null, string permissionCaption = null, string permissionCaptionEng = null, string permissionPagePath = null, string permissionCodeName = null, string permissionCode = null, int? permissionSortIndex = null, bool? permissionIsMenuItem = null, string permissionMenuIcon = null, string permissionMenuTitle = null, string permissionMenuTitleEng = null)
         {
-            return await TryToReturnAsyncTask($"{nameof(PermissionsIUD)}({nameof(databaseAction)} = {databaseAction}, {nameof(permissionID)} = {permissionID}, {nameof(permissionParentID)} = {permissionParentID}, {nameof(permissionCaption)} = {permissionCaption}, {nameof(permissionCaptionEng)} = {permissionCaptionEng}, {nameof(permissionPagePath)} = {permissionPagePath}, {nameof(permissionCodeName)} = {permissionCodeName}, {nameof(permissionCode)} = {permissionCode}, {nameof(permissionSortIndex)} = {permissionSortIndex}, {nameof(permissionIsMenuItem)} = {permissionIsMenuItem}, {nameof(permissionMenuIcon)} = {permissionMenuIcon}, {nameof(permissionMenuTitle)} = {permissionMenuTitle}, {nameof(permissionMenuTitleEng)} = {permissionMenuTitleEng})", async () =>
+            permissionID = await TryToReturnAsyncTask($"{nameof(PermissionsIUD)}({nameof(databaseAction)} = {databaseAction}, {nameof(permissionID)} = {permissionID}, {nameof(permissionParentID)} = {permissionParentID}, {nameof(permissionCaption)} = {permissionCaption}, {nameof(permissionCaptionEng)} = {permissionCaptionEng}, {nameof(permissionPagePath)} = {permissionPagePath}, {nameof(permissionCodeName)} = {permissionCodeName}, {nameof(permissionCode)} = {permissionCode}, {nameof(permissionSortIndex)} = {permissionSortIndex}, {nameof(permissionIsMenuItem)} = {permissionIsMenuItem}, {nameof(permissionMenuIcon)} = {permissionMenuIcon}, {nameof(permissionMenuTitle)} = {permissionMenuTitle}, {nameof(permissionMenuTitleEng)} = {permissionMenuTitleEng})", async () =>
             {
-                using (var db = _connectionFactory.GetDBCommandsDataContext())
+                using (var db = _connectionFactory.GetDbContextCommands())
                 {
                     permissionID = await db.PermissionsIUD(databaseAction, permissionID, permissionParentID, permissionCaption, permissionCaptionEng, permissionPagePath, permissionCodeName, permissionCode, permissionIsMenuItem, permissionMenuIcon, permissionMenuTitle, permissionMenuTitleEng, permissionSortIndex);
                     return permissionID;
                 }
             });
+            return permissionID;
         }
 
         public async Task<List<PermissionDTO>> PermissionsList()
         {
-            return await TryToReturnAsyncTask($"{nameof(PermissionsList)}()", async () =>
+            var result = await TryToReturnAsyncTask($"{nameof(PermissionsList)}()", async () =>
             {
-                using (var db = _connectionFactory.GetDBQueriesDataContext())
+                using (var db = _connectionFactory.GetDbContextQueries())
                 {
-                    return (await db.PermissionsList().OrderBy(P => P.PermissionSortIndex).ToListAsync())?.Select(item=>_mapper.Map<PermissionDTO>(item)).ToList();
+                    var result = (await db.PermissionsList().OrderBy(P => P.PermissionSortIndex).ToListAsync())?.Select(item=>_mapper.Map<PermissionDTO>(item)).ToList();
+                    return result;
                 }
             });
+            return result;
         }
 
         public async Task<List<int?>> PermissionsListByRoleID(int? roleID)
         {
-            return await TryToReturnAsyncTask($"{nameof(PermissionsListByRoleID)}({nameof(roleID)} = {roleID}", async () =>
+            var result = await TryToReturnAsyncTask($"{nameof(PermissionsListByRoleID)}({nameof(roleID)} = {roleID}", async () =>
             {
-                using (var db = _connectionFactory.GetDBQueriesDataContext())
+                using (var db = _connectionFactory.GetDbContextQueries())
                 {
-                    return await db.PermissionsListByRoleID(roleID).Select(item => item.PermissionID).ToListAsync();
+                    var result = await db.PermissionsListByRoleID(roleID).Select(item => item.PermissionID).ToListAsync();
+                    return result;
                 }
             });
+            return result;
         }
         #endregion
     }        
