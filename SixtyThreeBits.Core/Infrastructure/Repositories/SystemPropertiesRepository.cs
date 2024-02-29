@@ -18,17 +18,20 @@ namespace SixtyThreeBits.Core.Infrastructure.Repositories
         #region Methods
         public async Task<SystemPropertiesDTO> SystemPropertiesGet()
         {
-            var result = await TryToReturnAsyncTask($"{nameof(SystemPropertiesGet)}()", async () =>
-            {
-                using (var db = _connectionFactory.GetDbContextQueries())
+            var result = await TryToReturnAsyncTask(
+                logString: $"{nameof(SystemPropertiesGet)}()", 
+                asyncFuncToTry: async () =>
                 {
-                    var resultJson = await db.SystemPropertiesGet();
-                    var result = resultJson?.DeserializeJsonTo<SystemPropertiesDTO>();
-                    return result;
+                    using (var db = _connectionFactory.GetDbContextQueries())
+                    {
+                        var resultJson = await db.SystemPropertiesGet();
+                        var result = resultJson?.DeserializeJsonTo<SystemPropertiesDTO>();
+                        return result;
+                    }
                 }
-            });
+            );
             return result ?? new SystemPropertiesDTO();
-        }        
+        }
         #endregion
     }        
 }
