@@ -61,13 +61,13 @@ namespace SixtyThreeBits.Core.Infrastructure.Repositories
             });
         }
 
-        public async Task<int?> UsersIUD(Enums.DatabaseActions databaseAction, int? roleID = null, int? userID = null, string userEmail = null, string userPassword = null, string userFirstname = null, string userLastname = null, DateTime? userBirthdate = null, string userPhoneNumberMobile = null, string userPersonalNumber = null, string userAvatarFilename = null, bool? userIsActive = null)
+        public async Task<int?> UsersIUD(Enums.DatabaseActions databaseAction, int? roleID = null, int? userID = null, string userEmail = null, string userPassword = null, string userFirstname = null, string userLastname = null)
         {
-            return await TryToReturnAsyncTask($"{nameof(UsersIUD)}({nameof(databaseAction)} = {databaseAction}, {nameof(roleID)} = {roleID}, {nameof(userID)} = {userID}, {nameof(userEmail)} = {userEmail}, {nameof(userPassword)} = {userPassword}, {nameof(userFirstname)} = {userFirstname}, {nameof(userLastname)} = {userLastname}, {nameof(userBirthdate)} = {userBirthdate}, {nameof(userPhoneNumberMobile)} = {userPhoneNumberMobile}, {nameof(userPersonalNumber)} = {userPersonalNumber}, {nameof(userAvatarFilename)} = {userAvatarFilename}, {nameof(userIsActive)} = {userIsActive})", async () =>
+            return await TryToReturnAsyncTask($"{nameof(UsersIUD)}({nameof(databaseAction)} = {databaseAction}, {nameof(roleID)} = {roleID}, {nameof(userID)} = {userID}, {nameof(userEmail)} = {userEmail}, {nameof(userPassword)} = {userPassword}, {nameof(userFirstname)} = {userFirstname}, {nameof(userLastname)} = {userLastname})", async () =>
             {
                 using (var db = _connectionFactory.GetDBCommandsDataContext())
                 {
-                    userID = await db.UsersIUD(databaseAction, userID, roleID, userEmail, userPassword, userFirstname, userLastname, userBirthdate, userPhoneNumberMobile, userPersonalNumber, userAvatarFilename, userIsActive);
+                    userID = await db.UsersIUD(databaseAction, userID, roleID, userEmail, userPassword, userFirstname, userLastname);
                     return userID;
                 }
             });

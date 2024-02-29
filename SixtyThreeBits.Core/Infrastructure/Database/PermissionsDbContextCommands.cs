@@ -11,9 +11,7 @@ namespace SixtyThreeBits.Core.Infrastructure.Database
         {
             var sqb = new SqlQueryBuilder(
                 dbContext: this,
-                databaseObjectType: DatabaseObjectTypes.STORED_PROCEDURE,
                 databaseObjectName: nameof(PermissionsDeleteRecursive),
-                itemType: null,
                 sqlParameters:
                 [
                     permissionID.ToSqlParameter(nameof(permissionID),SqlDbType.Int)
@@ -27,13 +25,11 @@ namespace SixtyThreeBits.Core.Infrastructure.Database
         {
             var sqb = new SqlQueryBuilder(
                 dbContext: this,
-                databaseObjectType: DatabaseObjectTypes.STORED_PROCEDURE,
                 databaseObjectName: nameof(PermissionsIUD),
-                itemType: null,
                 sqlParameters:
                 [
                     databaseAction.ToSqlParameter(nameof(databaseAction),SqlDbType.TinyInt),
-                    permissionID.ToSqlParameter(nameof(permissionID),SqlDbType.Int,true),
+                    permissionID.ToSqlOutputParameter(nameof(permissionID),SqlDbType.Int),
                     permissionParentID.ToSqlParameter(nameof(permissionParentID),SqlDbType.Int),
                     permissionCaption.ToSqlParameter(nameof(permissionCaption),SqlDbType.NVarChar),
                     permissionCaptionEng.ToSqlParameter(nameof(permissionCaptionEng),SqlDbType.NVarChar),

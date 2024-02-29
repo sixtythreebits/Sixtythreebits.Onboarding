@@ -46,7 +46,6 @@ namespace SixtyThreeBits.Web.Models.Admin
                 UserLastname = Item.UserLastname,
                 UserEmail = Item.UserEmail,
                 RoleID = Item.RoleID,
-                UserIsActive = Item.UserIsActive,
                 UserDateCreated = Item.UserDateCreated,
                 UrlUserProperties = Url.RouteUrl(ControllerActionRouteNames.Admin.Users.User.Properties, new { userID = Item.UserID }),
             }).ToList();
@@ -67,15 +66,6 @@ namespace SixtyThreeBits.Web.Models.Admin
         {
             var repository = RepositoriesFactory.GetUsersRepository();
 
-            if (databaseAction == Enums.DatabaseActions.DELETE)
-            {
-                var dbItem = await repository.UsersGetSingleUserByUserID(userID);
-                if (dbItem != null)
-                {
-                    await DeleteUploadedFile(dbItem.UserAvatarFilename, folderPath: null);
-                }
-            }
-
             await repository.UsersIUD(
                 databaseAction: databaseAction,
                 userID: userID,
@@ -83,8 +73,7 @@ namespace SixtyThreeBits.Web.Models.Admin
                 userEmail: submitModel.UserEmail,
                 userPassword: submitModel.UserPassword,
                 userFirstname: submitModel.UserFirstname,
-                userLastname: submitModel.UserLastname,
-                userIsActive: submitModel.UserIsActive
+                userLastname: submitModel.UserLastname
             );
 
             if (repository.IsError)
@@ -132,7 +121,6 @@ namespace SixtyThreeBits.Web.Models.Admin
                         });
                         columns.AddFor(m => m.UserPassword).Caption(Resources.TextPassword).Width(150);
                         columns.AddFor(m => m.RoleID).Caption(Resources.TextRole).Width(150).InitLookupColumn(data: Roles);
-                        columns.AddFor(m => m.UserIsActive).Caption(Resources.TextActive).Width(80).InitCheckboxColumn();
                         columns.AddFor(m => m.UserDateCreated).Caption(Resources.TextDateCreated).DataType(GridColumnDataType.DateTime).Width(140).InitDateColumn(true).AllowEditing(false);
                         columns.Add();
                     });
@@ -152,7 +140,6 @@ namespace SixtyThreeBits.Web.Models.Admin
                     public string UserEmail { get; set; }
                     public string UserPassword { get; set; }
                     public int? RoleID { get; set; }
-                    public bool? UserIsActive { get; set; }
                     public DateTime? UserDateCreated { get; set; }
                     public string UrlUserProperties { get; set; }
                     #endregion

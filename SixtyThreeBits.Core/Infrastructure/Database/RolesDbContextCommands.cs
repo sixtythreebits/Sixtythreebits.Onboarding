@@ -11,13 +11,11 @@ namespace SixtyThreeBits.Core.Infrastructure.Database
         {
             var sqb = new SqlQueryBuilder(
                 dbContext: this,
-                databaseObjectType: DatabaseObjectTypes.STORED_PROCEDURE,
                 databaseObjectName: nameof(RolesIUD),
-                itemType: null,
                 sqlParameters:
                 [
                     databaseAction.ToSqlParameter(nameof(databaseAction),SqlDbType.TinyInt),
-                    roleID.ToSqlParameter(nameof(roleID),SqlDbType.Int,true),
+                    roleID.ToSqlOutputParameter(nameof(roleID),SqlDbType.Int),
                     roleName.ToSqlParameter(nameof(roleName),SqlDbType.NVarChar),
                     roleCode.ToSqlParameter(nameof(roleCode),SqlDbType.Int),
                 ]
@@ -32,9 +30,7 @@ namespace SixtyThreeBits.Core.Infrastructure.Database
         {
             var sqb = new SqlQueryBuilder(
                 dbContext: this,
-                databaseObjectType: DatabaseObjectTypes.STORED_PROCEDURE,
                 databaseObjectName: nameof(RolesPermissionsUpdate),
-                itemType: null,
                 sqlParameters:
                 [
                     roleID.ToSqlParameter(nameof(roleID),SqlDbType.Int),

@@ -10,9 +10,7 @@ namespace SixtyThreeBits.Core.Infrastructure.Database
         {
             var sqb = new SqlQueryBuilder(
                 dbContext: this,
-                databaseObjectType: DatabaseObjectTypes.STORED_PROCEDURE,
                 databaseObjectName: nameof(DictionariesDeleteRecursive),
-                itemType: null,
                 sqlParameters:
                 [
                     dictionaryID.ToSqlParameter(nameof(dictionaryID),SqlDbType.Int)
@@ -26,13 +24,11 @@ namespace SixtyThreeBits.Core.Infrastructure.Database
         {
             var sqb = new SqlQueryBuilder(
                 dbContext: this,
-                databaseObjectType: DatabaseObjectTypes.STORED_PROCEDURE,
                 databaseObjectName: nameof(DictionariesIUD),
-                itemType: null,
                 sqlParameters:
                 [
                     databaseAction.ToSqlParameter(nameof(databaseAction),SqlDbType.TinyInt),
-                    dictionaryID.ToSqlParameter(nameof(dictionaryID),SqlDbType.Int, true),
+                    dictionaryID.ToSqlOutputParameter(nameof(dictionaryID),SqlDbType.Int),
                     dictionaryCaption.ToSqlParameter(nameof(dictionaryCaption),SqlDbType.NVarChar),
                     dictionaryCaptionEng.ToSqlParameter(nameof(dictionaryCaptionEng),SqlDbType.NVarChar),
                     dictionaryParentID.ToSqlParameter(nameof(dictionaryParentID),SqlDbType.Int),

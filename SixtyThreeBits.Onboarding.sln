@@ -7,13 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SixtyThreeBits.Web", "Sixty
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SixtyThreeBits.Core", "SixtyThreeBits.Core\SixtyThreeBits.Core.csproj", "{B7D3876A-0AE0-4541-A1F0-27D1123E903E}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TMP", "TMP", "{C510F27B-2FE5-4339-BC69-B460FE122879}"
-	ProjectSection(SolutionItems) = preProject
-		json.json = json.json
-		text.txt = text.txt
-		xml.xml = xml.xml
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

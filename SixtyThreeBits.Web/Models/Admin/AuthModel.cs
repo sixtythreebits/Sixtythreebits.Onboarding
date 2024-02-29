@@ -58,7 +58,7 @@ namespace SixtyThreeBits.Web.Models.Admin
             {
                 var repository = RepositoriesFactory.GetUsersRepository();
                 var user = await repository.UsersGetSingleUserByUserID(sessionUser.UserID);
-                if (user != null && user.UserIsActive)
+                if (user != null)
                 {
                     SessionAssistance.Set(WebConstants.Session.User, user);
                 }

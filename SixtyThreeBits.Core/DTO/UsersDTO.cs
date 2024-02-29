@@ -11,14 +11,10 @@ namespace SixtyThreeBits.Core.DTO
         public int? UserID { get; set; }
         public string UserFullname { get; set; }
         public string UserFirstname { get; set; }
-        public string UserLastname { get; set; }
-        public DateTime? UserBirthdate { get; set; }
+        public string UserLastname { get; set; }        
         public string UserEmail { get; set; }
         public string UserPassword { get; set; }
-        public string UserPhoneNumberMobile { get; set; }
-        public bool UserIsActive { get; set; }
-        public bool UserIsSuperAdmin { get; set; }
-        public string UserAvatarFilename { get; set; }
+        public bool UserIsSuperAdmin { get; set; }        
         public DateTime? UserDateCreated { get; set; }
         public int? RoleID { get; set; }
         public int? RoleCode { get; set; }
@@ -86,7 +82,6 @@ namespace SixtyThreeBits.Core.DTO
         public string UserPhoneNumberMobile { get; init; }
         public string UserPersonalNumber { get; init; }
         public string UserAvatarFilename { get; init; }
-        public bool UserIsActive { get; init; }
         public DateTime? UserDateCreated { get; init; }
         #endregion
     }
