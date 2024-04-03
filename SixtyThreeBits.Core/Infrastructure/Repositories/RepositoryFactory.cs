@@ -1,6 +1,6 @@
-﻿using SixtyThreeBits.Core.Infrastructure.Repositories;
+﻿using SixtyThreeBits.Core.Infrastructure.Database;
 
-namespace SixtyThreeBits.Core.Infrastructure.Factories
+namespace SixtyThreeBits.Core.Infrastructure.Repositories
 {
     public class RepositoryFactory
     {
@@ -20,11 +20,11 @@ namespace SixtyThreeBits.Core.Infrastructure.Factories
         {
             return new DictionariesRepository(_dbContextFactory);
         }
-       
+
         public PermissionsRepository GetPermissionsRepository()
         {
             return new PermissionsRepository(_dbContextFactory);
-        }       
+        }
         public RolesRepository GetRolesRepository()
         {
             return new RolesRepository(_dbContextFactory);
@@ -33,7 +33,7 @@ namespace SixtyThreeBits.Core.Infrastructure.Factories
         public SystemPropertiesRepository GetSystemPropertiesRepository()
         {
             return new SystemPropertiesRepository(_dbContextFactory);
-        }      
+        }
 
         public UsersRepository GetUsersRepository()
         {
