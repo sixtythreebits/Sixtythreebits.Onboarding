@@ -40,8 +40,7 @@ namespace SixtyThreeBits.Core.Utilities
         {
             #region Properties
             IConfiguration _configuration { get; set; }
-            public string CommandsConnectionString => GetDBConnectionString();
-            public string QueriesConnectionString => GetDBConnectionString();
+            public string DbConnectionString => getDbConnectionString();            
             #endregion
 
             #region Constructors
@@ -52,7 +51,7 @@ namespace SixtyThreeBits.Core.Utilities
             #endregion
 
             #region Methods
-            string GetDBConnectionString([CallerMemberName] string key = "")
+            string getDbConnectionString([CallerMemberName] string key = "")
             {
                 return _configuration.GetConnectionString(key);
             }

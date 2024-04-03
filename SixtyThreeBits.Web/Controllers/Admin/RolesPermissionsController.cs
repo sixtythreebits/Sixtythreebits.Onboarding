@@ -45,7 +45,7 @@ namespace SixtyThreeBits.Web.Controllers.Admin
         [HttpGet]
         [Route("permissions/get-by-role", Name = ControllerActionRouteNames.Admin.RolesPermissions.PermissionsGetByRole)]
         public async Task<ActionResult> PermissionsGetByRole(int? RoleID)
-        {
+        {            
             var viewModel = await Model.GetRolePermissions(RoleID);
             return Json(viewModel);
         }

@@ -2,6 +2,7 @@
 using DevExtreme.AspNet.Mvc.Builders;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using SixtyThreeBits.Core.DTO;
 using SixtyThreeBits.Core.Properties;
 using SixtyThreeBits.Core.Utilities;
 using SixtyThreeBits.Libraries;
@@ -39,7 +40,8 @@ namespace SixtyThreeBits.Web.Models.Admin
         public async Task<List<PageViewModel.GridModel.GridItem>> GetGridViewModel()
         {
             var repository = RepositoriesFactory.GetUsersRepository();
-            var viewModel = (await repository.UsersList())?.Select(Item => new PageViewModel.GridModel.GridItem
+            var viewModel = (await repository.UsersList())
+            ?.Select(Item => new PageViewModel.GridModel.GridItem
             {
                 UserID = Item.UserID,
                 UserFirstname = Item.UserFirstname,
@@ -48,7 +50,8 @@ namespace SixtyThreeBits.Web.Models.Admin
                 RoleID = Item.RoleID,
                 UserDateCreated = Item.UserDateCreated,
                 UrlUserProperties = Url.RouteUrl(ControllerActionRouteNames.Admin.Users.User.Properties, new { userID = Item.UserID }),
-            }).ToList();
+            })
+            .ToList();
             return viewModel;
         }
 
@@ -69,12 +72,15 @@ namespace SixtyThreeBits.Web.Models.Admin
             await repository.UsersIUD(
                 databaseAction: databaseAction,
                 userID: userID,
-                roleID: submitModel.RoleID,
-                userEmail: submitModel.UserEmail,
-                userPassword: submitModel.UserPassword,
-                userFirstname: submitModel.UserFirstname,
-                userLastname: submitModel.UserLastname
-            );
+                user: new UserIudDTO
+                {
+                    RoleID = submitModel.RoleID,
+                    UserEmail = submitModel.UserEmail,
+                    UserPassword = submitModel.UserPassword,
+                    UserFirstname = submitModel.UserFirstname,
+                    UserLastname = submitModel.UserLastname
+                }                
+            );            
 
             if (repository.IsError)
             {

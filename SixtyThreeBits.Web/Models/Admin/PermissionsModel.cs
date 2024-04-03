@@ -2,6 +2,7 @@
 using DevExtreme.AspNet.Mvc.Builders;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using SixtyThreeBits.Core.DTO;
 using SixtyThreeBits.Core.Properties;
 using SixtyThreeBits.Core.Utilities;
 using SixtyThreeBits.Web.Domain;
@@ -36,7 +37,8 @@ namespace SixtyThreeBits.Web.Models.Admin
         public async Task<List<PageViewModel.TreeModel.TreeItem>> GetGridViewModel()
         {
             var repository = RepositoriesFactory.GetPermissionsRepository();
-            var viewModel = (await repository.PermissionsList()).Select(item => new PageViewModel.TreeModel.TreeItem
+            var viewModel = (await repository.PermissionsList())
+            .Select(item => new PageViewModel.TreeModel.TreeItem
             {
                 PermissionID = item.PermissionID,
                 PermissionParentID = item.PermissionParentID,
@@ -50,7 +52,8 @@ namespace SixtyThreeBits.Web.Models.Admin
                 PermissionMenuTitle = item.PermissionMenuTitle,
                 PermissionMenuTitleEng = item.PermissionMenuTitleEng,
                 PermissionSortIndex = item.PermissionSortIndex
-            }).ToList();
+            })
+            .ToList();
             return viewModel;
         }
 
@@ -60,22 +63,25 @@ namespace SixtyThreeBits.Web.Models.Admin
             await repository.PermissionsIUD(
                 databaseAction: databaseAction,
                 permissionID: permissionID,
-                permissionParentID: submitModel.PermissionParentID,
-                permissionCaption: submitModel.PermissionCaption,
-                permissionCaptionEng: submitModel.PermissionCaptionEng,
-                permissionPagePath: submitModel.PermissionPagePath,
-                permissionCodeName: submitModel.PermissionCodeName,
-                permissionCode: submitModel.PermissionCode,
-                permissionIsMenuItem: submitModel.PermissionIsMenuItem,
-                permissionMenuIcon: submitModel.PermissionMenuIcon,
-                permissionMenuTitle: submitModel.PermissionMenuTitle,
-                permissionMenuTitleEng: submitModel.PermissionMenuTitleEng,
-                permissionSortIndex: submitModel.PermissionSortIndex
+                permission: new PermissionIudDTO
+                {
+                    PermissionParentID = submitModel.PermissionParentID,
+                    PermissionCaption = submitModel.PermissionCaption,
+                    PermissionCaptionEng = submitModel.PermissionCaptionEng,
+                    PermissionPagePath = submitModel.PermissionPagePath,
+                    PermissionCodeName = submitModel.PermissionCodeName,
+                    PermissionCode = submitModel.PermissionCode,
+                    PermissionIsMenuItem = submitModel.PermissionIsMenuItem,
+                    PermissionMenuIcon = submitModel.PermissionMenuIcon,
+                    PermissionMenuTitle = submitModel.PermissionMenuTitle,
+                    PermissionMenuTitleEng = submitModel.PermissionMenuTitleEng,
+                    PermissionSortIndex = submitModel.PermissionSortIndex
+                }                
             );
 
             if (repository.IsError)
             {
-                Form.AddError(Resources.TextError);
+                Form.AddError(repository.ErrorMessage);
             }
         }
 

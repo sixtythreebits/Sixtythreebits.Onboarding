@@ -2,6 +2,7 @@
 using DevExtreme.AspNet.Mvc.Builders;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using SixtyThreeBits.Core.DTO;
 using SixtyThreeBits.Core.Properties;
 using SixtyThreeBits.Core.Utilities;
 using SixtyThreeBits.Web.Domain;
@@ -36,7 +37,8 @@ namespace SixtyThreeBits.Web.Models.Admin
         public async Task<List<PageViewModel.TreeModel.TreeItem>> GetTreeModel()
         {
             var repository = RepositoriesFactory.GetDictionariesRepository();
-            var viewModel = (await repository.DictionariesList()).Select(Item => new PageViewModel.TreeModel.TreeItem
+            var viewModel = (await repository.DictionariesList())
+            .Select(Item => new PageViewModel.TreeModel.TreeItem
             {
                 DictionaryID = Item.DictionaryID,
                 DictionaryParentID = Item.DictionaryParentID,
@@ -47,7 +49,8 @@ namespace SixtyThreeBits.Web.Models.Admin
                 DictionaryDecimalValue = Item.DictionaryDecimalValue,
                 DictionaryCode = Item.DictionaryCode,
                 DictionarySortIndex = Item.DictionarySortIndex
-            }).ToList();
+            })
+            .ToList();
             return viewModel;
         }
 
@@ -57,14 +60,17 @@ namespace SixtyThreeBits.Web.Models.Admin
             await repository.DictionariesIUD(
                 databaseAction: DatabaseAction,
                 dictionaryID: dictionaryID,
-                dictionaryParentID: submitModel.DictionaryParentID,
-                dictionaryCaption: submitModel.DictionaryCaption,
-                dictionaryCaptionEng: submitModel.DictionaryCaptionEng,
-                dictionaryStringCode: submitModel.DictionaryStringCode ?? Constants.NullValueFor.String,
-                dictionaryIntCode: submitModel.DictionaryIntCode ?? Constants.NullValueFor.Numeric,
-                dictionaryDecimalValue: submitModel.DictionaryDecimalValue ?? Constants.NullValueFor.Numeric,
-                dictionaryCode: submitModel.DictionaryCode,
-                dictionarySortIndex: submitModel.DictionarySortIndex ?? Constants.NullValueFor.Numeric
+                dictionary: new DictionarieIudDTO
+                {
+                    DictionaryParentID = submitModel.DictionaryParentID,
+                    DictionaryCaption = submitModel.DictionaryCaption,
+                    DictionaryCaptionEng = submitModel.DictionaryCaptionEng,
+                    DictionaryStringCode = submitModel.DictionaryStringCode ?? Constants.NullValueFor.String,
+                    DictionaryIntCode = submitModel.DictionaryIntCode ?? Constants.NullValueFor.Numeric,
+                    DictionaryDecimalValue = submitModel.DictionaryDecimalValue ?? Constants.NullValueFor.Numeric,
+                    DictionaryCode = submitModel.DictionaryCode,
+                    DictionarySortIndex = submitModel.DictionarySortIndex ?? Constants.NullValueFor.Numeric
+                }                
             );
 
             if (repository.IsError)
@@ -73,10 +79,10 @@ namespace SixtyThreeBits.Web.Models.Admin
             }
         }
 
-        public async Task DeleteRecursive(int? DictionaryID)
+        public async Task DeleteRecursive(int? dictionaryID)
         {
             var repository = RepositoriesFactory.GetDictionariesRepository();
-            await repository.DictionariesDeleteRecursive(DictionaryID);
+            await repository.DictionariesDeleteRecursive(dictionaryID);
             if (repository.IsError)
             {
                 Form.AddError(Resources.TextError);

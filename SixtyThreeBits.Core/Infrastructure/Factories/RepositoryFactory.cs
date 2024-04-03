@@ -5,39 +5,39 @@ namespace SixtyThreeBits.Core.Infrastructure.Factories
     public class RepositoryFactory
     {
         #region Properties                
-        readonly ConnectionFactory _connectionFactory;
+        readonly DbContextFactory _dbContextFactory;
         #endregion
 
         #region Constructors
-        public RepositoryFactory(string commandsConnectionString, string ConnectionString)
+        public RepositoryFactory(string dbConnectionString)
         {
-            _connectionFactory = new ConnectionFactory(commandsConnectionString, ConnectionString);
+            _dbContextFactory = new DbContextFactory(dbConnectionString);
         }
         #endregion
 
         #region Methods
         public DictionariesRepository GetDictionariesRepository()
         {
-            return new DictionariesRepository(_connectionFactory);
+            return new DictionariesRepository(_dbContextFactory);
         }
        
         public PermissionsRepository GetPermissionsRepository()
         {
-            return new PermissionsRepository(_connectionFactory);
+            return new PermissionsRepository(_dbContextFactory);
         }       
         public RolesRepository GetRolesRepository()
         {
-            return new RolesRepository(_connectionFactory);
+            return new RolesRepository(_dbContextFactory);
         }
 
         public SystemPropertiesRepository GetSystemPropertiesRepository()
         {
-            return new SystemPropertiesRepository(_connectionFactory);
+            return new SystemPropertiesRepository(_dbContextFactory);
         }      
 
         public UsersRepository GetUsersRepository()
         {
-            return new UsersRepository(_connectionFactory);
+            return new UsersRepository(_dbContextFactory);
         }
         #endregion        
     }
