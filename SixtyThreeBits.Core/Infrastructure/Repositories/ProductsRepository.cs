@@ -1,6 +1,16 @@
-﻿namespace SixtyThreeBits.Core.Infrastructure.Repositories
+﻿using SixtyThreeBits.Core.Infrastructure.Database;
+
+namespace SixtyThreeBits.Core.Infrastructure.Repositories
 {
-    internal class ProductsRepository
+    public class ProductsRepository : RepositoryBase
     {
+        #region Contructors
+        public ProductsRepository(DbContextFactory dbContextFactory) : base(dbContextFactory)
+        {
+        }
+        #endregion
+
+        #region Methods
+        #endregion
     }
 }
