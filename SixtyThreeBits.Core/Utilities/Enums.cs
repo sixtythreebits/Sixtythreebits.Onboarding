@@ -91,7 +91,7 @@
             public const int TimeUnits = 1;
             public const int Services = 2;
             public const int ServiceOperations = 3;
-            public const int TeamMemberCategories = 10;
+            public const int OrderStatuses = 10;
             #endregion
         }
 

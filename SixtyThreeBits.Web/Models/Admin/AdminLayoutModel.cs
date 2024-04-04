@@ -1,5 +1,5 @@
-﻿using SixtyThreeBits.Core.Properties;
-using SixtyThreeBits.Core.Utilities;
+﻿using SixtyThreeBits.Core.Libraries;
+using SixtyThreeBits.Core.Properties;
 using SixtyThreeBits.Web.Domain;
 using SixtyThreeBits.Web.Domain.SharedViewModels;
 using System.Collections.Generic;
