@@ -1,7 +1,7 @@
 ﻿using SixtyThreeBits.Core.DTO;
 using SixtyThreeBits.Core.Properties;
-using SixtyThreeBits.Web.Domain;
 using SixtyThreeBits.Web.Domain.SharedViewModels;
+using SixtyThreeBits.Web.Domain.Utilities;
 using SixtyThreeBits.Web.Models.Shared;
 using System;
 using System.Threading.Tasks;

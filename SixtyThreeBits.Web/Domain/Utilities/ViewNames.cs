@@ -1,4 +1,4 @@
-﻿namespace SixtyThreeBits.Web.Domain
+﻿namespace SixtyThreeBits.Web.Domain.Utilities
 {
     public static class ViewNames
     {
@@ -36,7 +36,7 @@
                 public const string CarouselItem = "~/Views/Admin/Carousel/CarouselItem.cshtml";
                 #endregion               
             }
-            
+
             public static class Dictionaries
             {
                 #region Properties
@@ -135,7 +135,7 @@
                 public const string Page = "~/Views/Admin/Products/Products.cshtml";
                 public const string ProductProperties = "~/Views/Admin/Products/ProductProperties.cshtml";
                 #endregion                
-            }            
+            }
 
             public static class Permissions
             {
@@ -214,7 +214,7 @@
             public static class Users
             {
                 #region Properties
-                public const string Page = "~/Views/Admin/Users/Users.cshtml";                
+                public const string Page = "~/Views/Admin/Users/Users.cshtml";
                 #endregion
 
                 #region Nested Classes
@@ -286,7 +286,7 @@
         }
 
         public static class Shared
-        {            
+        {
             #region Nested Classes            
             public static class FileTree
             {

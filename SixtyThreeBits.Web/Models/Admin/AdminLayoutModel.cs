@@ -1,7 +1,7 @@
 ﻿using SixtyThreeBits.Core.Libraries;
 using SixtyThreeBits.Core.Properties;
-using SixtyThreeBits.Web.Domain;
 using SixtyThreeBits.Web.Domain.SharedViewModels;
+using SixtyThreeBits.Web.Domain.Utilities;
 using System.Collections.Generic;
 
 namespace SixtyThreeBits.Web.Models.Admin
