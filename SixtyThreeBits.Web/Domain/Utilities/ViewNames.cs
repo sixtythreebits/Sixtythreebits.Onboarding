@@ -13,64 +13,10 @@
                 #endregion
             }
 
-            public static class Blog
-            {
-                #region Properties
-                public const string Page = "~/Views/Admin/Blog/Blog.cshtml";
-                public const string BlogPostProperties = "~/Views/Admin/Blog/BlogPostProperties.cshtml";
-                #endregion
-            }
-
-            public static class Brands
-            {
-                #region Properties
-                public const string Page = "~/Views/Admin/Brands/Brands.cshtml";
-                public const string BrandProperties = "~/Views/Admin/Brands/BrandProperties.cshtml";
-                #endregion                
-            }
-
-            public static class Carousel
-            {
-                #region Properties
-                public const string Page = "~/Views/Admin/Carousel/Carousel.cshtml";
-                public const string CarouselItem = "~/Views/Admin/Carousel/CarouselItem.cshtml";
-                #endregion               
-            }
-
             public static class Dictionaries
             {
                 #region Properties
-                public const string Page = "~/Views/Admin/Dictionaries/Dictionaries.cshtml";
-                #endregion
-            }
-
-            public static class DiscountCoupons
-            {
-                #region Properties
-                public const string Page = "~/Views/Admin/DiscountCoupons/DiscountCoupons.cshtml";
-                #endregion
-            }
-
-            public static class EmailTemplates
-            {
-                #region Properties
-                public const string Page = "~/Views/Admin/EmailTemplates/EmailTemplates.cshtml";
-                #endregion
-
-                #region Nested Classes
-                public static class EmailTemplate
-                {
-                    #region Properties
-                    public const string Properties = "~/Views/Admin/EmailTemplates/EmailTemplateProperties.cshtml";
-                    #endregion
-                }
-                #endregion
-            }
-
-            public static class FileManager
-            {
-                #region Properties
-                public const string Page = "~/Views/Admin/FileManager/FileManager.cshtml";
+                public const string Page = "~/Views/AdminDictionaries/Dictionaries.cshtml";
                 #endregion
             }
 
@@ -80,77 +26,21 @@
                 public const string Index = "~/Views/Admin/Home/Index.cshtml";
                 #endregion
             }
-
-            public static class News
-            {
-                #region Properties
-                public const string Page = "~/Views/Admin/News/News.cshtml";
-                public const string NewsProperties = "~/Views/Admin/News/NewsProperties.cshtml";
-                #endregion
-            }
-
+            
             public static class NotFound
             {
                 #region Properties
                 public const string Page = "~/Views/Website/NotFound/NotFound.cshtml";
                 #endregion
             }
-
-            public static class Pages
-            {
-                #region Properties
-                public const string Tree = "~/Views/Admin/Pages/PagesTree.cshtml";
-                #endregion
-
-                #region Nested Classes
-                public static class Page
-                {
-                    #region Properties
-                    public const string Properties = "~/Views/Admin/Pages/Page/PageProperties.cshtml";
-                    public const string Builder = "~/Views/Admin/Pages/Page/PageBuilder.cshtml";
-                    #endregion
-                }
-                #endregion
-            }
-
-            public static class Partners
-            {
-                #region Properties
-                public const string Page = "Views/Admin/Partners/Partners.cshtml";
-                public const string Partner = "Views/Admin/Partners/PartnerProperties.cshtml";
-                #endregion
-            }
-
-            public static class ProductCategories
-            {
-                #region Properties
-                public const string Page = "~/Views/Admin/ProductCategories/ProductCategories.cshtml";
-                public const string ProductCategoryProperties = "~/Views/Admin/ProductCategories/ProductCategoryProperties.cshtml";
-                #endregion                
-            }
-
-            public static class Products
-            {
-                #region Properties
-                public const string Page = "~/Views/Admin/Products/Products.cshtml";
-                public const string ProductProperties = "~/Views/Admin/Products/ProductProperties.cshtml";
-                #endregion                
-            }
-
+           
             public static class Permissions
             {
                 #region Properties
                 public const string Page = "~/Views/Admin/Permissions/Permissions.cshtml";
                 #endregion
             }
-
-            public static class Redirects
-            {
-                #region Properties
-                public const string Page = "~/Views/Admin/Redirects/Redirects.cshtml";
-                #endregion               
-            }
-
+           
             public static class Roles
             {
                 #region Properties
@@ -164,14 +54,7 @@
                 public const string Page = "~/Views/Admin/RolesPermissions/RolesPermissions.cshtml";
                 #endregion
             }
-
-            public static class ServiceLogs
-            {
-                #region Properties
-                public const string Page = "~/Views/Admin/ExternalCommunicationServiceLog/ExternalCommunicationServiceLog.cshtml";
-                #endregion
-            }
-
+           
             public static class Shared
             {
                 #region Properties
@@ -202,15 +85,7 @@
                 public const string Page = "~/Views/Admin/SystemProperties/SystemProperties.cshtml";
                 #endregion
             }
-
-            public static class TeamMembers
-            {
-                #region Properties
-                public const string TeamMembersPage = "~/Views/Admin/TeamMembers/TeamMembers.cshtml";
-                public const string TeamMemberProperties = "~/Views/Admin/TeamMembers/TeamMemberProperties.cshtml";
-                #endregion
-            }
-
+         
             public static class Users
             {
                 #region Properties
@@ -227,26 +102,12 @@
                 }
                 #endregion
             }
-
-            public static class Utilities
-            {
-                #region Properties
-                public const string Page = "~/Views/Admin/Utilities/Utilities.cshtml";
-                #endregion
-            }
             #endregion
         }
 
         public static class Website
         {
             #region Nested Classes
-            public static class FileViewer
-            {
-                #region Properties
-                public const string Pdf = "~/Views/Website/PdfViewer/PdfViewer.cshtml";
-                #endregion
-            }
-
             public static class Home
             {
                 #region Properties
@@ -260,21 +121,7 @@
                 public const string Page = "~/Views/Website/NotFound/NotFound.cshtml";
                 #endregion
             }
-
-            public static class Test
-            {
-                #region Properties
-                public const string Page = "~/Views/Website/Test/Test.cshtml";
-                #endregion
-            }
-
-            public static class Pages
-            {
-                #region Properties
-                public const string Page = "~/Views/Website/Pages/Page.cshtml";
-                #endregion
-            }
-
+         
             public static class Shared
             {
                 #region Properties

@@ -10,56 +10,57 @@
     <link rel="icon" type="image/png" href="/images/favicon.png">
     <title>@Html.Raw(Model.PageTitle.TitleHead)</title>
     @await Html.PartialAsync(ViewNames.Shared.PluginsClient.Header, Model.PluginsClient)    
-    <link href="/css/style.css" rel="stylesheet" />
+    <link href="/css/website/style.css" rel="stylesheet" />
     
-    @RenderSection("HeaderSection", false)
-    @Html.Raw(Model.ScriptsHeader)
+    @RenderSection("HeaderSection", false)    
 </head>
-<body>
-    @Html.Raw(Model.ScriptsBodyStart)
+<body>    
     <div class="app">
-        <header class="app-header">
-            @if (Model.HasMenu)
-            {
-                <nav>
-                    <div class="container-lg">
-                        <ul class="row">
-                            @foreach (var Item in Model.Menu)
-                            {
-                                <li class="col-sm-6 col-md-4 col-lg-3">
-                                    @if (Item.HasChildren)
-                                    {
-                                        <a class="nav-link @(Item.IsSelected ?  Html.Raw("active") : null)" @(Item.IsTargetBlank ? Html.Raw("target=\"_blank\"") : null)>@Html.Raw(Item.Caption)</a>
-                                        <ul>
-                                            @foreach (var SubItem in Item.Children)
-                                            {
-                                                <li>
-                                                    <a @(SubItem.IsSelected ? Html.Raw("class=\"active\"") : Html.Raw($"href=\"{SubItem.NavigateUrl}\"")) @(Item.IsTargetBlank ? Html.Raw("target=\"_blank\"") : null)>@Html.Raw(SubItem.Caption)</a>
-                                                </li>
-                                            }
-                                        </ul>
-                                    }
-                                    else
-                                    {
-                                        <a @(Item.IsSelected ? Html.Raw("class=\"active\"") : Html.Raw($"href=\"{Item.NavigateUrl}\"")) @(Item.IsTargetBlank ? Html.Raw("target=\"_blank\"") : null)>@Html.Raw(Item.Caption)</a>
-                                    }
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container px-4 px-lg-5">
+                <a class="navbar-brand" href="#!">@Html.Raw(Model.ProjectName)</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shop</a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="#!">All Products</a></li>
+                                <li><hr class="dropdown-divider" /></li>
+                                <li><a class="dropdown-item" href="#!">Popular Items</a></li>
+                                <li><a class="dropdown-item" href="#!">New Arrivals</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <form class="d-flex">
+                        <button class="btn btn-outline-dark" type="submit">
+                            <i class="bi-cart-fill me-1"></i>
+                            Cart
+                            <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </nav>
 
-                                </li>
-                            }
-                        </ul>
-                    </div>
-                </nav>
-            }
-
+        <header class="bg-dark">
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="text-center text-white">
+                    <h1 class="display-4 fw-bolder">Shop in style</h1>                    
+                </div>
+            </div>
         </header>
+
         @RenderBody()
-        <footer class="app-page">
+
+        <footer class="py-5 bg-dark">
+            <div class="container"><p class="m-0 text-center text-white">Copyright &copy; @Html.Raw(Model.ProjectName) @DateTime.Now.Year</p></div>
         </footer>
     </div>
-    <script src="~/plugins/jsClient/jsClient.min.js"></script>
     @await Html.PartialAsync(ViewNames.Shared.PluginsClient.Footer, Model.PluginsClient)
     <script src="/js/Layout.js"></script>
-    @RenderSection("FooterSection", false)
-    @Html.Raw(Model.ScriptsBodyEnd)
+    @RenderSection("FooterSection", false)    
 </body>
 </html>

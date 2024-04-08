@@ -2,7 +2,13 @@
 
 namespace SixtyThreeBits.Web.Models.Website
 {
-    public class TestModel : ModelBase
+    public class ProductsModel : ModelBase
     {
+
+    }
+
+    public class ProductModel : ModelBase
+    {
+
     }
 }

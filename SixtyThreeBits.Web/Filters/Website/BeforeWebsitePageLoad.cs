@@ -37,9 +37,7 @@ namespace SixtyThreeBits.Web.Filters.Website
             var repository = _model.RepositoriesFactory.GetSystemPropertiesRepository();
             _model.LanguageCultureCode = filterContext.RouteData.Values[WebConstants.RouteValues.Culture]?.ToString() ?? Enums.Languages.GEORGIAN;
             _model.SystemProperties = await repository.SystemPropertiesGet();
-            _viewModel.ScriptsHeader = _model.SystemProperties.ScriptsHeader;
-            _viewModel.ScriptsBodyStart = _model.SystemProperties.ScriptsBodyStart;
-            _viewModel.ScriptsBodyEnd = _model.SystemProperties.ScriptsBodyEnd;
+            _viewModel.ProjectName = _model.SystemProperties.ProjectName;            
         }
 
         void initClientPlugins()

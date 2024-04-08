@@ -9,7 +9,6 @@ namespace SixtyThreeBits.Web.Models.Admin
     public class AdminLayoutViewModel : LayoutViewModelBase
     {
         #region Properties                
-        public string ProjectName { get; set; }
         public string UserFullname { get; set; }
         public string UserEmail { get; set; }
         public ValueWrapper<bool> IsSidebarCollapsed { get; set; }
