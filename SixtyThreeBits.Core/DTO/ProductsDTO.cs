@@ -8,7 +8,7 @@ namespace SixtyThreeBits.Core.DTO
         public int? ProductID { get; init; }
         public string ProductName { get; init; }
         public decimal? ProductPrice { get; init; }
-        public string ProductCoverImageFilename { get; init; }        
+        public string ProductCoverImageFilename { get; init; }
         public bool ProductIsPublished { get; init; }
         public DateTime? ProductDateCreated { get; set; }
         public int? CategoryID { get; init; }
@@ -32,7 +32,8 @@ namespace SixtyThreeBits.Core.DTO
         #region Properties
         public int? ProductID { get; init; }
         public string ProductName { get; init; }
-        public decimal? ProductPrice { get; init; }        
+        public decimal? ProductPrice { get; init; }
+        public string ProductCoverImageFilename { get; init; }
         public int? CategoryID { get; init; }
         public bool ProductIsPublished { get; init; }
         public DateTime? ProductDateCreated { get; init; }

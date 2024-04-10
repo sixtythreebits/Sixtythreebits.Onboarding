@@ -350,15 +350,6 @@
         public static class Website
         {
             #region Nested Classes
-            public static class Checkout
-            {
-                #region Properties
-                public const string Page = "WebsiteCheckout";
-                public const string Success = "WebsiteCheckoutSuccess";
-                public const string Fail = "WebsiteCheckoutFail";
-                #endregion
-            }
-
             public static class Home
             {
                 #region Properties
@@ -368,18 +359,11 @@
                 #endregion
             }
 
-            public static class FileViewer
+            public static class ProductsController
             {
                 #region Properties
-                public const string Pdf = "FileViewerPdf";
-                #endregion
-            }
-
-            public static class Pages
-            {
-                #region Properties
-                public const string Page = "WebsitePagesPage";
-                public const string PageCulture = "WebsitePagesPageCulture";
+                public const string Products = "WebsiteProductsControllerProducts";
+                public const string Product = "WebsiteProductsControllerProduct";
                 #endregion
             }
             #endregion

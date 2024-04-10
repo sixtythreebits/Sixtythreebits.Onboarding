@@ -130,19 +130,7 @@ namespace SixtyThreeBits.Core.Utilities
             }
         }
 
-        public string FormatPrice(object price, bool withCurrencySign, string currencySign = "₾")
-        {
-            if (withCurrencySign)
-            {
-                return string.Format("{0:#,#.#}{1}", price, currencySign);
-            }
-            else
-            {
-                return string.Format("{0:#,#.#}", price);
-            }
-        }
-
-        public string FormatPriceValue(object price)
+        public string FormatPrice(object price)
         {
             return string.Format("{0:#.##}", price);
         }

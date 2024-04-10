@@ -73,7 +73,7 @@ namespace SixtyThreeBits.Web.Models.Shared
 
             return new ViewResult
             {
-                ViewName = ViewNames.Website.NotFound.Page,
+                ViewName = ViewNames.Website.NotFound.NotFoundView,
                 ViewData = new ViewDataDictionary(new EmptyModelMetadataProvider(), new ModelStateDictionary())
                 {
                     Model = viewModel

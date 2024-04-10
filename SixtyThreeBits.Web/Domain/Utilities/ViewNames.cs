@@ -118,15 +118,22 @@
             public static class NotFound
             {
                 #region Properties
-                public const string Page = "~/Views/Website/NotFound/NotFound.cshtml";
+                public const string NotFoundView = "~/Views/NotFound/NotFound.cshtml";
                 #endregion
             }
-         
+
+            public static class Products
+            {
+                #region Properties
+                public const string ProductView = "~/Views/Website/Products/Product.cshtml";
+                public const string ProductsView = "~/Views/Website/Products/Products.cshtml";                
+                #endregion
+            }
+
             public static class Shared
             {
                 #region Properties
                 public const string Layout = "~/Views/Website/Shared/Layout.cshtml";
-                public const string Pager = "~/Views/Website/Shared/Pager.cshtml";
                 #endregion
             }
             #endregion
