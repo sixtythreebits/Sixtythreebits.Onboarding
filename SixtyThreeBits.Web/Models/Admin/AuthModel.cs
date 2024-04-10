@@ -1,7 +1,8 @@
 ﻿using SixtyThreeBits.Core.DTO;
 using SixtyThreeBits.Core.Properties;
-using SixtyThreeBits.Web.Domain.SharedViewModels;
+using SixtyThreeBits.Libraries.Extensions;
 using SixtyThreeBits.Web.Domain.Utilities;
+using SixtyThreeBits.Web.Domain.ViewModels.Shared;
 using SixtyThreeBits.Web.Models.Shared;
 using System;
 using System.Threading.Tasks;
@@ -46,7 +47,7 @@ namespace SixtyThreeBits.Web.Models.Admin
                 {
                     CookieAssistance.Set(
                         key: WebConstants.Cookies.User, 
-                        value: user.UserID, 
+                        value: user.UserID.ToString().AesEncryptString(), 
                         expirationDate: DateTime.Now.AddDays(30)
                     );
                 }
@@ -74,7 +75,7 @@ namespace SixtyThreeBits.Web.Models.Admin
         public class PageViewModel
         {
             #region Properties         
-            public PluginsClient PluginsClient { get; set; }
+            public PluginsClientViewModel PluginsClient { get; set; }
             public string ProjectName { get; set; }
             public string Username { get; set; }
             public string Password { get; set; }
@@ -106,7 +107,7 @@ namespace SixtyThreeBits.Web.Models.Admin
         public class PageViewModel
         {
             #region Properties         
-            public PluginsClient PluginsClient { get; set; }
+            public PluginsClientViewModel PluginsClient { get; set; }
             public string ProjectName { get; set; }
             public string Username { get; set; }
             public string Password { get; set; }

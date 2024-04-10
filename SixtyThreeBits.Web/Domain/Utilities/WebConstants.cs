@@ -11,11 +11,35 @@
             #endregion
         }
 
+        public static class QueryStringKeys
+        {
+            #region Properties            
+            public const string FileManagerAllowedExtensions = "ext";
+            public const string FileManagerAllowChooseMultiple = "multichoice";
+            public const string FileManagerOnSelectedFilesChooseClientCallback = "callback";
+            #endregion
+        }
+
+        public static class QueryStringValues
+        {
+            #region Properties            
+            public const string FileManagerOnSelectedFilesChooseClientCallback = "tinyMCEHelper.onSelectedImageChoose";
+            #endregion
+        }
+
         public static class RouteValues
         {
             #region Properties
+            public const string BlogPostID = "blogPostID";
+            public const string BrandID = "brandID";
             public const string Culture = "culture";
+            public const string NewsID = "newsID";
+            public const string PageID = "pageID";
+            public const string ProductCategoryID = "productCategoryID";
             public const string ProductID = "productID";
+            public const string PartnerID = "partnerID";
+            public const string TeamMemberID = "teamMemberID";
+            public const string UserID = "userID";
             #endregion
         }
 

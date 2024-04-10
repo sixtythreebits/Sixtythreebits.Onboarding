@@ -2,7 +2,7 @@
 using SixtyThreeBits.Core.Properties;
 using System.Linq;
 
-namespace SixtyThreeBits.Web.Domain.SharedViewModels
+namespace SixtyThreeBits.Web.Domain.ViewModels.Shared
 {
     public class FormViewModelBase
     {
@@ -23,7 +23,7 @@ namespace SixtyThreeBits.Web.Domain.SharedViewModels
         public void AddError(string errorKey, string errorMessage)
         {
 
-            if (!string.IsNullOrWhiteSpace(errorKey) && !string.IsNullOrWhiteSpace(errorMessage))
+            if (!string.IsNullOrWhiteSpace(errorMessage))
             {
                 _errors.AddError(new ErrorItem(Key: errorKey, Value: errorMessage));
             }

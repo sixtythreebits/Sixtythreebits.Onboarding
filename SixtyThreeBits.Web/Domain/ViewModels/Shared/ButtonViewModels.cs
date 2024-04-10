@@ -1,6 +1,6 @@
 ﻿using SixtyThreeBits.Core.Properties;
 
-namespace SixtyThreeBits.Web.Domain.SharedViewModels
+namespace SixtyThreeBits.Web.Domain.ViewModels.Shared
 {
     #region Nested Classes
     public class ButtonAddNewViewModel

@@ -1,11 +1,11 @@
 ﻿using SixtyThreeBits.Core.Properties;
 
-namespace SixtyThreeBits.Web.Domain.SharedViewModels
+namespace SixtyThreeBits.Web.Domain.ViewModels.Shared
 {
     public class NotFoundViewModel
     {
         #region Properties
-        public PluginsClient PluginsClient { get; set; }
+        public PluginsClientViewModel PluginsClient { get; set; }
         public string UrlLogout { get; set; }
         public readonly string PageTitle = Resources.TextPageNotFound;
         public readonly string TextPageNotFoundMessage1 = Resources.TextPageNotFoundMessage1;

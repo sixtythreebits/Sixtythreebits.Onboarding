@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace SixtyThreeBits.Web.Domain.SharedViewModels
+namespace SixtyThreeBits.Web.Domain.ViewModels.Shared
 {
-    public class ProjectMenuItem
+    public class ProjectMenuViewItem
     {
         #region Properties
         public string Caption { get; set; }
@@ -13,7 +13,7 @@ namespace SixtyThreeBits.Web.Domain.SharedViewModels
         public bool IsHomePage { get; set; }
         public bool IsTargetBlank { get; set; }
         public bool HasChildren => Children?.Count > 0;
-        public List<ProjectMenuItem> Children { get; set; }
+        public List<ProjectMenuViewItem> Children { get; set; }
         #endregion
 
         #region Methods

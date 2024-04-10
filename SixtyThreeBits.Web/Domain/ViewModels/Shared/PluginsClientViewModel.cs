@@ -1,17 +1,18 @@
 ﻿using SixtyThreeBits.Core.Properties;
 using SixtyThreeBits.Core.Utilities;
 
-namespace SixtyThreeBits.Web.Domain.SharedViewModels
+namespace SixtyThreeBits.Web.Domain.ViewModels.Shared
 {
-    public class PluginsClient
+    public class PluginsClientViewModel
     {
         #region Properties        
+        public bool Is63BitsAnalogClockEnabled { get; private set; }
         public bool Is63BitsComponentsEnabled { get; private set; }
         public bool Is63BitsFileUploaderEnabled { get; private set; }
         public bool Is63BitsFormsEnabled { get; private set; }
         public bool Is63BitsFontsEnabled { get; private set; }
         public bool Is63BitsSuccessErrorToastEnabled { get; private set; }
-        public bool IsAdminThemeEnabled { get; private set; }
+        public bool IsAdminThemeEnabled { get; private set; }        
         public bool IsBootstrapEnabled { get; private set; }
         public bool IsDevextremeEnabled { get; private set; }
         public bool IsDevextremeExportExcelLibrariesEnabled { get; private set; }
@@ -48,12 +49,12 @@ namespace SixtyThreeBits.Web.Domain.SharedViewModels
         #endregion
 
         #region Constructors
-        public PluginsClient()
+        public PluginsClientViewModel()
         {
 
         }
 
-        public PluginsClient(string languageCultureCode)
+        public PluginsClientViewModel(string languageCultureCode)
         {
             LanguageCultureCode = languageCultureCode;
             ShouldIncludeLocalizationFile = languageCultureCode != Enums.Languages.ENGLISH;
@@ -61,194 +62,200 @@ namespace SixtyThreeBits.Web.Domain.SharedViewModels
         #endregion
 
         #region Methods
-        public PluginsClient Enable63BitsComponents(bool value)
+        public PluginsClientViewModel Enable63BitsAnalogClock(bool value)
+        {
+            Is63BitsAnalogClockEnabled = value;
+            return this;
+        }
+
+        public PluginsClientViewModel Enable63BitsComponents(bool value)
         {
             Is63BitsComponentsEnabled = value;
             return this;
         }
 
-        public PluginsClient Enable63BitsFileUploader(bool value)
+        public PluginsClientViewModel Enable63BitsFileUploader(bool value)
         {
             Is63BitsFileUploaderEnabled = value;
             return this;
         }
 
-        public PluginsClient Enable63BitsForms(bool value)
+        public PluginsClientViewModel Enable63BitsForms(bool value)
         {
             Is63BitsFormsEnabled = value;
             return this;
         }
 
-        public PluginsClient Enable63BitsFonts(bool value)
+        public PluginsClientViewModel Enable63BitsFonts(bool value)
         {
             Is63BitsFontsEnabled = value;
             return this;
-        }
+        }        
 
-        public PluginsClient EnableAdminTheme(bool value)
+        public PluginsClientViewModel EnableAdminTheme(bool value)
         {
             IsAdminThemeEnabled = value;
             return this;
         }
 
-        public PluginsClient EnableBootstrap(bool value)
+        public PluginsClientViewModel EnableBootstrap(bool value)
         {
             IsBootstrapEnabled = value;
             return this;
         }
 
-        public PluginsClient EnableDevextreme(bool value)
+        public PluginsClientViewModel EnableDevextreme(bool value)
         {
             IsDevextremeEnabled = value;
             return this;
         }
 
-        public PluginsClient EnableDevextremeExportExcelLibraries(bool value)
+        public PluginsClientViewModel EnableDevextremeExportExcelLibraries(bool value)
         {
             IsDevextremeExportExcelLibrariesEnabled = value;
             return this;
         }
 
-        public PluginsClient EnableFancybox(bool value)
+        public PluginsClientViewModel EnableFancybox(bool value)
         {
             IsFancyboxEnabled = value;
             return this;
         }
 
-        public PluginsClient EnableGoogleFonts(bool value)
+        public PluginsClientViewModel EnableGoogleFonts(bool value)
         {
             IsGoogleFontsEnabled = value;
             return this;
         }
 
-        public PluginsClient EnableFlatPickr(bool value)
+        public PluginsClientViewModel EnableFlatPickr(bool value)
         {
             IsFlatPickrEnabled = value;
             return this;
         }
 
-        public PluginsClient EnableFontAwesome(bool value)
+        public PluginsClientViewModel EnableFontAwesome(bool value)
         {
             IsFontAwesomeEnabled = value;
             return this;
         }
 
-        public PluginsClient EnableJQuery(bool value)
+        public PluginsClientViewModel EnableJQuery(bool value)
         {
             IsJQueryEnabled = value;
             return this;
         }
 
-        public PluginsClient EnableJQueryAppear(bool value)
+        public PluginsClientViewModel EnableJQueryAppear(bool value)
         {
             IsJQueryAppearEnabled = value;
             return this;
         }
 
-        public PluginsClient EnableJQueryConfirm(bool value)
+        public PluginsClientViewModel EnableJQueryConfirm(bool value)
         {
             IsJQueryConfirmEnabled = value;
             return this;
         }
 
-        public PluginsClient EnableJQueryMaskedInput(bool value)
+        public PluginsClientViewModel EnableJQueryMaskedInput(bool value)
         {
             IsJQueryMaskedInputEnabled = value;
             return this;
         }
 
-        public PluginsClient EnableJQueryNestedSortable(bool value)
+        public PluginsClientViewModel EnableJQueryNestedSortable(bool value)
         {
             IsJQueryNestedSortableEnabled = value;
             return this;
         }
 
-        public PluginsClient EnableJQueryNumericInput(bool value)
+        public PluginsClientViewModel EnableJQueryNumericInput(bool value)
         {
             IsJQueryNumericInputEnabled = value;
             return this;
         }
 
 
-        public PluginsClient EnableJsClient(bool value)
+        public PluginsClientViewModel EnableJsClient(bool value)
         {
             IsJsClientEnabled = value;
             return this;
         }
 
-        public PluginsClient EnableJsZip(bool value)
+        public PluginsClientViewModel EnableJsZip(bool value)
         {
             IsJsZipEnabled = value;
             return this;
         }
 
-        public PluginsClient EnableJWPlayer(bool value)
+        public PluginsClientViewModel EnableJWPlayer(bool value)
         {
             IsJWPlayerEnabled = value;
             return this;
         }
 
-        public PluginsClient EnableMalihuScroll(bool value)
+        public PluginsClientViewModel EnableMalihuScroll(bool value)
         {
             IsMalihuScrollEnabled = value;
             return this;
         }
 
-        public PluginsClient EnableMetisMenu(bool value)
+        public PluginsClientViewModel EnableMetisMenu(bool value)
         {
             IsMetisMenuEnabled = value;
             return this;
         }
 
-        public PluginsClient EnablePageBuilder(bool value)
+        public PluginsClientViewModel EnablePageBuilder(bool value)
         {
             IsPageBuilderEnabled = value;
             return this;
         }
 
-        public PluginsClient EnablePageBuilderEditor(bool value)
+        public PluginsClientViewModel EnablePageBuilderEditor(bool value)
         {
             IsPageBuilderEditorEnabled = value;
             return this;
         }
 
-        public PluginsClient EnablePreloader(bool value)
+        public PluginsClientViewModel EnablePreloader(bool value)
         {
             IsPreloaderEnabled = value;
             return this;
         }
 
-        public PluginsClient EnableSlickSlider(bool value)
+        public PluginsClientViewModel EnableSlickSlider(bool value)
         {
             IsSlickSliderEnabled = value;
             return this;
         }
 
-        public PluginsClient EnableSortableJS(bool value)
+        public PluginsClientViewModel EnableSortableJS(bool value)
         {
             IsSortableJSEnabled = value;
             return this;
         }
 
-        public PluginsClient Enable63BitsSuccessErrorToast(bool value)
+        public PluginsClientViewModel Enable63BitsSuccessErrorToast(bool value)
         {
             Is63BitsSuccessErrorToastEnabled = value;
             return this;
         }
 
-        public PluginsClient EnableTemplate7(bool value)
+        public PluginsClientViewModel EnableTemplate7(bool value)
         {
             IsTemplate7Enabled = value;
             return this;
         }
 
-        public PluginsClient EnableTinyMce(bool value)
+        public PluginsClientViewModel EnableTinyMce(bool value)
         {
             IsTinyMceEnabled = value;
             return this;
         }
 
-        public PluginsClient EnableUtils(bool value)
+        public PluginsClientViewModel EnableUtils(bool value)
         {
             IsUtilsEnabled = value;
             return this;

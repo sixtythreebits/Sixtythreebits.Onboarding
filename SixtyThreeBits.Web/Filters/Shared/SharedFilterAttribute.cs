@@ -6,9 +6,10 @@ using SixtyThreeBits.Core.DTO;
 using SixtyThreeBits.Core.Infrastructure.Repositories;
 using SixtyThreeBits.Core.Libraries.FileStorages;
 using SixtyThreeBits.Core.Utilities;
+using SixtyThreeBits.Libraries.Extensions;
 using SixtyThreeBits.Web.Domain.Libraries;
-using SixtyThreeBits.Web.Domain.SharedViewModels;
 using SixtyThreeBits.Web.Domain.Utilities;
+using SixtyThreeBits.Web.Domain.ViewModels.Shared;
 using SixtyThreeBits.Web.Models.Shared;
 using System.Threading.Tasks;
 
@@ -62,7 +63,7 @@ namespace SixtyThreeBits.Web.Filters.Shared
 
                 _model.LanguageCultureCode = _model.Request.HttpContext.Features.Get<IRequestCultureFeature>().RequestCulture.Culture.Name;
 
-                _model.PluginsClient = new PluginsClient(_model.LanguageCultureCode);
+                _model.PluginsClient = new PluginsClientViewModel(_model.LanguageCultureCode);
 
                 await InitSystemProperties();
                 InitFileStorage();
@@ -77,7 +78,8 @@ namespace SixtyThreeBits.Web.Filters.Shared
 
             if (_model.User == null)
             {
-                var userID = _model.CookieAssistance.Get<int?>(WebConstants.Cookies.User);
+                var userIDEncrypted = _model.CookieAssistance.Get(WebConstants.Cookies.User);
+                var userID = userIDEncrypted.AesDecryptString().ToInt();
                 if (userID != null)
                 {
                     var repository = _dataAccessFactory.GetUsersRepository();
