@@ -8,20 +8,6 @@ using System.Collections.Generic;
 
 namespace SixtyThreeBits.Web.Domain.Libraries
 {
-    public interface IDevExtremeGridModel<T> where T : class
-    {
-        #region Properties
-        DataGridBuilder<T> Render(IHtmlHelper Html);
-        #endregion
-    }
-
-    public interface IDevExtremeTreeModel<T> where T : class
-    {
-        #region Properties
-        TreeListBuilder<T> Render(IHtmlHelper Html);
-        #endregion
-    }
-
     public class DevExtremeGridFilterItem
     {
         #region Properties
@@ -39,7 +25,7 @@ namespace SixtyThreeBits.Web.Domain.Libraries
         #endregion
     }
 
-    public class DevExtremeGridViewModelBase
+    public abstract class DevExtremeGridViewModelBase<T> where T : class
     {
         #region Properties        
         public bool AllowAdd { get; set; }
@@ -60,7 +46,7 @@ namespace SixtyThreeBits.Web.Domain.Libraries
         #endregion
 
         #region Methods
-        public DataGridBuilder<T> GetGridWithStartupValues<T>(IHtmlHelper html, string keyFieldName)
+        public DataGridBuilder<T> CreateGridWithStartupValues(IHtmlHelper html, string keyFieldName)
         {
             return html.DevExtreme().DataGrid<T>()
             .Width("100%")
@@ -83,6 +69,10 @@ namespace SixtyThreeBits.Web.Domain.Libraries
                 options.Visible(true);
                 options.ApplyFilter(GridApplyFilterMode.Auto);
                 options.ShowAllText(Resources.TextAllDevexpressGridFilterRaw);
+            })
+            .HeaderFilter(options =>
+            {
+                options.Visible(true);
             })
             .DataSource(options =>
             {
@@ -161,8 +151,33 @@ namespace SixtyThreeBits.Web.Domain.Libraries
                 }
             });
         }
+        
+        public abstract DataGridBuilder<T> Render(IHtmlHelper Html);
+        #endregion
+    }
 
-        public TreeListBuilder<T> GetTreeWithStartupValues<T>(IHtmlHelper html, string keyFieldName, string parentFieldName)
+    public abstract class DevExtremeTreeViewModelBase<T> where T : class
+    {
+        #region Properties        
+        public bool AllowAdd { get; set; }
+        public bool AllowUpdate { get; set; }
+        public bool AllowDelete { get; set; }
+
+        public string UrlLoad { get; set; }
+        public object LoadParams { get; set; }
+        public string UrlAddNew { get; set; }
+        public string UrlUpdate { get; set; }
+        public string UrlDelete { get; set; }
+
+        public string BeforeSendJSFunction { get; set; }
+
+        public bool IsError => !string.IsNullOrWhiteSpace(ErrorMessage);
+        public string ErrorMessage { get; set; }
+        public string TextConfirmDelete { get; set; } = Resources.TextConfirmDelete;
+        #endregion
+
+        #region Methods
+        public TreeListBuilder<T> CreateTreeWithStartupValues(IHtmlHelper html, string keyFieldName, string parentFieldName)
         {
             return html.DevExtreme().TreeList<T>()
             .KeyExpr(keyFieldName)
@@ -224,7 +239,7 @@ namespace SixtyThreeBits.Web.Domain.Libraries
                 options.PageSize(30);
             })
             .Columns(Columns =>
-            {   
+            {
                 if (AllowAdd || AllowUpdate || AllowDelete)
                 {
                     var isAllowedAddOrUpdate = AllowAdd || AllowUpdate;
@@ -237,9 +252,9 @@ namespace SixtyThreeBits.Web.Domain.Libraries
                         .Alignment(HorizontalAlignment.Center)
                         .Buttons(b =>
                         {
-                            if(AllowAdd)
+                            if (AllowAdd)
                             {
-                                b.Add().Name(TreeListColumnButtonName.Add).Icon("fa-solid fa-plus").Text(Resources.TextAdd);                                
+                                b.Add().Name(TreeListColumnButtonName.Add).Icon("fa-solid fa-plus").Text(Resources.TextAdd);
                             }
                             if (AllowUpdate)
                             {
@@ -258,6 +273,8 @@ namespace SixtyThreeBits.Web.Domain.Libraries
                 }
             });
         }
+
+        public abstract TreeListBuilder<T> Render(IHtmlHelper Html);
         #endregion
     }
 
@@ -277,6 +294,7 @@ namespace SixtyThreeBits.Web.Domain.Libraries
 
         public static DataGridColumnBuilder<T> InitDateColumn<T>(this DataGridColumnBuilder<T> column, bool formatDateTime = false)
         {
+            column.DataType(GridColumnDataType.DateTime);
             if (formatDateTime)
             {
                 column.Format(Constants.Formats.DateTime);

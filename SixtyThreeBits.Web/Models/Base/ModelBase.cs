@@ -11,8 +11,8 @@ using SixtyThreeBits.Core.Properties;
 using SixtyThreeBits.Core.Utilities;
 using SixtyThreeBits.Libraries.Extensions;
 using SixtyThreeBits.Web.Domain.Libraries;
-using SixtyThreeBits.Web.Domain.SharedViewModels;
 using SixtyThreeBits.Web.Domain.Utilities;
+using SixtyThreeBits.Web.Domain.ViewModels.Shared;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
@@ -45,9 +45,9 @@ namespace SixtyThreeBits.Web.Models.Shared
         public IFileStorage FileStorage { get; set; }
 
         public Breadcrumbs Breadcrumbs { get; set; }
-        public List<ProjectMenuItem> Tabs { get; set; } = [];
+        public List<ProjectMenuViewItem> Tabs { get; set; } = [];
 
-        public PluginsClient PluginsClient { get; set; }
+        public PluginsClientViewModel PluginsClient { get; set; }
         public UserDTO User { get; set; }
         public bool IsLoggedIn => User != null;
         public ValueWrapper<bool> IsSidebarCollapsed { get; set; }
@@ -55,7 +55,7 @@ namespace SixtyThreeBits.Web.Models.Shared
         public SystemPropertiesDTO SystemProperties { get; set; }
 
         public readonly string CultureDefault = Enums.Languages.GEORGIAN;
-        public readonly SuccessErrorPartialViewModel SuccessErrorPartialViewModel = new();
+        public readonly SuccessErrorToastPartialViewModel SuccessErrorPartialViewModel = new();
         #endregion
 
         #region Methods
@@ -73,7 +73,7 @@ namespace SixtyThreeBits.Web.Models.Shared
 
             return new ViewResult
             {
-                ViewName = ViewNames.Website.NotFound.NotFoundView,
+                ViewName = ViewNames.Website.Errors.NotFoundView,
                 ViewData = new ViewDataDictionary(new EmptyModelMetadataProvider(), new ModelStateDictionary())
                 {
                     Model = viewModel
@@ -90,7 +90,7 @@ namespace SixtyThreeBits.Web.Models.Shared
 
             return new ViewResult
             {
-                ViewName = ViewNames.Admin.Shared.NotFound,
+                ViewName = ViewNames.Admin.Errors.NotFoundView,
                 ViewData = new ViewDataDictionary(new EmptyModelMetadataProvider(), new ModelStateDictionary())
                 {
                     Model = viewModel

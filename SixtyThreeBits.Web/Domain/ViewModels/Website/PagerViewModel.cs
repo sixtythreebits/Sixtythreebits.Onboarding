@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace SixtyThreeBits.Web.Domain.SharedViewModels
+namespace SixtyThreeBits.Web.Domain.ViewModels.Website
 {
     public class PagerViewModel
     {

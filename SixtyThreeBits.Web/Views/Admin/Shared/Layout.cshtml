@@ -11,7 +11,7 @@
     <title>@Html.Raw(Model.PageTitle.TitleHead)</title>
     @await Html.PartialAsync(ViewNames.Shared.PluginsClient.Header, Model.PluginsClient)
     <link href="/css/admin/style.css" rel="stylesheet" />
-    @RenderSection(Model.HeaderSectionName, false)
+    @RenderSection("HeaderSection", false)
 </head>
 <body class="@(Model.IsSidebarCollapsed.Value ? "sidebar-enable" : null)" data-sidebar="dark" data-sidebar-size="@(Model.IsSidebarCollapsed.Value ? "sm" : "lg")">
     <div id="layout-wrapper">            
@@ -204,6 +204,10 @@
         globals.textSuccess = '@Html.Raw(Model.TextSuccess)';
         layoutModel.sidebarStatusCookieKey = '@Model.SidebarStatusCookieKey';
     </script>
-    @RenderSection(Model.FooterSectionName, false)
+
+
+
+
+    @RenderSection("FooterSection", false)
 </body>
 </html>

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace SixtyThreeBits.Web.Domain.SharedViewModels
+namespace SixtyThreeBits.Web.Domain.ViewModels.Admin
 {
     public class TreeNodeItem
     {

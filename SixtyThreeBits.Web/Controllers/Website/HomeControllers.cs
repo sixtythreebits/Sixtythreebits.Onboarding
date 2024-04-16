@@ -12,8 +12,7 @@ namespace SixtyThreeBits.Web.Controllers.Website
             Model = new HomeModel();
         }
 
-        [Route("", Name = ControllerActionRouteNames.Website.Home.Index)]
-        [Route("{Culture:length(2)}", Name = ControllerActionRouteNames.Website.Home.IndexCulture)]
+        [Route("", Name = ControllerActionRouteNames.Website.HomeController.Index)]        
         public IActionResult Index()
         {
             return View(ViewNames.Website.Home.Page);

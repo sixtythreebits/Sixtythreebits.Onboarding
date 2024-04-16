@@ -149,22 +149,7 @@ namespace SixtyThreeBits.Core.Utilities
         {
             var language = SupportedLanguages.FirstOrDefault(item => item.LanguageCultureCode == languageCultureCode, LanguageDefault);
             return language;
-        }
-
-        public T GetValuesByLanguage<T>(string culture = null, T georgianValue = default, T englishValue = default)
-        {
-            switch (culture)
-            {
-                case Enums.Languages.GEORGIAN: { return georgianValue; }
-                case Enums.Languages.ENGLISH: { return englishValue; }
-                default: { return georgianValue; }
-            }
-        }
-
-        public bool IsImage(string filename)
-        {
-            return string.IsNullOrWhiteSpace(filename) ? false : new List<string> { ".JPG", ".JPEG", ".BMP", ".GIF", ".PNG" }.Contains(Path.GetExtension(filename).ToUpper());
-        }
+        }        
         #endregion
 
         #region Nested Classes

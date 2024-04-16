@@ -42,8 +42,7 @@ namespace SixtyThreeBits.Web.Models.Admin
             {
                 PermissionID = item.PermissionID,
                 PermissionParentID = item.PermissionParentID,
-                PermissionCaption = item.PermissionCaption,
-                PermissionCaptionEng = item.PermissionCaptionEng,
+                PermissionCaption = item.PermissionCaption,                
                 PermissionPagePath = item.PermissionPagePath,
                 PermissionCodeName = item.PermissionCodeName,
                 PermissionCode = item.PermissionCode,
@@ -66,8 +65,7 @@ namespace SixtyThreeBits.Web.Models.Admin
                 permission: new PermissionIudDTO
                 {
                     PermissionParentID = submitModel.PermissionParentID,
-                    PermissionCaption = submitModel.PermissionCaption,
-                    PermissionCaptionEng = submitModel.PermissionCaptionEng,
+                    PermissionCaption = submitModel.PermissionCaption,                    
                     PermissionPagePath = submitModel.PermissionPagePath,
                     PermissionCodeName = submitModel.PermissionCodeName,
                     PermissionCode = submitModel.PermissionCode,
@@ -106,12 +104,12 @@ namespace SixtyThreeBits.Web.Models.Admin
             #endregion
 
             #region Nested Classes
-            public class TreeModel : DevExtremeGridViewModelBase, IDevExtremeTreeModel<TreeModel.TreeItem>
+            public class TreeModel : DevExtremeTreeViewModelBase<TreeModel.TreeItem>
             {
                 #region Methods
-                public TreeListBuilder<TreeItem> Render(IHtmlHelper Html)
+                public override TreeListBuilder<TreeItem> Render(IHtmlHelper Html)
                 {
-                    var Tree = GetTreeWithStartupValues<TreeItem>(html: Html, keyFieldName: nameof(TreeItem.PermissionID), parentFieldName: nameof(TreeItem.PermissionParentID));
+                    var Tree = CreateTreeWithStartupValues(html: Html, keyFieldName: nameof(TreeItem.PermissionID), parentFieldName: nameof(TreeItem.PermissionParentID));
 
                     Tree
                     .ID("PermissionsTree")
@@ -141,8 +139,7 @@ namespace SixtyThreeBits.Web.Models.Admin
                         Columns.AddFor(m => m.PermissionCaption).Caption(Resources.TextCaption).Width(400).ValidationRules(Options =>
                         {
                             Options.AddRequired();
-                        });
-                        Columns.AddFor(m => m.PermissionCaptionEng).Caption(Resources.TextCaptionEng).Width(200);
+                        });                        
                         Columns.AddFor(m => m.PermissionPagePath).Caption(Resources.TextPageUrl).Width(300);
                         Columns.AddFor(m => m.PermissionCodeName).Caption(Resources.TextCodename).Width(300);
                         Columns.AddFor(m => m.PermissionSortIndex).Caption(Resources.TextSortIndex).DataType(GridColumnDataType.Number).Width(100);
@@ -165,8 +162,7 @@ namespace SixtyThreeBits.Web.Models.Admin
                     #region Properties
                     public int? PermissionID { get; set; }
                     public int? PermissionParentID { get; set; }
-                    public string PermissionCaption { get; set; }
-                    public string PermissionCaptionEng { get; set; }
+                    public string PermissionCaption { get; set; }                    
                     public string PermissionPagePath { get; set; }
                     public string PermissionCodeName { get; set; }
                     public string PermissionCode { get; set; }

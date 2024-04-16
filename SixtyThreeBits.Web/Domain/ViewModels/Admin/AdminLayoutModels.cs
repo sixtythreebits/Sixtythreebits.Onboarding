@@ -1,14 +1,14 @@
 ﻿using SixtyThreeBits.Core.Libraries;
 using SixtyThreeBits.Core.Properties;
-using SixtyThreeBits.Web.Domain.SharedViewModels;
 using SixtyThreeBits.Web.Domain.Utilities;
+using SixtyThreeBits.Web.Domain.ViewModels.Shared;
 using System.Collections.Generic;
 
-namespace SixtyThreeBits.Web.Models.Admin
+namespace SixtyThreeBits.Web.Domain.ViewModels.Admin
 {
     public class AdminLayoutViewModel : LayoutViewModelBase
     {
-        #region Properties                
+        #region Properties                        
         public string UserFullname { get; set; }
         public string UserEmail { get; set; }
         public ValueWrapper<bool> IsSidebarCollapsed { get; set; }
@@ -44,18 +44,5 @@ namespace SixtyThreeBits.Web.Models.Admin
             #endregion
         }
         #endregion
-    }
-
-    public class UserLayoutViewModel : LayoutViewModelBase
-    {
-        #region Properties        
-        public string UserFullname { get; set; }
-        public string UserDateCreated { get; set; }
-        public bool UserIsActive { get; set; }
-        public string RoleName { get; set; }
-
-        public readonly string HeaderSectionName = WebConstants.ViewSections.HeaderSection;
-        public readonly string FooterSectionName = WebConstants.ViewSections.FooterSection;
-        #endregion
-    }
+    }    
 }

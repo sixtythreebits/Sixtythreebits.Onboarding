@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using SixtyThreeBits.Core.Utilities;
 using SixtyThreeBits.Web.Domain.Libraries;
 using SixtyThreeBits.Web.Domain.Utilities;
+using SixtyThreeBits.Web.Domain.ViewModels.Website;
 using SixtyThreeBits.Web.Models.Shared;
-using SixtyThreeBits.Web.Models.Website;
 using System.Threading.Tasks;
 
 namespace SixtyThreeBits.Web.Filters.Website

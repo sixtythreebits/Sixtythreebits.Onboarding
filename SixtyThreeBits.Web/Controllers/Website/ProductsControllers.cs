@@ -40,8 +40,15 @@ namespace SixtyThreeBits.Web.Controllers.Website
         public async Task<IActionResult> Product(int? productID)
         {
             var viewModel = await Model.GetViewModel(productID);
-            Model.PageTitle.Set(viewModel.PageTitle);
-            return View(ViewNames.Website.Products.ProductsView, viewModel);
+            if (viewModel == null)
+            {
+                return Model.GetNotFoundAdminViewResult();
+            }
+            else
+            {
+                Model.PageTitle.Set(viewModel.PageTitle);
+                return View(ViewNames.Website.Products.ProductView, viewModel);
+            }
         }
         #endregion
     }

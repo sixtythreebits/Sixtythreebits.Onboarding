@@ -2,75 +2,28 @@
 <section class="py-5">
     <div class="container px-4 px-lg-5 mt-5">
         <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-            <div class="col mb-5">
-                <div class="card h-100">                    
-                    <div class="card-header product-image-container">
-                        <img src="/upload/iphone.png" />
-                    </div>
-                    <div class="card-body p-4">
-                        <div class="text-center">
-                            <h5 class="fw-bolder">Apple iPhone 15 Pro</h5>
-                            $1199.00
+            @if(Model.HasProducts)
+            {
+                foreach(var product in Model.Products)
+                {
+                    <div class="col mb-5">
+                        <div class="card h-100">
+                            <div class="card-header product-image-container">
+                                <img src="@Html.Raw(product.ProductCoverImageHttpPath)" />
+                            </div>
+                            <div class="card-body p-4">
+                                <div class="text-center">
+                                    <h5 class="fw-bolder">@Html.Raw(product.ProductName)</h5>
+                                    $ @Html.Raw(product.ProductPrice)
+                                </div>
+                            </div>
+                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="@Html.Raw(product.UrlProductDetails)">View Details</a></div>
+                            </div>
                         </div>
                     </div>
-                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">View Details</a></div>
-                    </div>
-                </div>
-            </div>
-            
-            
-            <div class="col mb-5">
-                <div class="card h-100">
-                    <div class="card-header product-image-container">
-                        <img src="/upload/iwatch.png" />
-                    </div>
-                    <div class="card-body p-4">
-                        <div class="text-center">
-                            <h5 class="fw-bolder">Apple Watch Series 9</h5>
-                            $399.00
-                        </div>
-                    </div>
-                    <!-- Product actions-->
-                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">View Details</a></div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col mb-5">
-                <div class="card h-100">
-                    <div class="card-header product-image-container">
-                        <img src="/upload/ipad.png" />
-                    </div>                    
-                    <div class="card-body p-4">
-                        <div class="text-center">
-                            <h5 class="fw-bolder">iPad Pro 12.9 (6th Gen)</h5>
-                            $799.00
-                        </div>
-                    </div>
-                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">View Details</a></div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col mb-5">
-                <div class="card h-100">
-                    <div class="card-header product-image-container">
-                        <img src="/upload/imac.png" />
-                    </div>
-                    <div class="card-body p-4">
-                        <div class="text-center">
-                            <h5 class="fw-bolder">iMac 24", Apple M3</h5>
-                            $2699.00
-                        </div>
-                    </div>
-                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">View Details</a></div>
-                    </div>
-                </div>
-            </div>
+                }
+            }
         </div>
     </div>
 </section>

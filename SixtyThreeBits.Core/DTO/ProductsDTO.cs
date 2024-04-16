@@ -2,6 +2,14 @@
 
 namespace SixtyThreeBits.Core.DTO
 {
+    public record CategoriesListDTO
+    {
+        #region Properties
+        public int? CategoryID { get; init; }
+        public string CategoryName { get; init; } 
+        #endregion
+    }
+
     public record ProductDTO
     {
         #region Properties

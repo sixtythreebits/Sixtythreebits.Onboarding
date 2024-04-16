@@ -1,6 +1,6 @@
-﻿namespace SixtyThreeBits.Web.Domain.SharedViewModels
+﻿namespace SixtyThreeBits.Web.Domain.ViewModels.Shared
 {
-    public class SuccessErrorPartialViewModel
+    public class SuccessErrorToastPartialViewModel
     {
         #region Properties
         public bool IsTop { set; get; }

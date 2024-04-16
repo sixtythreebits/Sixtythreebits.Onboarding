@@ -113,6 +113,21 @@ body {
     object-fit: contain;
 }
 
+.blog-post-list-image-container {
+    padding: 0 !important;
+    height: 170px;
+    background-repeat:no-repeat;
+    background-size: cover;
+    background-position:center;
+}
+
+.blog-post-image-container {
+    height: 300px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;    
+}
+
 .app {
     display: flex;
     flex-direction: column;

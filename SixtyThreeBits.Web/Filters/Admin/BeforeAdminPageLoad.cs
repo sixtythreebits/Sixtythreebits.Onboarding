@@ -1,11 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using SixtyThreeBits.Core.Libraries;
-using SixtyThreeBits.Core.Utilities;
 using SixtyThreeBits.Web.Domain.Libraries;
-using SixtyThreeBits.Web.Domain.SharedViewModels;
 using SixtyThreeBits.Web.Domain.Utilities;
-using SixtyThreeBits.Web.Models.Admin;
+using SixtyThreeBits.Web.Domain.ViewModels.Admin;
+using SixtyThreeBits.Web.Domain.ViewModels.Shared;
 using SixtyThreeBits.Web.Models.Shared;
 using System.Linq;
 using System.Threading.Tasks;
@@ -97,15 +96,15 @@ namespace SixtyThreeBits.Web.Filters.Admin
             {
                 _viewModel.Menu = _model.User.Permissions
                 .Where(item => item.PermissionIsMenuItem && item.PermissionParentID == null)
-                .Select(item => new ProjectMenuItem
+                .Select(item => new ProjectMenuViewItem
                 {
-                    Caption = _model.Utilities.GetValuesByLanguage(_model.LanguageCultureCode, item.HasPermissionMenuTitle ? item.PermissionMenuTitle : item.PermissionCaption, item.HasPermissionMenuTitleEng ? item.PermissionMenuTitleEng : item.PermissionCaptionEng),
+                    Caption = item.PermissionCaption,
                     NavigateUrl = string.IsNullOrWhiteSpace(item.PermissionPagePath) ? item.PermissionCode : item.PermissionPagePath,
                     Icon = item.PermissionMenuIcon,
                     IsSelected = item.PermissionPagePath == _model.UrlCurrentPageWithoutDomain,
-                    Children = _model.User.Permissions.Where(subItem => subItem.PermissionIsMenuItem && subItem.PermissionParentID == item.PermissionID).Select(SubItem => new ProjectMenuItem
+                    Children = _model.User.Permissions.Where(subItem => subItem.PermissionIsMenuItem && subItem.PermissionParentID == item.PermissionID).Select(SubItem => new ProjectMenuViewItem
                     {
-                        Caption = _model.Utilities.GetValuesByLanguage(_model.LanguageCultureCode, SubItem.HasPermissionMenuTitle ? SubItem.PermissionMenuTitle : SubItem.PermissionCaption, SubItem.HasPermissionMenuTitleEng ? SubItem.PermissionMenuTitleEng : SubItem.PermissionCaptionEng),
+                        Caption = SubItem.PermissionCaption,
                         NavigateUrl = SubItem.PermissionPagePath,
                         Icon = SubItem.PermissionMenuIcon,
                         IsSelected = SubItem.PermissionPagePath == _model.UrlCurrentPageWithoutDomain
@@ -132,7 +131,7 @@ namespace SixtyThreeBits.Web.Filters.Admin
                 ID = item.PermissionID,
                 ParentID = item.PermissionParentID,
                 PageHttpPath = item.PermissionPagePath,
-                PageTitle = _model.Utilities.GetValuesByLanguage(_model.LanguageCultureCode, item.PermissionCaption, item.PermissionCaptionEng),
+                PageTitle = item.PermissionCaption,
             }).ToList();
 
             _viewModel.Breadcrumbs = _model.Breadcrumbs = new Breadcrumbs();
@@ -154,14 +153,14 @@ namespace SixtyThreeBits.Web.Filters.Admin
             var p = _model.User.GetPermission(_model.UrlCurrentPageWithoutDomain);
             if (p != null)
             {
-                _model.PageTitle.Set(_model.Utilities.GetValuesByLanguage(_model.LanguageCultureCode, p.PermissionCaption, p.PermissionCaptionEng));
+                _model.PageTitle.Set(p.PermissionCaption);
             }
         }
 
         void initSidebar()
         {
             _viewModel.IsSidebarCollapsed = _model.IsSidebarCollapsed = new ValueWrapper<bool>();
-            _model.IsSidebarCollapsed.Value = _model.CookieAssistance.Get<bool>(key: WebConstants.Cookies.IsAdminSideBarCollapsed);
+            _model.IsSidebarCollapsed.Value = _model.CookieAssistance.Get(key: WebConstants.Cookies.IsAdminSideBarCollapsed) == "true";
         }
 
         void initSuccessErrorMessage()

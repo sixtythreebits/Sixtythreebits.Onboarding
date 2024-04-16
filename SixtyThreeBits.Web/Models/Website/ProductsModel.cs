@@ -35,6 +35,7 @@ namespace SixtyThreeBits.Web.Models.Website
             #region Properties
             public string PageTitle { get; set; }
             public List<Product> Products { get; set; }
+            public bool HasProducts => Products?.Any() == true;
             #endregion
 
             #region Nested Classes
@@ -65,7 +66,7 @@ namespace SixtyThreeBits.Web.Models.Website
             if (dbItem != null)
             {
                 viewModel = new ViewModel();
-                viewModel.PageTitle = "Products";
+                viewModel.PageTitle = dbItem.ProductName;
                 viewModel.ProductName = dbItem.ProductName;
                 viewModel.ProductCoverImageHttpPath = FileStorage.GetUploadedFileHttpPath(dbItem.ProductCoverImageFilename);
                 viewModel.ProductPrice = Utilities.FormatPrice(dbItem.ProductPrice);

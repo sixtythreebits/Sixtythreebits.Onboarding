@@ -16,7 +16,7 @@
             public static class Dictionaries
             {
                 #region Properties
-                public const string Page = "~/Views/AdminDictionaries/Dictionaries.cshtml";
+                public const string Page = "~/Views/Admin/Dictionaries/Dictionaries.cshtml";
                 #endregion
             }
 
@@ -26,21 +26,29 @@
                 public const string Index = "~/Views/Admin/Home/Index.cshtml";
                 #endregion
             }
-            
-            public static class NotFound
+
+            public static class Errors
             {
                 #region Properties
-                public const string Page = "~/Views/Website/NotFound/NotFound.cshtml";
+                public const string NotFoundView = "~/Views/Admin/Errors/NotFound.cshtml";
                 #endregion
             }
-           
+
             public static class Permissions
             {
                 #region Properties
                 public const string Page = "~/Views/Admin/Permissions/Permissions.cshtml";
                 #endregion
             }
-           
+
+            public static class Products
+            {
+                #region Properties
+                public const string ProductPropertiesView = "~/Views/Admin/Products/ProductProperties.cshtml";
+                public const string ProductsView = "~/Views/Admin/Products/Products.cshtml";                
+                #endregion
+            }
+
             public static class Roles
             {
                 #region Properties
@@ -54,12 +62,11 @@
                 public const string Page = "~/Views/Admin/RolesPermissions/RolesPermissions.cshtml";
                 #endregion
             }
-           
+
             public static class Shared
             {
                 #region Properties
                 public const string Layout = "~/Views/Admin/Shared/Layout.cshtml";
-                public const string NotFound = "~/Views/Admin/Shared/NotFound.cshtml";
                 public const string PopupLayout = "~/Views/Admin/Shared/PopupLayout.cshtml";
                 public const string Tabs = "~/Views/Admin/Shared/Tabs.cshtml";
                 public const string SuccessErrorToastPartialView = "~/Views/Admin/Shared/SuccessErrorToastPartialView.cshtml";
@@ -79,13 +86,6 @@
                 #endregion
             }
 
-            public static class SystemProperties
-            {
-                #region Properties
-                public const string Page = "~/Views/Admin/SystemProperties/SystemProperties.cshtml";
-                #endregion
-            }
-         
             public static class Users
             {
                 #region Properties
@@ -96,12 +96,12 @@
                 public static class User
                 {
                     #region Properties
-                    public const string Layout = "~/Views/Admin/UserManagement/User/UserLayout.cshtml";
-                    public const string Properties = "~/Views/Admin/UserManagement/User/UserProperties.cshtml";
+                    public const string Layout = "~/Views/Admin/Users/User/UserLayout.cshtml";
+                    public const string Properties = "~/Views/Admin/Users/User/UserProperties.cshtml";
                     #endregion
                 }
                 #endregion
-            }
+            }            
             #endregion
         }
 
@@ -115,10 +115,10 @@
                 #endregion
             }
 
-            public static class NotFound
+            public static class Errors
             {
                 #region Properties
-                public const string NotFoundView = "~/Views/NotFound/NotFound.cshtml";
+                public const string NotFoundView = "~/Views/Website/Errors/NotFound.cshtml";
                 #endregion
             }
 
@@ -126,7 +126,7 @@
             {
                 #region Properties
                 public const string ProductView = "~/Views/Website/Products/Product.cshtml";
-                public const string ProductsView = "~/Views/Website/Products/Products.cshtml";                
+                public const string ProductsView = "~/Views/Website/Products/Products.cshtml";
                 #endregion
             }
 
@@ -134,6 +134,7 @@
             {
                 #region Properties
                 public const string Layout = "~/Views/Website/Shared/Layout.cshtml";
+                public const string Pager = "~/Views/Website/Shared/Pager.cshtml";
                 #endregion
             }
             #endregion
