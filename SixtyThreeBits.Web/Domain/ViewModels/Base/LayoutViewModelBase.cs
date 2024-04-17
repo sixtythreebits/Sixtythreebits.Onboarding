@@ -2,9 +2,10 @@
 using SixtyThreeBits.Core.Properties;
 using SixtyThreeBits.Web.Domain.Libraries;
 using SixtyThreeBits.Web.Domain.Utilities;
+using SixtyThreeBits.Web.Domain.ViewModels.Shared;
 using System.Collections.Generic;
 
-namespace SixtyThreeBits.Web.Domain.ViewModels.Shared
+namespace SixtyThreeBits.Web.Domain.ViewModels.Base
 {
     public class LayoutViewModelBase
     {

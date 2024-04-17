@@ -135,6 +135,11 @@ namespace SixtyThreeBits.Core.Utilities
             return string.Format("{0:#.##}", price);
         }
 
+        public string FormatPriceValue(object price)
+        {
+            return string.Format("{0:#.##}", price);
+        }
+
         public string FormatQuantity(object value)
         {
             return string.Format("{0:#,#.#}", value);

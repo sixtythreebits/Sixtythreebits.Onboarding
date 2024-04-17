@@ -3,6 +3,7 @@ using SixtyThreeBits.Core.Utilities;
 using SixtyThreeBits.Libraries.Extensions;
 using SixtyThreeBits.Web.Controllers.Admin.Base;
 using SixtyThreeBits.Web.Domain.Utilities;
+using SixtyThreeBits.Web.Filters.Admin;
 using SixtyThreeBits.Web.Models.Admin;
 using System.Threading.Tasks;
 
@@ -102,5 +103,27 @@ namespace SixtyThreeBits.Web.Controllers.Admin
             }
         }
         #endregion
-    }    
+    }
+
+    [Route("admin/products/{productID:int}/properties")]
+    [TypeFilter(typeof(BeforeProductPageLoad), Order = 2)]
+    public class ProductPropertiesController : AdminControllerBase<ProductPropertiesModel>
+    {
+        #region Constructors
+        public ProductPropertiesController()
+        {
+            Model = new ProductPropertiesModel();
+        }
+        #endregion
+
+        #region Actions
+        [Route("", Name = ControllerActionRouteNames.Admin.ProductPropertiesController.Properties)]
+        public async Task<IActionResult> Properties()
+        {
+            Model.PluginsClient.Enable63BitsForms(true).EnableJQueryNumericInput(true).EnableFancybox(true);
+            var viewModel = await Model.GetViewModel();
+            return View(ViewNames.Admin.Products.ProductPropertiesView, viewModel);
+        }
+        #endregion
+    }
 }

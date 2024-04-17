@@ -1,5 +1,6 @@
 ﻿using DevExtreme.AspNet.Mvc;
 using DevExtreme.AspNet.Mvc.Builders;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SixtyThreeBits.Core.DTO;
@@ -7,6 +8,7 @@ using SixtyThreeBits.Core.Utilities;
 using SixtyThreeBits.Libraries;
 using SixtyThreeBits.Web.Domain.Libraries;
 using SixtyThreeBits.Web.Domain.Utilities;
+using SixtyThreeBits.Web.Domain.ViewModels.Base;
 using SixtyThreeBits.Web.Models.Shared;
 using System;
 using System.Collections.Generic;
@@ -147,11 +149,59 @@ namespace SixtyThreeBits.Web.Models.Admin
 
     public class ProductModelBase : ModelBase
     {
-
+        #region Properties
+        public ProductDTO DBItem { get; set; }
+        #endregion
     }
 
     public class ProductPropertiesModel : ProductModelBase
     {
+        #region Methods
+        public async Task<ViewModel> GetViewModel(ViewModel viewModel = null)
+        {
+            var repository = RepositoriesFactory.GetProductsRepository();
 
+            if(viewModel == null)
+            {
+                viewModel = new ViewModel();
+                viewModel.ProductName = DBItem.ProductName;
+                viewModel.ProductIsPublished = DBItem.ProductIsPublished;
+            }
+            
+            viewModel.ProductPriceString = Utilities.FormatPriceValue(DBItem.ProductPrice);
+            viewModel.CategoryID = DBItem.CategoryID;
+            viewModel.ProductCoverImageFilename = DBItem.ProductCoverImageFilename;
+            viewModel.ProductCoverImageHttpPath = FileStorage.GetUploadedFileHttpPath(DBItem.ProductCoverImageFilename);
+            viewModel.Categories = (await repository.CategoriesList())
+                ?.Select(item => new KeyValueSelectedTuple<int?, string>
+                {
+                    Key = item.CategoryID,
+                    Value = item.CategoryName,
+                    IsSelected = item.CategoryID == viewModel.CategoryID
+                }).ToList();
+
+            return viewModel;
+        }
+        #endregion
+
+        #region Nested Classes
+        public class ViewModel : FormViewModelBase
+        {
+            #region Properties
+            public string ProductName { get; set; }
+            public decimal? ProductPrice { get; set; }
+            public string ProductPriceString { get; set; }
+            public string ProductCoverImageFilename { get; set; }
+            public string ProductCoverImageHttpPath { get; set; }
+            public bool HasProductCoverImageFilename => !string.IsNullOrWhiteSpace(ProductCoverImageFilename);
+            public IFormFile ProductCoverImage { get; set; }
+            public bool ProductIsPublished { get; set; }
+            public int? CategoryID { get; set; }
+            public List<KeyValueSelectedTuple<int?,string>> Categories { get; set; }
+            public bool HasCategories => Categories?.Any() == true;
+            public string UrlDeleteImage { get; set; }            
+            #endregion
+        } 
+        #endregion
     }
 }

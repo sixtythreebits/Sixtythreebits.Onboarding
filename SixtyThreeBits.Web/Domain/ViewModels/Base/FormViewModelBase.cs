@@ -2,7 +2,7 @@
 using SixtyThreeBits.Core.Properties;
 using System.Linq;
 
-namespace SixtyThreeBits.Web.Domain.ViewModels.Shared
+namespace SixtyThreeBits.Web.Domain.ViewModels.Base
 {
     public class FormViewModelBase
     {
