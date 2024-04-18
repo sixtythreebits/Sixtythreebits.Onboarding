@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SixtyThreeBits.Core.DTO;
+using SixtyThreeBits.Core.Infrastructure.Repositories;
+using SixtyThreeBits.Core.Libraries;
 using SixtyThreeBits.Core.Utilities;
 using SixtyThreeBits.Libraries;
 using SixtyThreeBits.Web.Domain.Libraries;
@@ -158,20 +160,23 @@ namespace SixtyThreeBits.Web.Models.Admin
     {
         #region Methods
         public async Task<ViewModel> GetViewModel(ViewModel viewModel = null)
-        {
-            var repository = RepositoriesFactory.GetProductsRepository();
-
+        {            
             if(viewModel == null)
             {
                 viewModel = new ViewModel();
                 viewModel.ProductName = DBItem.ProductName;
+                viewModel.ProductPrice = DBItem.ProductPrice;
+                viewModel.CategoryID = DBItem.CategoryID;                
                 viewModel.ProductIsPublished = DBItem.ProductIsPublished;
             }
             
-            viewModel.ProductPriceString = Utilities.FormatPriceValue(DBItem.ProductPrice);
-            viewModel.CategoryID = DBItem.CategoryID;
+            viewModel.ProductPriceString = Utilities.FormatPriceValue(viewModel.ProductPrice);
+
             viewModel.ProductCoverImageFilename = DBItem.ProductCoverImageFilename;
             viewModel.ProductCoverImageHttpPath = FileStorage.GetUploadedFileHttpPath(DBItem.ProductCoverImageFilename);
+            viewModel.UrlDeleteImage = Url.RouteUrl(ControllerActionRouteNames.Admin.ProductPropertiesController.DeleteImage, new { productID = DBItem.ProductID });
+
+            var repository = RepositoriesFactory.GetProductsRepository();
             viewModel.Categories = (await repository.CategoriesList())
                 ?.Select(item => new KeyValueSelectedTuple<int?, string>
                 {
@@ -179,6 +184,98 @@ namespace SixtyThreeBits.Web.Models.Admin
                     Value = item.CategoryName,
                     IsSelected = item.CategoryID == viewModel.CategoryID
                 }).ToList();
+
+            return viewModel;
+        }
+
+        public void Validate(ViewModel viewModel)
+        {
+            var error = default(ErrorItem);
+
+            error = Validation.ValidateRequired(errorKey: Validation.GetJQueryNameSelectorFor(nameof(viewModel.ProductName)), valueToValidate: viewModel.ProductName);
+            viewModel.AddError(error);
+
+            error = Validation.ValidateRequired(errorKey: Validation.GetJQueryNameSelectorFor(nameof(viewModel.ProductPrice)), valueToValidate: viewModel.ProductPrice);
+            viewModel.AddError(error);
+
+            error = Validation.Validate(
+                errorAction: () =>
+                {
+                    var isError = false;
+                    if (!(viewModel.ProductPrice > 0))
+                    {
+                        isError = true;
+                    }
+                    return isError;
+                },
+                errorKey: Validation.GetJQueryNameSelectorFor(nameof(viewModel.ProductPrice)),
+                errorMessage: "Price must be greater then 0"
+            );
+            viewModel.AddError(error);
+
+            error = Validation.ValidateRequired(errorKey: Validation.GetJQueryNameSelectorFor(nameof(viewModel.CategoryID)), valueToValidate: viewModel.CategoryID);
+            viewModel.AddError(error);
+        }
+
+        public async Task Save(ViewModel viewModel)
+        {
+            var productCoverImageFilename = default(string);
+            var hasProductCoverImage = viewModel.ProductCoverImage.Length > 0;            
+            if (hasProductCoverImage)
+            {
+                await FileStorage.DeleteFile(DBItem.ProductCoverImageFilename);
+                productCoverImageFilename = GetFilenameFromUploadedFile(viewModel.ProductCoverImage);
+            }
+
+            var repository = RepositoriesFactory.GetProductsRepository();
+            await repository.ProductsIUD(
+                databaseAction: Enums.DatabaseActions.UPDATE,
+                productID: DBItem.ProductID,
+                new ProductIudDTO
+                {
+                    ProductName = viewModel.ProductName,
+                    ProductPrice = viewModel.ProductPrice ?? Constants.NullValueFor.Numeric,
+                    ProductCoverImageFilename = productCoverImageFilename,
+                    CategoryID = viewModel.CategoryID ?? Constants.NullValueFor.Numeric,
+                    ProductIsPublished = viewModel.ProductIsPublished
+                }
+            );
+
+            if (repository.IsError)
+            {
+                viewModel.AddError(repository.ErrorMessage);                
+            }
+            else
+            {
+                if (hasProductCoverImage)
+                {
+                    await SaveUploadedFile(viewModel.ProductCoverImage, productCoverImageFilename);
+                }
+            }
+        }
+
+        public async Task<AjaxResponse> DeleteImage()
+        {
+            var viewModel = new AjaxResponse();
+
+            var repository = RepositoriesFactory.GetProductsRepository();
+            await repository.ProductsIUD(
+                databaseAction: Enums.DatabaseActions.UPDATE,
+                productID: DBItem.ProductID,
+                new ProductIudDTO
+                {                    
+                    ProductCoverImageFilename = Constants.NullValueFor.String                    
+                }
+            );
+
+            if (repository.IsError)
+            {
+                viewModel.Data = repository.ErrorMessage;
+            }
+            else
+            {
+                viewModel.IsSuccess = true;
+            }
 
             return viewModel;
         }

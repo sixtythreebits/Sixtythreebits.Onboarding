@@ -117,12 +117,55 @@ namespace SixtyThreeBits.Web.Controllers.Admin
         #endregion
 
         #region Actions
+        [HttpGet]
         [Route("", Name = ControllerActionRouteNames.Admin.ProductPropertiesController.Properties)]
         public async Task<IActionResult> Properties()
         {
             Model.PluginsClient.Enable63BitsForms(true).EnableJQueryNumericInput(true).EnableFancybox(true);
             var viewModel = await Model.GetViewModel();
             return View(ViewNames.Admin.Products.ProductPropertiesView, viewModel);
+        }
+
+        [HttpPost]
+        [Route("")]
+        public async Task<IActionResult> Properties(ProductPropertiesModel.ViewModel viewModel)
+        {
+            var result = default(IActionResult);
+
+            Model.PluginsClient.Enable63BitsForms(true).EnableJQueryNumericInput(true).EnableFancybox(true);
+            viewModel = await Model.GetViewModel();
+
+            Model.Validate(viewModel);
+
+            if (viewModel.IsValid)
+            {
+                await Model.Save(viewModel);
+                if (viewModel.IsValid)
+                {
+                    Model.ShowSuccessToastNotification();
+                    var redirectUrl = Model.Url.RouteUrl(ControllerActionRouteNames.Admin.ProductsController.Products, new { productID = Model.DBItem.ProductID });
+                    result = Redirect(redirectUrl);
+                }
+                else
+                {
+                    Model.ShowErrorToastNotification(viewModel.ErrorMessage);
+                    result = View(ViewNames.Admin.Products.ProductPropertiesView, viewModel);
+                }
+            }
+            else
+            {
+                result = View(ViewNames.Admin.Products.ProductPropertiesView, viewModel);
+            }
+
+            return result;
+        }
+
+        [HttpPost]
+        [Route("delete-image", Name = ControllerActionRouteNames.Admin.ProductPropertiesController.DeleteImage)]
+        public async Task<IActionResult> DeleteImage()
+        {
+            var viewModel = await Model.DeleteImage();
+            return Json(viewModel);
         }
         #endregion
     }
