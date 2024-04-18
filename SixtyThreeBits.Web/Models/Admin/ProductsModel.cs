@@ -220,7 +220,7 @@ namespace SixtyThreeBits.Web.Models.Admin
         public async Task Save(ViewModel viewModel)
         {
             var productCoverImageFilename = default(string);
-            var hasProductCoverImage = viewModel.ProductCoverImage.Length > 0;            
+            var hasProductCoverImage = viewModel.ProductCoverImage?.Length > 0;            
             if (hasProductCoverImage)
             {
                 await FileStorage.DeleteFile(DBItem.ProductCoverImageFilename);
@@ -257,6 +257,8 @@ namespace SixtyThreeBits.Web.Models.Admin
         public async Task<AjaxResponse> DeleteImage()
         {
             var viewModel = new AjaxResponse();
+
+            await FileStorage.DeleteFile(DBItem.ProductCoverImageFilename);
 
             var repository = RepositoriesFactory.GetProductsRepository();
             await repository.ProductsIUD(

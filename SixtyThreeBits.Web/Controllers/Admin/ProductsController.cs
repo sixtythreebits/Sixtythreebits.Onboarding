@@ -121,7 +121,7 @@ namespace SixtyThreeBits.Web.Controllers.Admin
         [Route("", Name = ControllerActionRouteNames.Admin.ProductPropertiesController.Properties)]
         public async Task<IActionResult> Properties()
         {
-            Model.PluginsClient.Enable63BitsForms(true).EnableJQueryNumericInput(true).EnableFancybox(true);
+            Model.PluginsClient.Enable63BitsForms(true).EnableJQueryNumericInput(true).EnableFancybox(true).Enable63BitsSuccessErrorToast(true);
             var viewModel = await Model.GetViewModel();
             return View(ViewNames.Admin.Products.ProductPropertiesView, viewModel);
         }
@@ -132,8 +132,9 @@ namespace SixtyThreeBits.Web.Controllers.Admin
         {
             var result = default(IActionResult);
 
-            Model.PluginsClient.Enable63BitsForms(true).EnableJQueryNumericInput(true).EnableFancybox(true);
-            viewModel = await Model.GetViewModel();
+            Model.PluginsClient.Enable63BitsForms(true).EnableJQueryNumericInput(true).EnableFancybox(true).Enable63BitsSuccessErrorToast(true);
+
+            viewModel = await Model.GetViewModel(viewModel);
 
             Model.Validate(viewModel);
 
@@ -143,7 +144,7 @@ namespace SixtyThreeBits.Web.Controllers.Admin
                 if (viewModel.IsValid)
                 {
                     Model.ShowSuccessToastNotification();
-                    var redirectUrl = Model.Url.RouteUrl(ControllerActionRouteNames.Admin.ProductsController.Products, new { productID = Model.DBItem.ProductID });
+                    var redirectUrl = Model.Url.RouteUrl(ControllerActionRouteNames.Admin.ProductPropertiesController.Properties, new { productID = Model.DBItem.ProductID });
                     result = Redirect(redirectUrl);
                 }
                 else
