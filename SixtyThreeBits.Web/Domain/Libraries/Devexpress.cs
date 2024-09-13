@@ -14,6 +14,7 @@ namespace SixtyThreeBits.Web.Domain.Libraries
         public string FieldName { get; set; }
         public string Operator { get; set; }
         public string Value { get; set; }
+        public bool IsNegation { get; set; }
         #endregion
     }
 
@@ -55,6 +56,7 @@ namespace SixtyThreeBits.Web.Domain.Libraries
             .FocusedRowEnabled(true)
             .FocusedRowIndex(0)
             .SyncLookupFilterValues(false)
+            .AllowColumnResizing(true)
             .Toolbar(options =>
             {
                 options.Visible(false);
@@ -151,7 +153,7 @@ namespace SixtyThreeBits.Web.Domain.Libraries
                 }
             });
         }
-        
+
         public abstract DataGridBuilder<T> Render(IHtmlHelper Html);
         #endregion
     }
@@ -294,7 +296,6 @@ namespace SixtyThreeBits.Web.Domain.Libraries
 
         public static DataGridColumnBuilder<T> InitDateColumn<T>(this DataGridColumnBuilder<T> column, bool formatDateTime = false)
         {
-            column.DataType(GridColumnDataType.DateTime);
             if (formatDateTime)
             {
                 column.Format(Constants.Formats.DateTime);
@@ -304,6 +305,25 @@ namespace SixtyThreeBits.Web.Domain.Libraries
                 column.Format(Constants.Formats.Date);
             }
             return column;
+        }
+
+        public static DateBoxBuilder InitDateBox(this DateBoxBuilder dateBox, bool formatDateTime = false)
+        {
+            if (formatDateTime)
+            {
+                dateBox.DisplayFormat(Constants.Formats.DateTime);
+            }
+            else
+            {
+                dateBox.DisplayFormat(Constants.Formats.Date);
+            }
+
+            return dateBox;
+        }
+
+        public static DataGridColumnBuilder<T> InitDetailsUrlCellTemplate<T>(this DataGridColumnBuilder<T> column, string urlPropertyName)
+        {
+            return column.Alignment(HorizontalAlignment.Center).CellTemplate($"<a href=\"<%-data.{urlPropertyName}%>\"><i class=\"fa-solid fa-circle-info\"></i></a>");
         }
 
         public static DataGridColumnBuilder<T1> InitLookupColumn<T1, T2, T3>(this DataGridColumnBuilder<T1> column, IEnumerable<KeyValueTuple<T2, T3>> data, bool isRequired = false, bool allowNull = false)
@@ -368,26 +388,7 @@ namespace SixtyThreeBits.Web.Domain.Libraries
                 }
             });
             return column;
-        }
-
-        public static DateBoxBuilder InitDateBox(this DateBoxBuilder dateBox, bool formatDateTime = false)
-        {
-            if (formatDateTime)
-            {
-                dateBox.DisplayFormat(Constants.Formats.DateTime);
-            }
-            else
-            {
-                dateBox.DisplayFormat(Constants.Formats.Date);
-            }
-
-            return dateBox;
-        }
-
-        public static DataGridColumnBuilder<T> InitDetailsUrlCellTemplate<T>(this DataGridColumnBuilder<T> column, string urlPropertyName)
-        {
-            return column.Alignment(HorizontalAlignment.Center).CellTemplate($"<a href=\"<%-data.{urlPropertyName}%>\"><i class=\"fa-solid fa-circle-info\"></i></a>");
-        }
+        }        
         #endregion
 
         #region Enums
