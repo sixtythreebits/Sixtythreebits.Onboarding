@@ -113,7 +113,7 @@ namespace SixtyThreeBits.Web.Models.Shared
 
         }
 
-        public async Task SaveUploadedFile(IFormFile postedFile, string filename, string folderPath)
+        public async Task SaveUploadedFile(IFormFile postedFile, string filename, string folderPath = null)
         {
             using (var MS = new MemoryStream())
             {
