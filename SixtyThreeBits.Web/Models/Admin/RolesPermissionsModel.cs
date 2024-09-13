@@ -97,12 +97,12 @@ namespace SixtyThreeBits.Web.Models.Admin
             #endregion
 
             #region Nested Classes
-            public class RolesGridModel : DevExtremeGridViewModelBase, IDevExtremeGridModel<RolesGridModel.GridItem>
+            public class RolesGridModel : DevExtremeGridViewModelBase<RolesGridModel.GridItem>
             {
                 #region Methods
-                public DataGridBuilder<GridItem> Render(IHtmlHelper Html)
+                public override DataGridBuilder<GridItem> Render(IHtmlHelper Html)
                 {
-                    var Grid = GetGridWithStartupValues<GridItem>(html: Html, keyFieldName: nameof(GridItem.RoleID));
+                    var Grid = CreateGridWithStartupValues(html: Html, keyFieldName: nameof(GridItem.RoleID));
 
                     Grid
                     .ID("RolesGrid")
@@ -141,12 +141,12 @@ namespace SixtyThreeBits.Web.Models.Admin
                 #endregion
             }
 
-            public class PermissionsTreeModel : DevExtremeGridViewModelBase, IDevExtremeTreeModel<PermissionsTreeModel.TreeItem>
+            public class PermissionsTreeModel : DevExtremeTreeViewModelBase<PermissionsTreeModel.TreeItem>
             {
                 #region Methods
-                public TreeListBuilder<TreeItem> Render(IHtmlHelper Html)
+                public override TreeListBuilder<TreeItem> Render(IHtmlHelper Html)
                 {
-                    var Tree = GetTreeWithStartupValues<TreeItem>(html: Html, keyFieldName: nameof(TreeItem.PermissionID), parentFieldName: nameof(TreeItem.PermissionParentID));
+                    var Tree = CreateTreeWithStartupValues(html: Html, keyFieldName: nameof(TreeItem.PermissionID), parentFieldName: nameof(TreeItem.PermissionParentID));
 
                     Tree
                     .ID("PermissionsTree")

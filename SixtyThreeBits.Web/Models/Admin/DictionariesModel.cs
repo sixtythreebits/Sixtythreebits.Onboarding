@@ -100,12 +100,12 @@ namespace SixtyThreeBits.Web.Models.Admin
             #endregion
 
             #region Nested Classes
-            public class TreeModel : DevExtremeGridViewModelBase, IDevExtremeTreeModel<TreeModel.TreeItem>
+            public class TreeModel : DevExtremeTreeViewModelBase<TreeModel.TreeItem>
             {
                 #region Methods
-                public TreeListBuilder<TreeItem> Render(IHtmlHelper html)
+                public override TreeListBuilder<TreeItem> Render(IHtmlHelper html)
                 {
-                    var tree = GetTreeWithStartupValues<TreeItem>(html: html, keyFieldName: nameof(TreeItem.DictionaryID), parentFieldName: nameof(TreeItem.DictionaryParentID));
+                    var tree = CreateTreeWithStartupValues(html: html, keyFieldName: nameof(TreeItem.DictionaryID), parentFieldName: nameof(TreeItem.DictionaryParentID));
 
                     tree
                     .ID("DictionariesTree")
