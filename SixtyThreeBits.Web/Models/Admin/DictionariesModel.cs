@@ -20,16 +20,16 @@ namespace SixtyThreeBits.Web.Models.Admin
         public PageViewModel GetPageViewModel()
         {
             var viewModel = new PageViewModel();
-            viewModel.ShowAddNewButton = User.HasPermission(ControllerActionRouteNames.Admin.Dictionaries.DictionariesTreeAdd);
+            viewModel.ShowAddNewButton = User.HasPermission(ControllerActionRouteNames.Admin.DictionariesController.TreeAdd);
 
             viewModel.Tree = new PageViewModel.TreeModel();
-            viewModel.Tree.AllowAdd = User.HasPermission(ControllerActionRouteNames.Admin.Dictionaries.DictionariesTreeAdd);
-            viewModel.Tree.AllowUpdate = User.HasPermission(ControllerActionRouteNames.Admin.Dictionaries.DictionariesTreeUpdate);
-            viewModel.Tree.AllowDelete = User.HasPermission(ControllerActionRouteNames.Admin.Dictionaries.DictionariesTreeDelete);
-            viewModel.Tree.UrlLoad = Url.RouteUrl(ControllerActionRouteNames.Admin.Dictionaries.DictionariesTree);
-            viewModel.Tree.UrlAddNew = Url.RouteUrl(ControllerActionRouteNames.Admin.Dictionaries.DictionariesTreeAdd);
-            viewModel.Tree.UrlUpdate = viewModel.UrlUpdate = Url.RouteUrl(ControllerActionRouteNames.Admin.Dictionaries.DictionariesTreeUpdate);
-            viewModel.Tree.UrlDelete = Url.RouteUrl(ControllerActionRouteNames.Admin.Dictionaries.DictionariesTreeDelete);
+            viewModel.Tree.AllowAdd = User.HasPermission(ControllerActionRouteNames.Admin.DictionariesController.TreeAdd);
+            viewModel.Tree.AllowUpdate = User.HasPermission(ControllerActionRouteNames.Admin.DictionariesController.TreeUpdate);
+            viewModel.Tree.AllowDelete = User.HasPermission(ControllerActionRouteNames.Admin.DictionariesController.TreeDelete);
+            viewModel.Tree.UrlLoad = Url.RouteUrl(ControllerActionRouteNames.Admin.DictionariesController.Tree);
+            viewModel.Tree.UrlAddNew = Url.RouteUrl(ControllerActionRouteNames.Admin.DictionariesController.TreeAdd);
+            viewModel.Tree.UrlUpdate = viewModel.UrlUpdate = Url.RouteUrl(ControllerActionRouteNames.Admin.DictionariesController.TreeUpdate);
+            viewModel.Tree.UrlDelete = Url.RouteUrl(ControllerActionRouteNames.Admin.DictionariesController.TreeDelete);
 
             return viewModel;
         }

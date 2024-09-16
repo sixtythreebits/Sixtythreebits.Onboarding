@@ -122,13 +122,7 @@ namespace SixtyThreeBits.Web.Models.Base
             return result;
 
         }
-
-        public string GetUrlPages(string pageSlug, string languageCultureCode = null)
-        {
-            var url = GetRouteByName(routeName: ControllerActionRouteNames.Website.PagesController.Page, new { pageSlug = pageSlug }, languageCultureCode: languageCultureCode);
-            return url;
-        }
-
+       
         public async Task SaveUploadedFile(IFormFile postedFile, string filename, string folderPath = null)
         {
             using (var MS = new MemoryStream())

@@ -5,7 +5,7 @@
         public static class Admin
         {
             #region Nested Classes
-            public static class Auth
+            public static class AuthController
             {
                 #region Properties
                 public const string Login = "AdminAuthLogin";
@@ -13,41 +13,40 @@
                 public const string Relogin = "AdminAuthRelogin";
                 #endregion
             }
-
-            public static class ChangeLanguage
+            
+            public static class ChangeLanguageController
             {
                 #region Properties
-                public const string Page = "AdminChangeLanguage";
+                public const string ChangeLanguage = "AdminChangeLanguageControllerChangeLanguage";
                 #endregion
             }
 
-            public static class Dictionaries
+            public static class DictionariesController
             {
                 #region Properties
-                public const string Page = "AdminDictionaries";
-                public const string DictionariesTree = "AdminDictionariesTree";
-                public const string DictionariesTreeAdd = "AdminDictionariesTreeAdd";
-                public const string DictionariesTreeUpdate = "AdminDictionariesTreeUpdate";
-                public const string DictionariesTreeDelete = "AdminDictionariesTreeDelete";
-                #endregion
-            }
-
-            public static class Home
-            {
-                #region Properties
-                public const string Page = "AdminHomeIndex";
+                public const string Dictionaries = "AdminDictionariesControllerDictionaries";
+                public const string Tree = "AdminDictionariesControllerTree";
+                public const string TreeAdd = "AdminDictionariesControllerTreeAdd";
+                public const string TreeUpdate = "AdminDictionariesControllerTreeUpdate";
+                public const string TreeDelete = "AdminDictionariesControllerTreeDelete";
                 #endregion
             }            
 
-            public static class Permissions
+            public static class HomeController
             {
                 #region Properties
-                public const string Page = "AdminPermissions";
-                public const string Tree = "AdminPermissionsTree";
-                public const string TreeAdd = "AdminPermissionsTreeAdd";
-                public const string TreeUpdate = "AdminPermissionsTreeUpdate";
-                public const string TreeDelete = "AdminPermissionsTreeDelete";
-                public const string TreeUpdateParent = "AdminPermissionsTreeUpdateParent";
+                public const string Index = "AdminHomeControllerIndex";
+                #endregion
+            }
+                        
+            public static class PermissionsController
+            {
+                #region Properties
+                public const string Permissions = "AdminPermissionsControllerPermissions";
+                public const string Tree = "AdminPermissionsControllerTree";
+                public const string TreeAdd = "AdminPermissionsControllerTreeAdd";
+                public const string TreeUpdate = "AdminPermissionsControllerTreeUpdate";
+                public const string TreeDelete = "AdminPermissionsControllerTreeDelete";
                 #endregion
             }            
 
@@ -58,58 +57,50 @@
                 public const string Grid = "AdminProductsControllerGrid";
                 public const string GridAdd = "AdminProductsControllerGridAdd";
                 public const string GridUpdate = "AdminProductsControllerGridUpdate";
-                public const string GridDelete = "AdminProductsControllerGridDelete";                
-                #endregion
+                public const string GridDelete = "AdminProductsControllerGridDelete";
+                public const string ExcelDownload = "AdminProductsControllerExcelDownload";
+                public const string ExcelUpload = "AdminProductsControllerExcelUpload";
+                #endregion                
             }
 
             public static class ProductPropertiesController
             {
-                #region Properties                
-                public const string Properties = "ProductPropertiesControllerProperties";
-                public const string DeleteImage = "ProductPropertiesControllerDeleteImage";
+                #region Properties
+                public const string Properties = "AdminProductsPropertiesControllerProperties";
+                public const string DeleteImage = "AdminProductsPropertiesControllerDeleteImage";                
+                #endregion
+            }            
+
+            public static class RolesControllers
+            {
+                #region Properties
+                public const string Roles = "AdminRolesControllerRoles";
+                public const string Grid = "AdminRolesControllerGrid";
+                public const string GridAdd = "AdminRolesControllerGridAdd";
+                public const string GridUpdate = "AdminRolesControllerGridUpdate";
+                public const string GridDelete = "AdminRolesControllerGridDelete";
                 #endregion
             }
 
-            public static class Roles
+            public static class RolePermissionsController
             {
                 #region Properties
-                public const string Page = "AdminRoles";
-                public const string Grid = "AdminRolesGrid";
-                public const string GridAdd = "AdminRolesGridAdd";
-                public const string GridUpdate = "AdminRolesGridUpdate";
-                public const string GridDelete = "AdminRolesGridDelete";
+                public const string RolePermissions = "AdminRolePermissionsControllerRolePermissions";
+                public const string RolesGrid = "AdminRolePermissionsControllerRolesGrid";
+                public const string PermissionsTree = "AdminRolePermissionsControllerPermissionsTree";
+                public const string GetPermissionsByRole = "AdminRolePermissionsControllerGetPermissionsByRole";
+                public const string Save = "AdminRolePermissionsControllerSave";
                 #endregion
             }
-
-            public static class RolesPermissions
+                        
+            public static class UsersController
             {
                 #region Properties
-                public const string Page = "AdminRolesPermissions";
-                public const string RolesGrid = "AdminRolesPermissionsRolesGrid";
-                public const string PermissionsTree = "AdminRolesPermissionsPermissionsTree";
-                public const string PermissionsGetByRole = "AdminRolesPermissionsPermissionsGetByRole";
-                public const string Save = "AdminRolesPermissionsSave";
-                #endregion
-            }
-
-            public static class Users
-            {
-                #region Properties
-                public const string Page = "AdminUsers";
-                public const string Grid = "AdminUsersGrid";
-                public const string GridAdd = "AdminUsersGridAdd";
-                public const string GridUpdate = "AdminUsersGridUpdate";
-                public const string GridDelete = "AdminUsersGridDelete";
-                #endregion
-
-                #region Nested Classes
-                public static class User
-                {
-                    #region Properties
-                    public const string Root = "AdminUsersUser";
-                    public const string Properties = "AdminUsersUserProperties";
-                    #endregion
-                }
+                public const string Users = "AdminUsersControllerUsers";
+                public const string Grid = "AdminUsersControllerGrid";
+                public const string GridAdd = "AdminUsersControllerGridAdd";
+                public const string GridUpdate = "AdminUsersControllerGridUpdate";
+                public const string GridDelete = "AdminUsersControllerGridDelete";
                 #endregion
             }            
             #endregion
@@ -117,19 +108,21 @@
 
         public static class Website
         {
-            #region Nested Classes
+            #region Nested Classes            
             public static class HomeController
             {
                 #region Properties
-                public const string Index = "WebsiteHomeControllerIndex";
+                public const string Index = "WebsiteHomeIndex";
+                public const string IndexCulture = "WebsiteHomeIndexCulture";
+
                 #endregion
-            }
-            
+            }                       
+
             public static class ProductsController
             {
-                #region Properties
-                public const string Products = "WebsiteProductsControllerProducts";
-                public const string Product = "WebsiteProductsControllerProduct"; 
+                #region Proeprties
+                public const string Products = "ProductsControllerProducts";
+                public const string Product = "ProductsControllerProduct";
                 #endregion
             }
             #endregion

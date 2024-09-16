@@ -18,16 +18,16 @@ namespace SixtyThreeBits.Web.Controllers.Admin
 
         #region Methods
         [HttpGet]
-        [Route("", Name = ControllerActionRouteNames.Admin.RolesPermissions.Page)]
+        [Route("", Name = ControllerActionRouteNames.Admin.RolePermissionsController.RolePermissions)]
         public ActionResult RolesPermissions()
         {
             Model.PluginsClient.EnableDevextreme(true).Enable63BitsSuccessErrorToast(true);
             var viewModel = Model.GetPageViewModel();
-            return View(ViewNames.Admin.RolesPermissions.Page, viewModel);
+            return View(ViewNames.Admin.RolesPermissions.RolesPermissionsView, viewModel);
         }
         
         [HttpGet]
-        [Route("roles/grid", Name = ControllerActionRouteNames.Admin.RolesPermissions.RolesGrid)]
+        [Route("roles/grid", Name = ControllerActionRouteNames.Admin.RolePermissionsController.RolesGrid)]
         public async Task<ActionResult> RolesGrid()
         {
             var viewModel = await Model.GetRolesGridModel();
@@ -35,7 +35,7 @@ namespace SixtyThreeBits.Web.Controllers.Admin
         }
 
         [HttpGet]
-        [Route("permissions/tree", Name = ControllerActionRouteNames.Admin.RolesPermissions.PermissionsTree)]
+        [Route("permissions/tree", Name = ControllerActionRouteNames.Admin.RolePermissionsController.PermissionsTree)]
         public async Task<ActionResult> PermissionsTree()
         {
             var viewModel = await Model.GetPermissionsTreeModel();
@@ -43,7 +43,7 @@ namespace SixtyThreeBits.Web.Controllers.Admin
         }
 
         [HttpGet]
-        [Route("permissions/get-by-role", Name = ControllerActionRouteNames.Admin.RolesPermissions.PermissionsGetByRole)]
+        [Route("permissions/get-by-role", Name = ControllerActionRouteNames.Admin.RolePermissionsController.GetPermissionsByRole)]
         public async Task<ActionResult> PermissionsGetByRole(int? RoleID)
         {            
             var viewModel = await Model.GetRolePermissions(RoleID);
@@ -51,7 +51,7 @@ namespace SixtyThreeBits.Web.Controllers.Admin
         }
 
         [HttpPost]
-        [Route("save", Name = ControllerActionRouteNames.Admin.RolesPermissions.Save)]
+        [Route("save", Name = ControllerActionRouteNames.Admin.RolePermissionsController.Save)]
         public async Task<ActionResult> Save(RolePermissionsModel.PageViewModel.RolePermissionSaveSubmitModel submitModel)
         {
             var viewModel = await Model.SaveRolePermissions(submitModel);

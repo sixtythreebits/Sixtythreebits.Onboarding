@@ -20,15 +20,15 @@ namespace SixtyThreeBits.Web.Controllers.Admin
 
         #region Actions
         [HttpGet]
-        [Route("", Name = ControllerActionRouteNames.Admin.Users.Page)]
+        [Route("", Name = ControllerActionRouteNames.Admin.UsersController.Users)]
         public async Task<ActionResult> Users()
         {
             Model.PluginsClient.EnableDevextreme(true);
             var viewModel = await Model.GetPageViewModel();
-            return View(ViewNames.Admin.Users.Page, viewModel);
+            return View(ViewNames.Admin.Users.UsersView, viewModel);
         }
 
-        [Route("grid", Name = ControllerActionRouteNames.Admin.Users.Grid)]
+        [Route("grid", Name = ControllerActionRouteNames.Admin.UsersController.Grid)]
         public async Task<ActionResult> UsersGrid()
         {
             var viewModel = await Model.GetGridViewModel();
@@ -36,7 +36,7 @@ namespace SixtyThreeBits.Web.Controllers.Admin
         }
 
         [HttpPost]
-        [Route("grid/add", Name = ControllerActionRouteNames.Admin.Users.GridAdd)]
+        [Route("grid/add", Name = ControllerActionRouteNames.Admin.UsersController.GridAdd)]
         public async Task<ActionResult> UsersGridAdd(int? key, string values)
         {
             var submitModel = values.DeserializeJsonTo<UsersModel.PageViewModel.GridModel.GridItem>() ?? new UsersModel.PageViewModel.GridModel.GridItem();
@@ -53,7 +53,7 @@ namespace SixtyThreeBits.Web.Controllers.Admin
         }
 
         [HttpPut]
-        [Route("grid/update", Name = ControllerActionRouteNames.Admin.Users.GridUpdate)]
+        [Route("grid/update", Name = ControllerActionRouteNames.Admin.UsersController.GridUpdate)]
         public async Task<ActionResult> UsersGridUpdate(int? key, string values)
         {
             var result = default(ActionResult);
@@ -81,7 +81,7 @@ namespace SixtyThreeBits.Web.Controllers.Admin
         }
 
         [HttpDelete]
-        [Route("grid/delete", Name = ControllerActionRouteNames.Admin.Users.GridDelete)]
+        [Route("grid/delete", Name = ControllerActionRouteNames.Admin.UsersController.GridDelete)]
         public async Task<ActionResult> UsersGridDelete(int? key)
         {
             await Model.CRUD(databaseAction: Enums.DatabaseActions.DELETE, userID: key, submitModel: new UsersModel.PageViewModel.GridModel.GridItem());

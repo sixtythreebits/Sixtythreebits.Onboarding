@@ -19,14 +19,14 @@ namespace SixtyThreeBits.Web.Models.Admin
         public PageViewModel GetPageViewModel()
         {
             var viewModel = new PageViewModel();
-            viewModel.ShowSaveButton = User.HasPermission(ControllerActionRouteNames.Admin.RolesPermissions.Save);
-            viewModel.UrlPermissionsGetByRole = Url.RouteUrl(ControllerActionRouteNames.Admin.RolesPermissions.PermissionsGetByRole);
-            viewModel.UrlSave = Url.RouteUrl(ControllerActionRouteNames.Admin.RolesPermissions.Save);
+            viewModel.ShowSaveButton = User.HasPermission(ControllerActionRouteNames.Admin.RolePermissionsController.Save);
+            viewModel.UrlPermissionsGetByRole = Url.RouteUrl(ControllerActionRouteNames.Admin.RolePermissionsController.GetPermissionsByRole);
+            viewModel.UrlSave = Url.RouteUrl(ControllerActionRouteNames.Admin.RolePermissionsController.Save);
 
             viewModel.RolesGrid = new PageViewModel.RolesGridModel();
-            viewModel.RolesGrid.UrlLoad = Url.RouteUrl(ControllerActionRouteNames.Admin.RolesPermissions.RolesGrid);
+            viewModel.RolesGrid.UrlLoad = Url.RouteUrl(ControllerActionRouteNames.Admin.RolePermissionsController.RolesGrid);
             viewModel.PermissionsTree = new PageViewModel.PermissionsTreeModel();
-            viewModel.PermissionsTree.UrlLoad = Url.RouteUrl(ControllerActionRouteNames.Admin.RolesPermissions.PermissionsTree);
+            viewModel.PermissionsTree.UrlLoad = Url.RouteUrl(ControllerActionRouteNames.Admin.RolePermissionsController.PermissionsTree);
 
             return viewModel;
         }

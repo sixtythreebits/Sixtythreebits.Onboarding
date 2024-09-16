@@ -15,7 +15,7 @@ namespace SixtyThreeBits.Web.Controllers.Website
         [Route("", Name = ControllerActionRouteNames.Website.HomeController.Index)]        
         public IActionResult Index()
         {
-            return View(ViewNames.Website.Home.Page);
+            return View(ViewNames.Website.Home.IndexView);
         }        
     }
 }

@@ -50,7 +50,7 @@ namespace SixtyThreeBits.Web.Filters.Admin
             }
             else
             {
-                var urlLogin = _model.Url.RouteUrl(ControllerActionRouteNames.Admin.Auth.Login);
+                var urlLogin = _model.Url.RouteUrl(ControllerActionRouteNames.Admin.AuthController.Login);
                 filterContext.Result = new RedirectResult(urlLogin);
             }
         }
@@ -120,8 +120,8 @@ namespace SixtyThreeBits.Web.Filters.Admin
                 });
             }
 
-            _viewModel.UrlRelogin = _model.Url.RouteUrl(ControllerActionRouteNames.Admin.Auth.Relogin);
-            _viewModel.UrlLogout = _model.Url.RouteUrl(ControllerActionRouteNames.Admin.Auth.Logout);
+            _viewModel.UrlRelogin = _model.Url.RouteUrl(ControllerActionRouteNames.Admin.AuthController.Relogin);
+            _viewModel.UrlLogout = _model.Url.RouteUrl(ControllerActionRouteNames.Admin.AuthController.Logout);
         }
 
         void initBreadCrumbs()
@@ -179,7 +179,7 @@ namespace SixtyThreeBits.Web.Filters.Admin
                 LanguageCultureCode = item.LanguageCultureCode,
                 LanguageName = item.LanguageName,
                 IsActive = item.LanguageCultureCode == language.LanguageCultureCode,
-                UrlChangeLanguage = _model.Url.RouteUrl(ControllerActionRouteNames.Admin.ChangeLanguage.Page, new { Culture = item.LanguageCultureCode })
+                UrlChangeLanguage = _model.Url.RouteUrl(ControllerActionRouteNames.Admin.ChangeLanguageController.ChangeLanguage, new { Culture = item.LanguageCultureCode })
             }).ToList();
         }
         #endregion

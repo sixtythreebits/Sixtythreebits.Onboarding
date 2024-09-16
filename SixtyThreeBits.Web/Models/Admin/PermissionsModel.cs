@@ -20,16 +20,16 @@ namespace SixtyThreeBits.Web.Models.Admin
         public PageViewModel GetPageViewModel()
         {
             var viewModel = new PageViewModel();
-            viewModel.ShowAddNewButton = User.HasPermission(ControllerActionRouteNames.Admin.Permissions.TreeAdd);
+            viewModel.ShowAddNewButton = User.HasPermission(ControllerActionRouteNames.Admin.PermissionsController.TreeAdd);
 
             viewModel.Tree = new PageViewModel.TreeModel();
-            viewModel.Tree.AllowAdd = User.HasPermission(ControllerActionRouteNames.Admin.Permissions.TreeAdd);
-            viewModel.Tree.AllowUpdate = User.HasPermission(ControllerActionRouteNames.Admin.Permissions.TreeUpdate);
-            viewModel.Tree.AllowDelete = User.HasPermission(ControllerActionRouteNames.Admin.Permissions.TreeDelete);
-            viewModel.Tree.UrlLoad = Url.RouteUrl(ControllerActionRouteNames.Admin.Permissions.Tree);
-            viewModel.Tree.UrlAddNew = Url.RouteUrl(ControllerActionRouteNames.Admin.Permissions.TreeAdd);
-            viewModel.Tree.UrlUpdate = viewModel.UrlUpdate = Url.RouteUrl(ControllerActionRouteNames.Admin.Permissions.TreeUpdate);
-            viewModel.Tree.UrlDelete = Url.RouteUrl(ControllerActionRouteNames.Admin.Permissions.TreeDelete);
+            viewModel.Tree.AllowAdd = User.HasPermission(ControllerActionRouteNames.Admin.PermissionsController.TreeAdd);
+            viewModel.Tree.AllowUpdate = User.HasPermission(ControllerActionRouteNames.Admin.PermissionsController.TreeUpdate);
+            viewModel.Tree.AllowDelete = User.HasPermission(ControllerActionRouteNames.Admin.PermissionsController.TreeDelete);
+            viewModel.Tree.UrlLoad = Url.RouteUrl(ControllerActionRouteNames.Admin.PermissionsController.Tree);
+            viewModel.Tree.UrlAddNew = Url.RouteUrl(ControllerActionRouteNames.Admin.PermissionsController.TreeAdd);
+            viewModel.Tree.UrlUpdate = viewModel.UrlUpdate = Url.RouteUrl(ControllerActionRouteNames.Admin.PermissionsController.TreeUpdate);
+            viewModel.Tree.UrlDelete = Url.RouteUrl(ControllerActionRouteNames.Admin.PermissionsController.TreeDelete);
 
             return viewModel;
         }
