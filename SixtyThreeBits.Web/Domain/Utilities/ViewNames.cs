@@ -34,14 +34,6 @@
                 #endregion
             }          
 
-            public static class Products
-            {
-                #region Properties
-                public const string ProductsView = "~/Views/Admin/Products/Products.cshtml";
-                public const string ProductPropertiesView = "~/Views/Admin/Products/ProductProperties.cshtml";
-                #endregion                
-            }
-
             public static class Permissions
             {
                 #region Properties
