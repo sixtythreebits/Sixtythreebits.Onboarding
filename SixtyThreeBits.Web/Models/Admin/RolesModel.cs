@@ -7,7 +7,7 @@ using SixtyThreeBits.Core.Properties;
 using SixtyThreeBits.Core.Utilities;
 using SixtyThreeBits.Web.Domain.Libraries;
 using SixtyThreeBits.Web.Domain.Utilities;
-using SixtyThreeBits.Web.Models.Shared;
+using SixtyThreeBits.Web.Models.Base;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,16 +20,16 @@ namespace SixtyThreeBits.Web.Models.Admin
         public PageViewModel GetPageViewModel()
         {
             var viewModel = new PageViewModel();
-            viewModel.ShowAddNewButton = User.HasPermission(ControllerActionRouteNames.Admin.Roles.GridAdd);
+            viewModel.ShowAddNewButton = User.HasPermission(ControllerActionRouteNames.Admin.RolesControllers.GridAdd);
 
             viewModel.Grid = new PageViewModel.GridModel();
-            viewModel.Grid.AllowAdd = User.HasPermission(ControllerActionRouteNames.Admin.Roles.GridAdd);
-            viewModel.Grid.AllowUpdate = User.HasPermission(ControllerActionRouteNames.Admin.Roles.GridUpdate);
-            viewModel.Grid.AllowDelete = User.HasPermission(ControllerActionRouteNames.Admin.Roles.GridDelete);
-            viewModel.Grid.UrlLoad = Url.RouteUrl(ControllerActionRouteNames.Admin.Roles.Grid);
-            viewModel.Grid.UrlAddNew = Url.RouteUrl(ControllerActionRouteNames.Admin.Roles.GridAdd);
-            viewModel.Grid.UrlUpdate = Url.RouteUrl(ControllerActionRouteNames.Admin.Roles.GridUpdate);
-            viewModel.Grid.UrlDelete = Url.RouteUrl(ControllerActionRouteNames.Admin.Roles.GridDelete);
+            viewModel.Grid.AllowAdd = User.HasPermission(ControllerActionRouteNames.Admin.RolesControllers.GridAdd);
+            viewModel.Grid.AllowUpdate = User.HasPermission(ControllerActionRouteNames.Admin.RolesControllers.GridUpdate);
+            viewModel.Grid.AllowDelete = User.HasPermission(ControllerActionRouteNames.Admin.RolesControllers.GridDelete);
+            viewModel.Grid.UrlLoad = Url.RouteUrl(ControllerActionRouteNames.Admin.RolesControllers.Grid);
+            viewModel.Grid.UrlAddNew = Url.RouteUrl(ControllerActionRouteNames.Admin.RolesControllers.GridAdd);
+            viewModel.Grid.UrlUpdate = Url.RouteUrl(ControllerActionRouteNames.Admin.RolesControllers.GridUpdate);
+            viewModel.Grid.UrlDelete = Url.RouteUrl(ControllerActionRouteNames.Admin.RolesControllers.GridDelete);
 
             return viewModel;
         }

@@ -18,18 +18,18 @@ namespace SixtyThreeBits.Web.Controllers.Admin
 
         #region Actions
         [HttpGet]
-        [Route("login", Name = ControllerActionRouteNames.Admin.Auth.Login)]
+        [Route("login", Name = ControllerActionRouteNames.Admin.AuthController.Login)]
         public IActionResult Login()
         {
             if (Model.IsUserLoggedIn())
             {
-                return Redirect(Url.RouteUrl(ControllerActionRouteNames.Admin.Home.Page));
+                return Redirect(Url.RouteUrl(ControllerActionRouteNames.Admin.HomeController.Index));
             }
             else
             {
                 Model.PluginsClient.EnableAdminTheme(true).EnableFontAwesome(true).Enable63BitsFonts(true);
                 var viewModel = Model.GetPageViewModel();
-                return View(ViewNames.Admin.Auth.Login, viewModel);
+                return View(ViewNames.Admin.Auth.LoginView, viewModel);
             }
         }
 
@@ -42,16 +42,16 @@ namespace SixtyThreeBits.Web.Controllers.Admin
             var isAuthenticated = await Model.AuthenticateUser(viewModel: viewModel);
             if (isAuthenticated)
             {
-                var urlHome = Url.RouteUrl(ControllerActionRouteNames.Admin.Home.Page);
+                var urlHome = Url.RouteUrl(ControllerActionRouteNames.Admin.HomeController.Index);
                 return Redirect(urlHome);
             }
             else
             {
-                return View(ViewNames.Admin.Auth.Login, viewModel);
+                return View(ViewNames.Admin.Auth.LoginView, viewModel);
             }
         }
 
-        [Route("relogin", Name = ControllerActionRouteNames.Admin.Auth.Relogin)]
+        [Route("relogin", Name = ControllerActionRouteNames.Admin.AuthController.Relogin)]
         public async Task<IActionResult> Relogin()
         {
             await Model.ReloginUser();
@@ -71,11 +71,11 @@ namespace SixtyThreeBits.Web.Controllers.Admin
         #endregion
 
         #region Actions
-        [Route("logout", Name = ControllerActionRouteNames.Admin.Auth.Logout)]
+        [Route("logout", Name = ControllerActionRouteNames.Admin.AuthController.Logout)]
         public IActionResult Logout()
         {
             Model.Logout();
-            return Redirect(Url.RouteUrl(ControllerActionRouteNames.Admin.Auth.Login));
+            return Redirect(Url.RouteUrl(ControllerActionRouteNames.Admin.AuthController.Login));
         }
         #endregion
     }

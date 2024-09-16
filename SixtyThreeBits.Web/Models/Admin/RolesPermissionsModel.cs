@@ -6,7 +6,7 @@ using SixtyThreeBits.Core.Properties;
 using SixtyThreeBits.Libraries;
 using SixtyThreeBits.Web.Domain.Libraries;
 using SixtyThreeBits.Web.Domain.Utilities;
-using SixtyThreeBits.Web.Models.Shared;
+using SixtyThreeBits.Web.Models.Base;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,14 +19,14 @@ namespace SixtyThreeBits.Web.Models.Admin
         public PageViewModel GetPageViewModel()
         {
             var viewModel = new PageViewModel();
-            viewModel.ShowSaveButton = User.HasPermission(ControllerActionRouteNames.Admin.RolesPermissions.Save);
-            viewModel.UrlPermissionsGetByRole = Url.RouteUrl(ControllerActionRouteNames.Admin.RolesPermissions.PermissionsGetByRole);
-            viewModel.UrlSave = Url.RouteUrl(ControllerActionRouteNames.Admin.RolesPermissions.Save);
+            viewModel.ShowSaveButton = User.HasPermission(ControllerActionRouteNames.Admin.RolePermissionsController.Save);
+            viewModel.UrlPermissionsGetByRole = Url.RouteUrl(ControllerActionRouteNames.Admin.RolePermissionsController.GetPermissionsByRole);
+            viewModel.UrlSave = Url.RouteUrl(ControllerActionRouteNames.Admin.RolePermissionsController.Save);
 
             viewModel.RolesGrid = new PageViewModel.RolesGridModel();
-            viewModel.RolesGrid.UrlLoad = Url.RouteUrl(ControllerActionRouteNames.Admin.RolesPermissions.RolesGrid);
+            viewModel.RolesGrid.UrlLoad = Url.RouteUrl(ControllerActionRouteNames.Admin.RolePermissionsController.RolesGrid);
             viewModel.PermissionsTree = new PageViewModel.PermissionsTreeModel();
-            viewModel.PermissionsTree.UrlLoad = Url.RouteUrl(ControllerActionRouteNames.Admin.RolesPermissions.PermissionsTree);
+            viewModel.PermissionsTree.UrlLoad = Url.RouteUrl(ControllerActionRouteNames.Admin.RolePermissionsController.PermissionsTree);
 
             return viewModel;
         }
@@ -63,7 +63,7 @@ namespace SixtyThreeBits.Web.Models.Admin
             {
                 PermissionID = Item.PermissionID,
                 PermissionParentID = Item.PermissionParentID,
-                PermissionCaption = Utilities.GetValuesByLanguage(LanguageCultureCode, Item.PermissionCaption, Item.PermissionCaptionEng)
+                PermissionCaption = Item.PermissionCaption
             })
             .ToList();
             return viewModel;

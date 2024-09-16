@@ -7,7 +7,7 @@ using SixtyThreeBits.Core.Properties;
 using SixtyThreeBits.Core.Utilities;
 using SixtyThreeBits.Web.Domain.Libraries;
 using SixtyThreeBits.Web.Domain.Utilities;
-using SixtyThreeBits.Web.Models.Shared;
+using SixtyThreeBits.Web.Models.Base;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,16 +20,16 @@ namespace SixtyThreeBits.Web.Models.Admin
         public PageViewModel GetPageViewModel()
         {
             var viewModel = new PageViewModel();
-            viewModel.ShowAddNewButton = User.HasPermission(ControllerActionRouteNames.Admin.Permissions.TreeAdd);
+            viewModel.ShowAddNewButton = User.HasPermission(ControllerActionRouteNames.Admin.PermissionsController.TreeAdd);
 
             viewModel.Tree = new PageViewModel.TreeModel();
-            viewModel.Tree.AllowAdd = User.HasPermission(ControllerActionRouteNames.Admin.Permissions.TreeAdd);
-            viewModel.Tree.AllowUpdate = User.HasPermission(ControllerActionRouteNames.Admin.Permissions.TreeUpdate);
-            viewModel.Tree.AllowDelete = User.HasPermission(ControllerActionRouteNames.Admin.Permissions.TreeDelete);
-            viewModel.Tree.UrlLoad = Url.RouteUrl(ControllerActionRouteNames.Admin.Permissions.Tree);
-            viewModel.Tree.UrlAddNew = Url.RouteUrl(ControllerActionRouteNames.Admin.Permissions.TreeAdd);
-            viewModel.Tree.UrlUpdate = viewModel.UrlUpdate = Url.RouteUrl(ControllerActionRouteNames.Admin.Permissions.TreeUpdate);
-            viewModel.Tree.UrlDelete = Url.RouteUrl(ControllerActionRouteNames.Admin.Permissions.TreeDelete);
+            viewModel.Tree.AllowAdd = User.HasPermission(ControllerActionRouteNames.Admin.PermissionsController.TreeAdd);
+            viewModel.Tree.AllowUpdate = User.HasPermission(ControllerActionRouteNames.Admin.PermissionsController.TreeUpdate);
+            viewModel.Tree.AllowDelete = User.HasPermission(ControllerActionRouteNames.Admin.PermissionsController.TreeDelete);
+            viewModel.Tree.UrlLoad = Url.RouteUrl(ControllerActionRouteNames.Admin.PermissionsController.Tree);
+            viewModel.Tree.UrlAddNew = Url.RouteUrl(ControllerActionRouteNames.Admin.PermissionsController.TreeAdd);
+            viewModel.Tree.UrlUpdate = viewModel.UrlUpdate = Url.RouteUrl(ControllerActionRouteNames.Admin.PermissionsController.TreeUpdate);
+            viewModel.Tree.UrlDelete = Url.RouteUrl(ControllerActionRouteNames.Admin.PermissionsController.TreeDelete);
 
             return viewModel;
         }
@@ -42,8 +42,7 @@ namespace SixtyThreeBits.Web.Models.Admin
             {
                 PermissionID = item.PermissionID,
                 PermissionParentID = item.PermissionParentID,
-                PermissionCaption = item.PermissionCaption,
-                PermissionCaptionEng = item.PermissionCaptionEng,
+                PermissionCaption = item.PermissionCaption,                
                 PermissionPagePath = item.PermissionPagePath,
                 PermissionCodeName = item.PermissionCodeName,
                 PermissionCode = item.PermissionCode,
@@ -66,8 +65,7 @@ namespace SixtyThreeBits.Web.Models.Admin
                 permission: new PermissionIudDTO
                 {
                     PermissionParentID = submitModel.PermissionParentID,
-                    PermissionCaption = submitModel.PermissionCaption,
-                    PermissionCaptionEng = submitModel.PermissionCaptionEng,
+                    PermissionCaption = submitModel.PermissionCaption,                    
                     PermissionPagePath = submitModel.PermissionPagePath,
                     PermissionCodeName = submitModel.PermissionCodeName,
                     PermissionCode = submitModel.PermissionCode,
@@ -141,8 +139,7 @@ namespace SixtyThreeBits.Web.Models.Admin
                         Columns.AddFor(m => m.PermissionCaption).Caption(Resources.TextCaption).Width(400).ValidationRules(Options =>
                         {
                             Options.AddRequired();
-                        });
-                        Columns.AddFor(m => m.PermissionCaptionEng).Caption(Resources.TextCaptionEng).Width(200);
+                        });                        
                         Columns.AddFor(m => m.PermissionPagePath).Caption(Resources.TextPageUrl).Width(300);
                         Columns.AddFor(m => m.PermissionCodeName).Caption(Resources.TextCodename).Width(300);
                         Columns.AddFor(m => m.PermissionSortIndex).Caption(Resources.TextSortIndex).DataType(GridColumnDataType.Number).Width(100);
@@ -165,8 +162,7 @@ namespace SixtyThreeBits.Web.Models.Admin
                     #region Properties
                     public int? PermissionID { get; set; }
                     public int? PermissionParentID { get; set; }
-                    public string PermissionCaption { get; set; }
-                    public string PermissionCaptionEng { get; set; }
+                    public string PermissionCaption { get; set; }                    
                     public string PermissionPagePath { get; set; }
                     public string PermissionCodeName { get; set; }
                     public string PermissionCode { get; set; }

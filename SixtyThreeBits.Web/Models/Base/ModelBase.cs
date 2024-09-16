@@ -12,12 +12,13 @@ using SixtyThreeBits.Core.Utilities;
 using SixtyThreeBits.Libraries.Extensions;
 using SixtyThreeBits.Web.Domain.Libraries;
 using SixtyThreeBits.Web.Domain.Utilities;
+using SixtyThreeBits.Web.Domain.ViewModels.Base;
 using SixtyThreeBits.Web.Domain.ViewModels.Shared;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace SixtyThreeBits.Web.Models.Shared
+namespace SixtyThreeBits.Web.Models.Base
 {
     public class ModelBase
     {
@@ -32,11 +33,13 @@ namespace SixtyThreeBits.Web.Models.Shared
         public string WebsiteHttpPath => $"{WebsiteDomain}/";
         public string IP { get; set; }
         public bool IsHttps { get; set; }
+        public bool IsAjaxRequest { get; set; }
         public RepositoryFactory RepositoriesFactory { get; set; }
         public AppSettingsCollection AppSettings { get; set; }
         public UtilityCollection Utilities { get; set; }
         public ISessionAssistance SessionAssistance { get; set; }
         public ICookieAssistance CookieAssistance { get; set; }
+        public Controller Controller { get; set; }
         public IUrlHelper Url { get; set; }
         public HttpRequest Request { get; set; }
         public HttpResponse Response { get; set; }
@@ -52,10 +55,10 @@ namespace SixtyThreeBits.Web.Models.Shared
         public bool IsLoggedIn => User != null;
         public ValueWrapper<bool> IsSidebarCollapsed { get; set; }
         public FormViewModelBase Form { get; set; }
-        public SystemPropertiesDTO SystemProperties { get; set; }
+        public SystemPropertiesDTO SystemProperties { get; set; }        
 
         public readonly string CultureDefault = Enums.Languages.GEORGIAN;
-        public readonly SuccessErrorToastPartialViewModel SuccessErrorToastPartialViewModel = new();
+        public readonly SuccessErrorToastPartialViewModel SuccessErrorPartialViewModel = new();
         #endregion
 
         #region Methods
@@ -69,50 +72,57 @@ namespace SixtyThreeBits.Web.Models.Shared
             var viewModel = new NotFoundViewModel();
             PluginsClient.EnableAdminTheme(true);
             viewModel.PluginsClient = PluginsClient;
-            viewModel.UrlLogout = Url.RouteUrl(ControllerActionRouteNames.Admin.Auth.Logout);
+            viewModel.UrlLogout = Url.RouteUrl(ControllerActionRouteNames.Admin.AuthController.Logout);
 
             return new ViewResult
             {
-                ViewName = ViewNames.Website.NotFound.NotFoundView,
+                ViewName = ViewNames.Website.Errors.NotFoundView,
                 ViewData = new ViewDataDictionary(new EmptyModelMetadataProvider(), new ModelStateDictionary())
                 {
                     Model = viewModel
-                }
+                },
+                StatusCode = Enums.HttpStatusCodes.Status404NotFound
             };
         }
 
         public IActionResult GetNotFoundAdminViewResult()
         {
-            var viewModel = new NotFoundViewModel();            
+            var viewModel = new NotFoundViewModel();
             PluginsClient.EnableAdminTheme(true);
             viewModel.PluginsClient = PluginsClient;
-            viewModel.UrlLogout = Url.RouteUrl(ControllerActionRouteNames.Admin.Auth.Logout);
+            viewModel.UrlLogout = Url.RouteUrl(ControllerActionRouteNames.Admin.AuthController.Logout);
 
             return new ViewResult
             {
-                ViewName = ViewNames.Admin.NotFound.NotFoundView,
+                ViewName = ViewNames.Admin.Errors.NotFoundView,
                 ViewData = new ViewDataDictionary(new EmptyModelMetadataProvider(), new ModelStateDictionary())
                 {
                     Model = viewModel
-                }
+                },
+                StatusCode = Enums.HttpStatusCodes.Status404NotFound
             };
         }
 
-        public string GetRouteByName(string routeName, object routeValues = null)
+        public string GetRouteByName(string routeName, object routeValues = null, string languageCultureCode = null)
         {
-            var Result = Url.RouteUrl(routeName, routeValues);
-            if (LanguageCultureCode != Constants.Languages.ENGLISH)
+            if (string.IsNullOrWhiteSpace(languageCultureCode))
             {
-                Result = $"{WebsiteHttpPath}{Result.TrimStart('/')}";
+                languageCultureCode = LanguageCultureCode;
+            }
+
+            var result = Url.RouteUrl(routeName, routeValues);
+            if (languageCultureCode == Utilities.LanguageDefault.LanguageCultureCode)
+            {
+                result = $"{WebsiteHttpPath}{result.TrimStart('/')}";
             }
             else
             {
-                Result = $"{WebsiteHttpPath}{LanguageCultureCode}{Result}";
+                result = $"{WebsiteHttpPath}{languageCultureCode}{result}";
             }
-            return Result;
+            return result;
 
         }
-
+       
         public async Task SaveUploadedFile(IFormFile postedFile, string filename, string folderPath = null)
         {
             using (var MS = new MemoryStream())
@@ -122,7 +132,7 @@ namespace SixtyThreeBits.Web.Models.Shared
             }
         }
 
-        public async Task DeleteUploadedFile(string filename, string folderPath)
+        public async Task DeleteUploadedFile(string filename, string folderPath = null)
         {
             await FileStorage.DeleteFile(filename, folderPath);
         }
@@ -133,8 +143,8 @@ namespace SixtyThreeBits.Web.Models.Shared
             var errorMessage = SessionAssistance.Get<string>(WebConstants.Session.SuccessErrorMessage.Error);
             if (errorMessage != null)
             {
-                SuccessErrorToastPartialViewModel.ShowError = true;
-                SuccessErrorToastPartialViewModel.Message = errorMessage;
+                SuccessErrorPartialViewModel.ShowError = true;
+                SuccessErrorPartialViewModel.Message = errorMessage;
                 SessionAssistance.Remove(WebConstants.Session.SuccessErrorMessage.Error);
             }
             else
@@ -142,8 +152,8 @@ namespace SixtyThreeBits.Web.Models.Shared
                 var successMessage = SessionAssistance.Get<string>(WebConstants.Session.SuccessErrorMessage.Success);
                 if (successMessage != null)
                 {
-                    SuccessErrorToastPartialViewModel.ShowSuccess = true;
-                    SuccessErrorToastPartialViewModel.Message = successMessage;
+                    SuccessErrorPartialViewModel.ShowSuccess = true;
+                    SuccessErrorPartialViewModel.Message = successMessage;
                     SessionAssistance.Remove(WebConstants.Session.SuccessErrorMessage.Success);
                 }
             }
@@ -171,8 +181,8 @@ namespace SixtyThreeBits.Web.Models.Shared
             }
             else
             {
-                SuccessErrorToastPartialViewModel.ShowError = true;
-                SuccessErrorToastPartialViewModel.Message = message;
+                SuccessErrorPartialViewModel.ShowError = true;
+                SuccessErrorPartialViewModel.Message = message;
             }
         }
         #endregion

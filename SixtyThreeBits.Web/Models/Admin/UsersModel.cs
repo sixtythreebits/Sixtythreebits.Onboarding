@@ -8,7 +8,7 @@ using SixtyThreeBits.Core.Utilities;
 using SixtyThreeBits.Libraries;
 using SixtyThreeBits.Web.Domain.Libraries;
 using SixtyThreeBits.Web.Domain.Utilities;
-using SixtyThreeBits.Web.Models.Shared;
+using SixtyThreeBits.Web.Models.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,17 +23,17 @@ namespace SixtyThreeBits.Web.Models.Admin
         {
             var viewModel = new PageViewModel();
 
-            viewModel.ShowAddNewButton = User.HasPermission(ControllerActionRouteNames.Admin.Users.GridAdd);
+            viewModel.ShowAddNewButton = User.HasPermission(ControllerActionRouteNames.Admin.UsersController.GridAdd);
             viewModel.Grid = new PageViewModel.GridModel();
 
             var repository = RepositoriesFactory.GetRolesRepository();
             viewModel.Grid.Roles = await repository.RolesListAsKeyValueTuple();
-            viewModel.Grid.UrlLoad = Url.RouteUrl(ControllerActionRouteNames.Admin.Users.Grid);
-            viewModel.Grid.UrlAddNew = Url.RouteUrl(ControllerActionRouteNames.Admin.Users.GridAdd);
-            viewModel.Grid.UrlUpdate = Url.RouteUrl(ControllerActionRouteNames.Admin.Users.GridUpdate);
-            viewModel.Grid.UrlDelete = Url.RouteUrl(ControllerActionRouteNames.Admin.Users.GridDelete);
-            viewModel.Grid.AllowUpdate = User.HasPermission(ControllerActionRouteNames.Admin.Users.GridUpdate);
-            viewModel.Grid.AllowDelete = User.HasPermission(ControllerActionRouteNames.Admin.Users.GridDelete);
+            viewModel.Grid.UrlLoad = Url.RouteUrl(ControllerActionRouteNames.Admin.UsersController.Grid);
+            viewModel.Grid.UrlAddNew = Url.RouteUrl(ControllerActionRouteNames.Admin.UsersController.GridAdd);
+            viewModel.Grid.UrlUpdate = Url.RouteUrl(ControllerActionRouteNames.Admin.UsersController.GridUpdate);
+            viewModel.Grid.UrlDelete = Url.RouteUrl(ControllerActionRouteNames.Admin.UsersController.GridDelete);
+            viewModel.Grid.AllowUpdate = User.HasPermission(ControllerActionRouteNames.Admin.UsersController.GridUpdate);
+            viewModel.Grid.AllowDelete = User.HasPermission(ControllerActionRouteNames.Admin.UsersController.GridDelete);
             return viewModel;
         }
 
@@ -48,8 +48,7 @@ namespace SixtyThreeBits.Web.Models.Admin
                 UserLastname = Item.UserLastname,
                 UserEmail = Item.UserEmail,
                 RoleID = Item.RoleID,
-                UserDateCreated = Item.UserDateCreated,
-                UrlUserProperties = Url.RouteUrl(ControllerActionRouteNames.Admin.Users.User.Properties, new { userID = Item.UserID }),
+                UserDateCreated = Item.UserDateCreated
             })
             .ToList();
             return viewModel;
@@ -113,8 +112,7 @@ namespace SixtyThreeBits.Web.Models.Admin
                     .ID("UsersGrid")
                     .OnInitialized("usersModel.onGridInit")
                     .Columns(columns =>
-                    {
-                        columns.Add().Width(30).Caption(" ").InitDetailsUrlCellTemplate(nameof(GridItem.UrlUserProperties));
+                    {                        
                         columns.AddFor(m => m.UserFirstname).Caption(Resources.TextFirstname).Width(150).ValidationRules(options =>
                         {
                             options.AddRequired();
@@ -146,8 +144,7 @@ namespace SixtyThreeBits.Web.Models.Admin
                     public string UserEmail { get; set; }
                     public string UserPassword { get; set; }
                     public int? RoleID { get; set; }
-                    public DateTime? UserDateCreated { get; set; }
-                    public string UrlUserProperties { get; set; }
+                    public DateTime? UserDateCreated { get; set; }                    
                     #endregion
                 }
                 #endregion

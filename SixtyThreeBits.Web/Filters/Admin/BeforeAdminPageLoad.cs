@@ -5,7 +5,7 @@ using SixtyThreeBits.Web.Domain.Libraries;
 using SixtyThreeBits.Web.Domain.Utilities;
 using SixtyThreeBits.Web.Domain.ViewModels.Admin;
 using SixtyThreeBits.Web.Domain.ViewModels.Shared;
-using SixtyThreeBits.Web.Models.Shared;
+using SixtyThreeBits.Web.Models.Base;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -50,7 +50,7 @@ namespace SixtyThreeBits.Web.Filters.Admin
             }
             else
             {
-                var urlLogin = _model.Url.RouteUrl(ControllerActionRouteNames.Admin.Auth.Login);
+                var urlLogin = _model.Url.RouteUrl(ControllerActionRouteNames.Admin.AuthController.Login);
                 filterContext.Result = new RedirectResult(urlLogin);
             }
         }
@@ -98,13 +98,13 @@ namespace SixtyThreeBits.Web.Filters.Admin
                 .Where(item => item.PermissionIsMenuItem && item.PermissionParentID == null)
                 .Select(item => new ProjectMenuViewItem
                 {
-                    Caption = _model.Utilities.GetValuesByLanguage(_model.LanguageCultureCode, item.HasPermissionMenuTitle ? item.PermissionMenuTitle : item.PermissionCaption, item.HasPermissionMenuTitleEng ? item.PermissionMenuTitleEng : item.PermissionCaptionEng),
+                    Caption = item.PermissionCaption,
                     NavigateUrl = string.IsNullOrWhiteSpace(item.PermissionPagePath) ? item.PermissionCode : item.PermissionPagePath,
                     Icon = item.PermissionMenuIcon,
                     IsSelected = item.PermissionPagePath == _model.UrlCurrentPageWithoutDomain,
                     Children = _model.User.Permissions.Where(subItem => subItem.PermissionIsMenuItem && subItem.PermissionParentID == item.PermissionID).Select(SubItem => new ProjectMenuViewItem
                     {
-                        Caption = _model.Utilities.GetValuesByLanguage(_model.LanguageCultureCode, SubItem.HasPermissionMenuTitle ? SubItem.PermissionMenuTitle : SubItem.PermissionCaption, SubItem.HasPermissionMenuTitleEng ? SubItem.PermissionMenuTitleEng : SubItem.PermissionCaptionEng),
+                        Caption = SubItem.PermissionCaption,
                         NavigateUrl = SubItem.PermissionPagePath,
                         Icon = SubItem.PermissionMenuIcon,
                         IsSelected = SubItem.PermissionPagePath == _model.UrlCurrentPageWithoutDomain
@@ -120,8 +120,8 @@ namespace SixtyThreeBits.Web.Filters.Admin
                 });
             }
 
-            _viewModel.UrlRelogin = _model.Url.RouteUrl(ControllerActionRouteNames.Admin.Auth.Relogin);
-            _viewModel.UrlLogout = _model.Url.RouteUrl(ControllerActionRouteNames.Admin.Auth.Logout);
+            _viewModel.UrlRelogin = _model.Url.RouteUrl(ControllerActionRouteNames.Admin.AuthController.Relogin);
+            _viewModel.UrlLogout = _model.Url.RouteUrl(ControllerActionRouteNames.Admin.AuthController.Logout);
         }
 
         void initBreadCrumbs()
@@ -131,7 +131,7 @@ namespace SixtyThreeBits.Web.Filters.Admin
                 ID = item.PermissionID,
                 ParentID = item.PermissionParentID,
                 PageHttpPath = item.PermissionPagePath,
-                PageTitle = _model.Utilities.GetValuesByLanguage(_model.LanguageCultureCode, item.PermissionCaption, item.PermissionCaptionEng),
+                PageTitle = item.PermissionCaption,
             }).ToList();
 
             _viewModel.Breadcrumbs = _model.Breadcrumbs = new Breadcrumbs();
@@ -153,7 +153,7 @@ namespace SixtyThreeBits.Web.Filters.Admin
             var p = _model.User.GetPermission(_model.UrlCurrentPageWithoutDomain);
             if (p != null)
             {
-                _model.PageTitle.Set(_model.Utilities.GetValuesByLanguage(_model.LanguageCultureCode, p.PermissionCaption, p.PermissionCaptionEng));
+                _model.PageTitle.Set(p.PermissionCaption);
             }
         }
 
@@ -166,7 +166,7 @@ namespace SixtyThreeBits.Web.Filters.Admin
         void initSuccessErrorMessage()
         {
             _model.InitSuccessErrorToastNotificationPartialViewModel();
-            _viewModel.SuccessErrorPartialViewModel = _model.SuccessErrorToastPartialViewModel;
+            _viewModel.SuccessErrorPartialViewModel = _model.SuccessErrorPartialViewModel;
         }
 
         void initLanguage()
@@ -179,7 +179,7 @@ namespace SixtyThreeBits.Web.Filters.Admin
                 LanguageCultureCode = item.LanguageCultureCode,
                 LanguageName = item.LanguageName,
                 IsActive = item.LanguageCultureCode == language.LanguageCultureCode,
-                UrlChangeLanguage = _model.Url.RouteUrl(ControllerActionRouteNames.Admin.ChangeLanguage.Page, new { Culture = item.LanguageCultureCode })
+                UrlChangeLanguage = _model.Url.RouteUrl(ControllerActionRouteNames.Admin.ChangeLanguageController.ChangeLanguage, new { Culture = item.LanguageCultureCode })
             }).ToList();
         }
         #endregion

@@ -16,10 +16,10 @@ namespace SixtyThreeBits.Web.Controllers.Admin
         #endregion
 
         [HttpGet]
-        [Route("", Name = ControllerActionRouteNames.Admin.Home.Page)]
+        [Route("", Name = ControllerActionRouteNames.Admin.HomeController.Index)]
         public IActionResult Index()
         {
-            return View(ViewNames.Admin.Home.Index);
+            return View(ViewNames.Admin.Home.IndexView);
         }
     }
 }

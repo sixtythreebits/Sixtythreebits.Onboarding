@@ -1,0 +1,21 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using SixtyThreeBits.Web.Controllers.Website.Base;
+using SixtyThreeBits.Web.Domain.Utilities;
+using SixtyThreeBits.Web.Models.Website;
+
+namespace SixtyThreeBits.Web.Controllers.Website
+{
+    public class HomeController : WebsiteControllerBase<HomeModel>
+    {
+        public HomeController()
+        {
+            Model = new HomeModel();
+        }
+
+        [Route("", Name = ControllerActionRouteNames.Website.HomeController.Index)]        
+        public IActionResult Index()
+        {
+            return View(ViewNames.Website.Home.IndexView);
+        }        
+    }
+}

@@ -9,12 +9,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link rel="icon" type="image/png" href="/images/favicon.png">
     <title>@Html.Raw(Model.PageTitle.TitleHead)</title>
-    @await Html.PartialAsync(ViewNames.Shared.PluginsClient.Header, Model.PluginsClient)    
+    @await Html.PartialAsync(ViewNames.Shared.PluginsClient.PluginsClientHeader, Model.PluginsClient)    
     <link href="/css/website/style.css" rel="stylesheet" />
     
     @RenderSection("HeaderSection", false)    
 </head>
-<body>    
+<body>
     <div class="app">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container px-4 px-lg-5">
@@ -22,25 +22,9 @@
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shop</a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#!">All Products</a></li>
-                                <li><hr class="dropdown-divider" /></li>
-                                <li><a class="dropdown-item" href="#!">Popular Items</a></li>
-                                <li><a class="dropdown-item" href="#!">New Arrivals</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                    <form class="d-flex">
-                        <button class="btn btn-outline-dark" type="submit">
-                            <i class="bi-cart-fill me-1"></i>
-                            Cart
-                            <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
-                        </button>
-                    </form>
+                        <li class="nav-item"><a class="nav-link active" href="/">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/products">Products</a></li>                        
+                    </ul>                    
                 </div>
             </div>
         </nav>
@@ -48,7 +32,7 @@
         <header class="bg-dark">
             <div class="container px-4 px-lg-5 my-5">
                 <div class="text-center text-white">
-                    <h1 class="display-4 fw-bolder">Shop in style</h1>                    
+                    <h1 class="display-4 fw-bolder">@Html.Raw(Model.PageTitle.Value)</h1>                    
                 </div>
             </div>
         </header>
@@ -59,7 +43,7 @@
             <div class="container"><p class="m-0 text-center text-white">Copyright &copy; @Html.Raw(Model.ProjectName) @DateTime.Now.Year</p></div>
         </footer>
     </div>
-    @await Html.PartialAsync(ViewNames.Shared.PluginsClient.Footer, Model.PluginsClient)
+    @await Html.PartialAsync(ViewNames.Shared.PluginsClient.PluginsClientFooter, Model.PluginsClient)
     <script src="/js/Layout.js"></script>
     @RenderSection("FooterSection", false)    
 </body>
