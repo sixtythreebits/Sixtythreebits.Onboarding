@@ -4,10 +4,17 @@ using SixtyThreeBits.Web.Filters.Shared;
 namespace SixtyThreeBits.Web.Controllers.Base
 {
     [TypeFilter(typeof(SharedFilterAttribute), Order = 0)]
-    public class ControllerBase<T> : Controller
+    public class ControllerBase<T> : Controller where T : new()
     {
         #region Properties
         public T Model { get; set; }
         #endregion        
+
+        #region Constructors
+        public ControllerBase()
+        {
+            Model = new T();
+        }
+        #endregion
     }
 }

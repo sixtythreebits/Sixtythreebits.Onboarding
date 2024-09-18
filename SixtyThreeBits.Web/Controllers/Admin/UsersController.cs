@@ -11,13 +11,6 @@ namespace SixtyThreeBits.Web.Controllers.Admin
     [Route("admin/users")]
     public class UsersController : AdminControllerBase<UsersModel>
     {
-        #region Constructors
-        public UsersController()
-        {
-            Model = new UsersModel();
-        }
-        #endregion
-
         #region Actions
         [HttpGet]
         [Route("", Name = ControllerActionRouteNames.Admin.UsersController.Users)]
