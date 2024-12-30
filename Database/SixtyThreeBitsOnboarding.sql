@@ -2126,6 +2126,21 @@ GO
 
 
 		
+/*
+Run this script on:
+
+srv63bits.SixtyThreeBitsOnboardingMichael    -  This database will be modified
+
+to synchronize it with:
+
+srv63bits.SixtyThreeBitsOnboarding
+
+You are recommended to back up your database before running this script
+
+Script created by SQL Data Compare version 14.6.10.20102 from Red Gate Software Ltd at 2024-12-30 17:35:15
+
+*/
+		
 SET NUMERIC_ROUNDABORT OFF
 GO
 SET ANSI_PADDING, ANSI_WARNINGS, CONCAT_NULL_YIELDS_NULL, ARITHABORT, QUOTED_IDENTIFIER, ANSI_NULLS, NOCOUNT ON
@@ -2197,9 +2212,16 @@ INSERT INTO [dbo].[Permissions] ([PermissionID], [PermissionParentID], [Permissi
 INSERT INTO [dbo].[Permissions] ([PermissionID], [PermissionParentID], [PermissionCaption], [PermissionPagePath], [PermissionCodeName], [PermissionCode], [PermissionIsMenuItem], [PermissionMenuIcon], [PermissionSortIndex], [PermissionDateCreated], [PermissionCaptionEng], [PermissionMenuTitle], [PermissionMenuTitleEng]) VALUES (29, 28, N'Dictionaries Tree Add', N'/admin/dictionaries/tree/add', N'AdminDictionariesControllerTreeAdd', 'D74A87B9-00A1-49E1-A419-B631B947C8DD', 0, NULL, 1, '2022-09-12 18:31:54.710', N'Dictionaries Tree Add', NULL, NULL)
 INSERT INTO [dbo].[Permissions] ([PermissionID], [PermissionParentID], [PermissionCaption], [PermissionPagePath], [PermissionCodeName], [PermissionCode], [PermissionIsMenuItem], [PermissionMenuIcon], [PermissionSortIndex], [PermissionDateCreated], [PermissionCaptionEng], [PermissionMenuTitle], [PermissionMenuTitleEng]) VALUES (30, 28, N'Dictionaries Tree Update', N'/admin/dictionaries/tree/update', N'AdminDictionariesControllerTreeUpdate', 'C3F1F0AB-CE39-4D1C-A769-BD3FBF555A10', 0, NULL, 2, '2022-09-12 18:32:23.397', N'Dictionaries Tree Update', NULL, NULL)
 INSERT INTO [dbo].[Permissions] ([PermissionID], [PermissionParentID], [PermissionCaption], [PermissionPagePath], [PermissionCodeName], [PermissionCode], [PermissionIsMenuItem], [PermissionMenuIcon], [PermissionSortIndex], [PermissionDateCreated], [PermissionCaptionEng], [PermissionMenuTitle], [PermissionMenuTitleEng]) VALUES (31, 28, N'Dictionaries Tree Delete', N'/admin/dictionaries/tree/delete', N'AdminDictionariesControllerTreeDelete', 'CA01B700-192D-4BF1-94DE-C735B853B0E4', 0, NULL, 3, '2022-09-12 18:32:43.020', N'Dictionaries Tree Delete', NULL, NULL)
+INSERT INTO [dbo].[Permissions] ([PermissionID], [PermissionParentID], [PermissionCaption], [PermissionPagePath], [PermissionCodeName], [PermissionCode], [PermissionIsMenuItem], [PermissionMenuIcon], [PermissionSortIndex], [PermissionDateCreated], [PermissionCaptionEng], [PermissionMenuTitle], [PermissionMenuTitleEng]) VALUES (33, 22, N'Products', N'/admin/products', N'AdminProductsControllerProducts', 'A531E67B-8759-4346-95D2-1CCCC0C8BAC7', 1, NULL, 1, '2024-09-16 12:52:56.680', NULL, NULL, NULL)
+INSERT INTO [dbo].[Permissions] ([PermissionID], [PermissionParentID], [PermissionCaption], [PermissionPagePath], [PermissionCodeName], [PermissionCode], [PermissionIsMenuItem], [PermissionMenuIcon], [PermissionSortIndex], [PermissionDateCreated], [PermissionCaptionEng], [PermissionMenuTitle], [PermissionMenuTitleEng]) VALUES (34, 33, N'Products Grid', N'/admin/products/grid', N'AdminProductsControllerGrid', 'EF5013B8-15C3-4B9E-907B-8AF09EE42661', 0, NULL, 1, '2024-09-16 12:53:20.883', NULL, NULL, NULL)
+INSERT INTO [dbo].[Permissions] ([PermissionID], [PermissionParentID], [PermissionCaption], [PermissionPagePath], [PermissionCodeName], [PermissionCode], [PermissionIsMenuItem], [PermissionMenuIcon], [PermissionSortIndex], [PermissionDateCreated], [PermissionCaptionEng], [PermissionMenuTitle], [PermissionMenuTitleEng]) VALUES (35, 34, N'Products Grid Add', N'/admin/products/grid/add', N'AdminProductsControllerGridAdd', '3BC035F7-599B-4A11-A4B9-B6039A6C15E2', 0, NULL, 1, '2024-09-16 12:53:43.427', NULL, NULL, NULL)
+INSERT INTO [dbo].[Permissions] ([PermissionID], [PermissionParentID], [PermissionCaption], [PermissionPagePath], [PermissionCodeName], [PermissionCode], [PermissionIsMenuItem], [PermissionMenuIcon], [PermissionSortIndex], [PermissionDateCreated], [PermissionCaptionEng], [PermissionMenuTitle], [PermissionMenuTitleEng]) VALUES (36, 34, N'Products Grid Update', N'/admin/products/grid/update', N'AdminProductsControllerGridUpdate', 'F99008B3-5127-4205-98B1-3159C4FE9AF7', 0, NULL, 2, '2024-09-16 12:54:12.830', NULL, NULL, NULL)
+INSERT INTO [dbo].[Permissions] ([PermissionID], [PermissionParentID], [PermissionCaption], [PermissionPagePath], [PermissionCodeName], [PermissionCode], [PermissionIsMenuItem], [PermissionMenuIcon], [PermissionSortIndex], [PermissionDateCreated], [PermissionCaptionEng], [PermissionMenuTitle], [PermissionMenuTitleEng]) VALUES (37, 34, N'Products Grid Delete', N'/admin/products/grid/delete', N'AdminProductsControllerGridDelete', '462A309D-7519-41BB-A00E-F44C80C04F73', 0, NULL, 3, '2024-09-16 12:54:26.423', NULL, NULL, NULL)
+INSERT INTO [dbo].[Permissions] ([PermissionID], [PermissionParentID], [PermissionCaption], [PermissionPagePath], [PermissionCodeName], [PermissionCode], [PermissionIsMenuItem], [PermissionMenuIcon], [PermissionSortIndex], [PermissionDateCreated], [PermissionCaptionEng], [PermissionMenuTitle], [PermissionMenuTitleEng]) VALUES (38, 33, N'Product', NULL, NULL, 'BE61E155-77AE-45B7-9C80-30B4C557D9B5', 0, NULL, 100, '2024-09-16 12:54:57.733', NULL, NULL, NULL)
+INSERT INTO [dbo].[Permissions] ([PermissionID], [PermissionParentID], [PermissionCaption], [PermissionPagePath], [PermissionCodeName], [PermissionCode], [PermissionIsMenuItem], [PermissionMenuIcon], [PermissionSortIndex], [PermissionDateCreated], [PermissionCaptionEng], [PermissionMenuTitle], [PermissionMenuTitleEng]) VALUES (39, 38, N'Product Properties', N'/admin/products/(\d+)/properties', N'AdminProductsPropertiesControllerProperties', 'EB55EB52-AC09-431A-8921-C1DA4964F6B4', 0, NULL, 1, '2024-09-16 12:57:48.360', NULL, NULL, NULL)
+INSERT INTO [dbo].[Permissions] ([PermissionID], [PermissionParentID], [PermissionCaption], [PermissionPagePath], [PermissionCodeName], [PermissionCode], [PermissionIsMenuItem], [PermissionMenuIcon], [PermissionSortIndex], [PermissionDateCreated], [PermissionCaptionEng], [PermissionMenuTitle], [PermissionMenuTitleEng]) VALUES (40, 39, N'Product Properties - Delete Image', N'/admin/products/(\d+)/properties/delete-image', N'AdminProductsPropertiesControllerDeleteImage', 'FA4DFE71-06D4-452B-AD22-FD54A1F20DC5', 0, NULL, 1, '2024-09-16 12:58:19.000', NULL, NULL, NULL)
 SET IDENTITY_INSERT [dbo].[Permissions] OFF
-PRINT(N'Operation applied to 30 rows out of 30')
-
+PRINT(N'Operation applied to 37 rows out of 37')
 
 PRINT(N'Add row to [dbo].[Roles]')
 SET IDENTITY_INSERT [dbo].[Roles] ON
@@ -2231,16 +2253,23 @@ INSERT INTO [dbo].[RolesPermissions] ([RoleID], [PermissionID]) VALUES (1, 18)
 INSERT INTO [dbo].[RolesPermissions] ([RoleID], [PermissionID]) VALUES (1, 19)
 INSERT INTO [dbo].[RolesPermissions] ([RoleID], [PermissionID]) VALUES (1, 20)
 INSERT INTO [dbo].[RolesPermissions] ([RoleID], [PermissionID]) VALUES (1, 22)
-INSERT INTO [dbo].[RolesPermissions] ([RoleID], [PermissionID]) VALUES (1, 3071)
-INSERT INTO [dbo].[RolesPermissions] ([RoleID], [PermissionID]) VALUES (1, 3082)
-INSERT INTO [dbo].[RolesPermissions] ([RoleID], [PermissionID]) VALUES (1, 3103)
-INSERT INTO [dbo].[RolesPermissions] ([RoleID], [PermissionID]) VALUES (1, 8157)
-INSERT INTO [dbo].[RolesPermissions] ([RoleID], [PermissionID]) VALUES (1, 8159)
-INSERT INTO [dbo].[RolesPermissions] ([RoleID], [PermissionID]) VALUES (1, 8161)
-INSERT INTO [dbo].[RolesPermissions] ([RoleID], [PermissionID]) VALUES (1, 8162)
-INSERT INTO [dbo].[RolesPermissions] ([RoleID], [PermissionID]) VALUES (1, 8163)
-INSERT INTO [dbo].[RolesPermissions] ([RoleID], [PermissionID]) VALUES (1, 8164)
-PRINT(N'Operation applied to 30 rows out of 30')
+INSERT INTO [dbo].[RolesPermissions] ([RoleID], [PermissionID]) VALUES (1, 24)
+INSERT INTO [dbo].[RolesPermissions] ([RoleID], [PermissionID]) VALUES (1, 25)
+INSERT INTO [dbo].[RolesPermissions] ([RoleID], [PermissionID]) VALUES (1, 26)
+INSERT INTO [dbo].[RolesPermissions] ([RoleID], [PermissionID]) VALUES (1, 27)
+INSERT INTO [dbo].[RolesPermissions] ([RoleID], [PermissionID]) VALUES (1, 28)
+INSERT INTO [dbo].[RolesPermissions] ([RoleID], [PermissionID]) VALUES (1, 29)
+INSERT INTO [dbo].[RolesPermissions] ([RoleID], [PermissionID]) VALUES (1, 30)
+INSERT INTO [dbo].[RolesPermissions] ([RoleID], [PermissionID]) VALUES (1, 31)
+INSERT INTO [dbo].[RolesPermissions] ([RoleID], [PermissionID]) VALUES (1, 33)
+INSERT INTO [dbo].[RolesPermissions] ([RoleID], [PermissionID]) VALUES (1, 34)
+INSERT INTO [dbo].[RolesPermissions] ([RoleID], [PermissionID]) VALUES (1, 35)
+INSERT INTO [dbo].[RolesPermissions] ([RoleID], [PermissionID]) VALUES (1, 36)
+INSERT INTO [dbo].[RolesPermissions] ([RoleID], [PermissionID]) VALUES (1, 37)
+INSERT INTO [dbo].[RolesPermissions] ([RoleID], [PermissionID]) VALUES (1, 38)
+INSERT INTO [dbo].[RolesPermissions] ([RoleID], [PermissionID]) VALUES (1, 39)
+INSERT INTO [dbo].[RolesPermissions] ([RoleID], [PermissionID]) VALUES (1, 40)
+PRINT(N'Operation applied to 37 rows out of 37')
 
 PRINT(N'Add row to [dbo].[Users]')
 SET IDENTITY_INSERT [dbo].[Users] ON
