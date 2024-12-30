@@ -15,7 +15,7 @@ namespace SixtyThreeBits.Web.Controllers.Admin
         public ActionResult RolesPermissions()
         {
             Model.PluginsClient.EnableDevextreme(true).Enable63BitsSuccessErrorToast(true);
-            var viewModel = Model.GetPageViewModel();
+            var viewModel = Model.GetViewModel();
             return View(ViewNames.Admin.RolesPermissions.RolesPermissionsView, viewModel);
         }
         
@@ -45,7 +45,7 @@ namespace SixtyThreeBits.Web.Controllers.Admin
 
         [HttpPost]
         [Route("save", Name = ControllerActionRouteNames.Admin.RolePermissionsController.Save)]
-        public async Task<ActionResult> Save(RolePermissionsModel.PageViewModel.RolePermissionSaveSubmitModel submitModel)
+        public async Task<ActionResult> Save(RolePermissionsModel.ViewModel.RolePermissionSaveSubmitModel submitModel)
         {
             var viewModel = await Model.SaveRolePermissions(submitModel);
             return Json(viewModel);

@@ -32,7 +32,6 @@ namespace SixtyThreeBits.Web.Filters.Admin
                 if (hasPermission)
                 {
                     initStartUp();
-                    initLanguage();
                     initClientPlugins();
                     initMenu();
                     initBreadCrumbs();
@@ -167,21 +166,7 @@ namespace SixtyThreeBits.Web.Filters.Admin
         {
             _model.InitSuccessErrorToastNotificationPartialViewModel();
             _viewModel.SuccessErrorPartialViewModel = _model.SuccessErrorPartialViewModel;
-        }
-
-        void initLanguage()
-        {
-            var language = _model.Utilities.GetSupportedLanguageOrDefault(_model.LanguageCultureCode);
-
-            _viewModel.LanguageActive = new AdminLayoutViewModel.Language { LanguageCultureCode = language.LanguageCultureCode, LanguageName = language.LanguageName };
-            _viewModel.Languages = _model.Utilities.SupportedLanguages.Select(item => new AdminLayoutViewModel.Language
-            {
-                LanguageCultureCode = item.LanguageCultureCode,
-                LanguageName = item.LanguageName,
-                IsActive = item.LanguageCultureCode == language.LanguageCultureCode,
-                UrlChangeLanguage = _model.Url.RouteUrl(ControllerActionRouteNames.Admin.ChangeLanguageController.ChangeLanguage, new { Culture = item.LanguageCultureCode })
-            }).ToList();
-        }
+        }        
         #endregion
     }
 }

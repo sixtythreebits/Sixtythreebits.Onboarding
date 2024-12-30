@@ -19,12 +19,12 @@ namespace SixtyThreeBits.Web.Models.Admin
     public class UsersModel : ModelBase
     {
         #region Methods
-        public async Task<PageViewModel> GetPageViewModel()
+        public async Task<ViewModel> GetViewModel()
         {
-            var viewModel = new PageViewModel();
+            var viewModel = new ViewModel();
 
             viewModel.ShowAddNewButton = User.HasPermission(ControllerActionRouteNames.Admin.UsersController.GridAdd);
-            viewModel.Grid = new PageViewModel.GridModel();
+            viewModel.Grid = new ViewModel.GridModel();
 
             var repository = RepositoriesFactory.GetRolesRepository();
             viewModel.Grid.Roles = await repository.RolesListAsKeyValueTuple();
@@ -37,11 +37,11 @@ namespace SixtyThreeBits.Web.Models.Admin
             return viewModel;
         }
 
-        public async Task<List<PageViewModel.GridModel.GridItem>> GetGridViewModel()
+        public async Task<List<ViewModel.GridModel.GridItem>> GetGridViewModel()
         {
             var repository = RepositoriesFactory.GetUsersRepository();
             var viewModel = (await repository.UsersList())
-            ?.Select(Item => new PageViewModel.GridModel.GridItem
+            ?.Select(Item => new ViewModel.GridModel.GridItem
             {
                 UserID = Item.UserID,
                 UserFirstname = Item.UserFirstname,
@@ -64,7 +64,7 @@ namespace SixtyThreeBits.Web.Models.Admin
             }
         }
 
-        public async Task CRUD(Enums.DatabaseActions databaseAction, int? userID, PageViewModel.GridModel.GridItem submitModel)
+        public async Task CRUD(Enums.DatabaseActions databaseAction, int? userID, ViewModel.GridModel.GridItem submitModel)
         {
             var repository = RepositoriesFactory.GetUsersRepository();
 
@@ -89,7 +89,7 @@ namespace SixtyThreeBits.Web.Models.Admin
         #endregion
 
         #region Nested Classes
-        public class PageViewModel
+        public class ViewModel
         {
             #region Properties
             public bool ShowAddNewButton { get; set; }

@@ -17,12 +17,12 @@ namespace SixtyThreeBits.Web.Models.Admin
     public class PermissionsModel : ModelBase
     {
         #region Methods
-        public PageViewModel GetPageViewModel()
+        public ViewModel GetViewModel()
         {
-            var viewModel = new PageViewModel();
+            var viewModel = new ViewModel();
             viewModel.ShowAddNewButton = User.HasPermission(ControllerActionRouteNames.Admin.PermissionsController.TreeAdd);
 
-            viewModel.Tree = new PageViewModel.TreeModel();
+            viewModel.Tree = new ViewModel.TreeModel();
             viewModel.Tree.AllowAdd = User.HasPermission(ControllerActionRouteNames.Admin.PermissionsController.TreeAdd);
             viewModel.Tree.AllowUpdate = User.HasPermission(ControllerActionRouteNames.Admin.PermissionsController.TreeUpdate);
             viewModel.Tree.AllowDelete = User.HasPermission(ControllerActionRouteNames.Admin.PermissionsController.TreeDelete);
@@ -34,11 +34,11 @@ namespace SixtyThreeBits.Web.Models.Admin
             return viewModel;
         }
 
-        public async Task<List<PageViewModel.TreeModel.TreeItem>> GetGridViewModel()
+        public async Task<List<ViewModel.TreeModel.TreeItem>> GetGridViewModel()
         {
             var repository = RepositoriesFactory.GetPermissionsRepository();
             var viewModel = (await repository.PermissionsList())
-            .Select(item => new PageViewModel.TreeModel.TreeItem
+            .Select(item => new ViewModel.TreeModel.TreeItem
             {
                 PermissionID = item.PermissionID,
                 PermissionParentID = item.PermissionParentID,
@@ -56,7 +56,7 @@ namespace SixtyThreeBits.Web.Models.Admin
             return viewModel;
         }
 
-        public async Task CRUD(Enums.DatabaseActions databaseAction, int? permissionID, PageViewModel.TreeModel.TreeItem submitModel)
+        public async Task CRUD(Enums.DatabaseActions databaseAction, int? permissionID, ViewModel.TreeModel.TreeItem submitModel)
         {
             var repository = RepositoriesFactory.GetPermissionsRepository();
             await repository.PermissionsIUD(
@@ -95,7 +95,7 @@ namespace SixtyThreeBits.Web.Models.Admin
         #endregion
 
         #region Nested Classes
-        public class PageViewModel
+        public class ViewModel
         {
             #region Properties
             public bool ShowAddNewButton { get; set; }

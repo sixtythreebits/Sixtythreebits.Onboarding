@@ -62,9 +62,7 @@ namespace SixtyThreeBits.Web.Filters.Shared
 
 
 
-                _model.LanguageCultureCode = _model.Request.HttpContext.Features.Get<IRequestCultureFeature>().RequestCulture.Culture.Name;
-
-                _model.PluginsClient = new PluginsClientViewModel(_model.LanguageCultureCode);
+                _model.PluginsClient = new PluginsClientViewModel();
 
                 await InitSystemProperties();
                 InitFileStorage();

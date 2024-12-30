@@ -21,17 +21,17 @@ namespace SixtyThreeBits.Web.Controllers.Admin
             else
             {
                 Model.PluginsClient.EnableAdminTheme(true).EnableFontAwesome(true).Enable63BitsFonts(true);
-                var viewModel = Model.GetPageViewModel();
+                var viewModel = Model.GetViewModel();
                 return View(ViewNames.Admin.Auth.LoginView, viewModel);
             }
         }
 
         [HttpPost]
         [Route("login")]
-        public async Task<IActionResult> Login(LoginModel.PageViewModel submitModel)
+        public async Task<IActionResult> Login(LoginModel.ViewModel submitModel)
         {
             Model.PluginsClient.EnableAdminTheme(true).EnableFontAwesome(true).Enable63BitsFonts(true);
-            var viewModel = Model.GetPageViewModel(submitModel);
+            var viewModel = Model.GetViewModel(submitModel);
             var isAuthenticated = await Model.AuthenticateUser(viewModel: viewModel);
             if (isAuthenticated)
             {

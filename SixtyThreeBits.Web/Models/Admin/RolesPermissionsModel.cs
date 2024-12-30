@@ -16,16 +16,16 @@ namespace SixtyThreeBits.Web.Models.Admin
     public class RolePermissionsModel : ModelBase
     {
         #region Methods
-        public PageViewModel GetPageViewModel()
+        public ViewModel GetViewModel()
         {
-            var viewModel = new PageViewModel();
+            var viewModel = new ViewModel();
             viewModel.ShowSaveButton = User.HasPermission(ControllerActionRouteNames.Admin.RolePermissionsController.Save);
             viewModel.UrlPermissionsGetByRole = Url.RouteUrl(ControllerActionRouteNames.Admin.RolePermissionsController.GetPermissionsByRole);
             viewModel.UrlSave = Url.RouteUrl(ControllerActionRouteNames.Admin.RolePermissionsController.Save);
 
-            viewModel.RolesGrid = new PageViewModel.RolesGridModel();
+            viewModel.RolesGrid = new ViewModel.RolesGridModel();
             viewModel.RolesGrid.UrlLoad = Url.RouteUrl(ControllerActionRouteNames.Admin.RolePermissionsController.RolesGrid);
-            viewModel.PermissionsTree = new PageViewModel.PermissionsTreeModel();
+            viewModel.PermissionsTree = new ViewModel.PermissionsTreeModel();
             viewModel.PermissionsTree.UrlLoad = Url.RouteUrl(ControllerActionRouteNames.Admin.RolePermissionsController.PermissionsTree);
 
             return viewModel;
@@ -42,11 +42,11 @@ namespace SixtyThreeBits.Web.Models.Admin
             return viewModel;
         }
 
-        public async Task<List<PageViewModel.RolesGridModel.GridItem>> GetRolesGridModel()
+        public async Task<List<ViewModel.RolesGridModel.GridItem>> GetRolesGridModel()
         {
             var repository = RepositoriesFactory.GetRolesRepository();
             var viewModel = (await repository.RolesList())
-            .Select(Item => new PageViewModel.RolesGridModel.GridItem
+            .Select(Item => new ViewModel.RolesGridModel.GridItem
             {
                 RoleID = Item.RoleID,
                 RoleName = Item.RoleName
@@ -55,11 +55,11 @@ namespace SixtyThreeBits.Web.Models.Admin
             return viewModel;
         }
 
-        public async Task<List<PageViewModel.PermissionsTreeModel.TreeItem>> GetPermissionsTreeModel()
+        public async Task<List<ViewModel.PermissionsTreeModel.TreeItem>> GetPermissionsTreeModel()
         {
             var repository = RepositoriesFactory.GetPermissionsRepository();
             var viewModel = (await repository.PermissionsList())
-            .Select(Item => new PageViewModel.PermissionsTreeModel.TreeItem
+            .Select(Item => new ViewModel.PermissionsTreeModel.TreeItem
             {
                 PermissionID = Item.PermissionID,
                 PermissionParentID = Item.PermissionParentID,
@@ -69,7 +69,7 @@ namespace SixtyThreeBits.Web.Models.Admin
             return viewModel;
         }
 
-        public async Task<AjaxResponse> SaveRolePermissions(PageViewModel.RolePermissionSaveSubmitModel submitModel)
+        public async Task<AjaxResponse> SaveRolePermissions(ViewModel.RolePermissionSaveSubmitModel submitModel)
         {
             var viewModel = new AjaxResponse();
             var repository = RepositoriesFactory.GetRolesRepository();
@@ -83,7 +83,7 @@ namespace SixtyThreeBits.Web.Models.Admin
         #endregion
 
         #region Nested Classes
-        public class PageViewModel
+        public class ViewModel
         {
             #region Properties
             public bool ShowSaveButton { get; set; }

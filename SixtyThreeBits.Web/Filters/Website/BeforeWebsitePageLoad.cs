@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using SixtyThreeBits.Core.Utilities;
 using SixtyThreeBits.Web.Domain.Libraries;
 using SixtyThreeBits.Web.Domain.Utilities;
 using SixtyThreeBits.Web.Domain.ViewModels.Website;
@@ -26,7 +25,6 @@ namespace SixtyThreeBits.Web.Filters.Website
             await initStartUp(filterContext);
             initClientPlugins();
             initPageTitle();
-            initLanguageSwitch();
 
             WebUtilities.SetLayoutViewModel(viewData: c.ViewData, viewModel: _viewModel, key: WebConstants.ViewData.LayoutViewModel);
             await next();
@@ -34,8 +32,7 @@ namespace SixtyThreeBits.Web.Filters.Website
 
         async Task initStartUp(ActionExecutingContext filterContext)
         {
-            var repository = _model.RepositoriesFactory.GetSystemPropertiesRepository();
-            _model.LanguageCultureCode = filterContext.RouteData.Values[WebConstants.RouteValues.Culture]?.ToString() ?? Enums.Languages.GEORGIAN;
+            var repository = _model.RepositoriesFactory.GetSystemPropertiesRepository();            
             _model.SystemProperties = await repository.SystemPropertiesGet();
             _viewModel.ProjectName = _model.SystemProperties.ProjectName;            
         }
@@ -56,19 +53,7 @@ namespace SixtyThreeBits.Web.Filters.Website
         void initPageTitle()
         {
             _model.PageTitle = _viewModel.PageTitle = new PageTitle(_model.SystemProperties.ProjectName);
-        }
-
-
-        void initLanguageSwitch()
-        {
-            _viewModel.ShowUrlKa = _model.LanguageCultureCode != Enums.Languages.GEORGIAN;
-            _viewModel.ShowUrlEn = !_viewModel.ShowUrlKa;
-
-            var Index = _model.UrlCurrentPageWithDomain.IndexOf('/', 8) + 1;
-
-            _viewModel.UrlEn = _model.UrlCurrentPageWithDomain.Replace($"/{_model.LanguageCultureCode}", null);
-            _viewModel.UrlKa = _model.UrlCurrentPageWithDomain.Insert(Index, $"{Enums.Languages.ENGLISH}/").Replace($"/{_model.LanguageCultureCode}", null);
-        }
+        }        
         #endregion
 
         #region Nested Classes

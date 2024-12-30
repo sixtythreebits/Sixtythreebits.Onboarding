@@ -22,8 +22,7 @@ namespace SixtyThreeBits.Web.Models.Base
 {
     public class ModelBase
     {
-        #region Properties
-        public string LanguageCultureCode { get; set; }
+        #region Properties        
         public string ControllerName { get; set; }
         public string ActionName { get; set; }
         public string UrlCurrentPageWithDomain { get; set; }
@@ -103,26 +102,6 @@ namespace SixtyThreeBits.Web.Models.Base
             };
         }
 
-        public string GetRouteByName(string routeName, object routeValues = null, string languageCultureCode = null)
-        {
-            if (string.IsNullOrWhiteSpace(languageCultureCode))
-            {
-                languageCultureCode = LanguageCultureCode;
-            }
-
-            var result = Url.RouteUrl(routeName, routeValues);
-            if (languageCultureCode == Utilities.LanguageDefault.LanguageCultureCode)
-            {
-                result = $"{WebsiteHttpPath}{result.TrimStart('/')}";
-            }
-            else
-            {
-                result = $"{WebsiteHttpPath}{languageCultureCode}{result}";
-            }
-            return result;
-
-        }
-       
         public async Task SaveUploadedFile(IFormFile postedFile, string filename, string folderPath = null)
         {
             using (var MS = new MemoryStream())
@@ -186,7 +165,6 @@ namespace SixtyThreeBits.Web.Models.Base
             }
         }
         #endregion
-
         #endregion
     }
 }

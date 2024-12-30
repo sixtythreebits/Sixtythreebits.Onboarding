@@ -32,7 +32,7 @@ namespace SixtyThreeBits.Web.Controllers.Admin
         [Route("grid/add", Name = ControllerActionRouteNames.Admin.RolesControllers.GridAdd)]
         public async Task<ActionResult> RolesGridAdd(int? key, string values)
         {
-            var submitModel = values.DeserializeJsonTo<RolesModel.PageViewModel.GridModel.GridItem>() ?? new RolesModel.PageViewModel.GridModel.GridItem();
+            var submitModel = values.DeserializeJsonTo<RolesModel.ViewModel.GridModel.GridItem>() ?? new RolesModel.ViewModel.GridModel.GridItem();
             await Model.CRUD(databaseAction: Enums.DatabaseActions.CREATE, roleID: key, submitModel: submitModel);
             if (Model.Form.HasErrors)
             {
@@ -48,7 +48,7 @@ namespace SixtyThreeBits.Web.Controllers.Admin
         [Route("grid/update", Name = ControllerActionRouteNames.Admin.RolesControllers.GridUpdate)]
         public async Task<ActionResult> RolesGridUpdate(int? key, string values)
         {
-            var submitModel = values.DeserializeJsonTo<RolesModel.PageViewModel.GridModel.GridItem>() ?? new RolesModel.PageViewModel.GridModel.GridItem();
+            var submitModel = values.DeserializeJsonTo<RolesModel.ViewModel.GridModel.GridItem>() ?? new RolesModel.ViewModel.GridModel.GridItem();
             await Model.CRUD(databaseAction: Enums.DatabaseActions.UPDATE, roleID: key, submitModel: submitModel);
             if (Model.Form.HasErrors)
             {
@@ -64,7 +64,7 @@ namespace SixtyThreeBits.Web.Controllers.Admin
         [Route("grid/delete", Name = ControllerActionRouteNames.Admin.RolesControllers.GridDelete)]
         public async Task<ActionResult> RolesGridDelete(int? key)
         {
-            await Model.CRUD(databaseAction: Enums.DatabaseActions.DELETE, roleID: key, submitModel: new RolesModel.PageViewModel.GridModel.GridItem());
+            await Model.CRUD(databaseAction: Enums.DatabaseActions.DELETE, roleID: key, submitModel: new RolesModel.ViewModel.GridModel.GridItem());
             if (Model.Form.HasErrors)
             {
                 return GetDevexpressErrorResult(Model.Form.ErrorMessage);

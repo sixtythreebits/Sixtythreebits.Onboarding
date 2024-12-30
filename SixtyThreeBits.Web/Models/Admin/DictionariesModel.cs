@@ -17,12 +17,12 @@ namespace SixtyThreeBits.Web.Models.Admin
     public class DictionariesModel : ModelBase
     {
         #region Methods
-        public PageViewModel GetPageViewModel()
+        public ViewModel GetViewModel()
         {
-            var viewModel = new PageViewModel();
+            var viewModel = new ViewModel();
             viewModel.ShowAddNewButton = User.HasPermission(ControllerActionRouteNames.Admin.DictionariesController.TreeAdd);
 
-            viewModel.Tree = new PageViewModel.TreeModel();
+            viewModel.Tree = new ViewModel.TreeModel();
             viewModel.Tree.AllowAdd = User.HasPermission(ControllerActionRouteNames.Admin.DictionariesController.TreeAdd);
             viewModel.Tree.AllowUpdate = User.HasPermission(ControllerActionRouteNames.Admin.DictionariesController.TreeUpdate);
             viewModel.Tree.AllowDelete = User.HasPermission(ControllerActionRouteNames.Admin.DictionariesController.TreeDelete);
@@ -34,11 +34,11 @@ namespace SixtyThreeBits.Web.Models.Admin
             return viewModel;
         }
 
-        public async Task<List<PageViewModel.TreeModel.TreeItem>> GetTreeModel()
+        public async Task<List<ViewModel.TreeModel.TreeItem>> GetTreeModel()
         {
             var repository = RepositoriesFactory.GetDictionariesRepository();
             var viewModel = (await repository.DictionariesList())
-            .Select(Item => new PageViewModel.TreeModel.TreeItem
+            .Select(Item => new ViewModel.TreeModel.TreeItem
             {
                 DictionaryID = Item.DictionaryID,
                 DictionaryParentID = Item.DictionaryParentID,
@@ -54,7 +54,7 @@ namespace SixtyThreeBits.Web.Models.Admin
             return viewModel;
         }
 
-        public async Task CRUD(Enums.DatabaseActions DatabaseAction, int? dictionaryID, PageViewModel.TreeModel.TreeItem submitModel)
+        public async Task CRUD(Enums.DatabaseActions DatabaseAction, int? dictionaryID, ViewModel.TreeModel.TreeItem submitModel)
         {
             var repository = RepositoriesFactory.GetDictionariesRepository();
             await repository.DictionariesIUD(
@@ -91,7 +91,7 @@ namespace SixtyThreeBits.Web.Models.Admin
         #endregion
 
         #region Nested Classes
-        public class PageViewModel
+        public class ViewModel
         {
             #region Properties
             public bool ShowAddNewButton { get; set; }

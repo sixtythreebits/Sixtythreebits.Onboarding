@@ -12,11 +12,11 @@ namespace SixtyThreeBits.Web.Models.Admin
     public class LoginModel : ModelBase
     {
         #region Methods
-        public PageViewModel GetPageViewModel(PageViewModel viewModel = null)
+        public ViewModel GetViewModel(ViewModel viewModel = null)
         {
             if (viewModel == null)
             {
-                viewModel = new PageViewModel();
+                viewModel = new ViewModel();
             }
             viewModel.PluginsClient = PluginsClient;
             viewModel.ProjectName = SystemProperties.ProjectName;
@@ -29,7 +29,7 @@ namespace SixtyThreeBits.Web.Models.Admin
             return isLoggedIn;
         }
 
-        public async Task<bool> AuthenticateUser(PageViewModel viewModel)
+        public async Task<bool> AuthenticateUser(ViewModel viewModel)
         {
             bool isAuthenticated = false;
 
@@ -72,7 +72,7 @@ namespace SixtyThreeBits.Web.Models.Admin
         #endregion
 
         #region Nested Classes
-        public class PageViewModel
+        public class ViewModel
         {
             #region Properties         
             public PluginsClientViewModel PluginsClient { get; set; }

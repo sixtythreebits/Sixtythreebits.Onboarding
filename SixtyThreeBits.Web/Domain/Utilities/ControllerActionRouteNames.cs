@@ -12,14 +12,7 @@
                 public const string Logout = "AdminAuthLogout";
                 public const string Relogin = "AdminAuthRelogin";
                 #endregion
-            }
-            
-            public static class ChangeLanguageController
-            {
-                #region Properties
-                public const string ChangeLanguage = "AdminChangeLanguageControllerChangeLanguage";
-                #endregion
-            }
+            }                        
 
             public static class DictionariesController
             {

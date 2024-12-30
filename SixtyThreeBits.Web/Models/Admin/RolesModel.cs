@@ -17,12 +17,12 @@ namespace SixtyThreeBits.Web.Models.Admin
     public class RolesModel : ModelBase
     {
         #region Methods
-        public PageViewModel GetPageViewModel()
+        public ViewModel GetPageViewModel()
         {
-            var viewModel = new PageViewModel();
+            var viewModel = new ViewModel();
             viewModel.ShowAddNewButton = User.HasPermission(ControllerActionRouteNames.Admin.RolesControllers.GridAdd);
 
-            viewModel.Grid = new PageViewModel.GridModel();
+            viewModel.Grid = new ViewModel.GridModel();
             viewModel.Grid.AllowAdd = User.HasPermission(ControllerActionRouteNames.Admin.RolesControllers.GridAdd);
             viewModel.Grid.AllowUpdate = User.HasPermission(ControllerActionRouteNames.Admin.RolesControllers.GridUpdate);
             viewModel.Grid.AllowDelete = User.HasPermission(ControllerActionRouteNames.Admin.RolesControllers.GridDelete);
@@ -34,11 +34,11 @@ namespace SixtyThreeBits.Web.Models.Admin
             return viewModel;
         }
 
-        public async Task<List<PageViewModel.GridModel.GridItem>> GetGridViewModel()
+        public async Task<List<ViewModel.GridModel.GridItem>> GetGridViewModel()
         {
             var repository = RepositoriesFactory.GetRolesRepository();
             var viewModel = (await repository.RolesList())
-            .Select(Item => new PageViewModel.GridModel.GridItem
+            .Select(Item => new ViewModel.GridModel.GridItem
             {
                 RoleID = Item.RoleID,
                 RoleName = Item.RoleName,
@@ -48,7 +48,7 @@ namespace SixtyThreeBits.Web.Models.Admin
             return viewModel;
         }
 
-        public async Task CRUD(Enums.DatabaseActions databaseAction, int? roleID, PageViewModel.GridModel.GridItem submitModel)
+        public async Task CRUD(Enums.DatabaseActions databaseAction, int? roleID, ViewModel.GridModel.GridItem submitModel)
         {
             var repository = RepositoriesFactory.GetRolesRepository();
             await repository.RolesIUD(
@@ -69,7 +69,7 @@ namespace SixtyThreeBits.Web.Models.Admin
         #endregion
 
         #region Nested Classes
-        public class PageViewModel
+        public class ViewModel
         {
             #region Properties
             public bool ShowAddNewButton { get; set; }

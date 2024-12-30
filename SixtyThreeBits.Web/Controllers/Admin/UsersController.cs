@@ -17,7 +17,7 @@ namespace SixtyThreeBits.Web.Controllers.Admin
         public async Task<ActionResult> Users()
         {
             Model.PluginsClient.EnableDevextreme(true);
-            var viewModel = await Model.GetPageViewModel();
+            var viewModel = await Model.GetViewModel();
             return View(ViewNames.Admin.Users.UsersView, viewModel);
         }
 
@@ -32,7 +32,7 @@ namespace SixtyThreeBits.Web.Controllers.Admin
         [Route("grid/add", Name = ControllerActionRouteNames.Admin.UsersController.GridAdd)]
         public async Task<ActionResult> UsersGridAdd(int? key, string values)
         {
-            var submitModel = values.DeserializeJsonTo<UsersModel.PageViewModel.GridModel.GridItem>() ?? new UsersModel.PageViewModel.GridModel.GridItem();
+            var submitModel = values.DeserializeJsonTo<UsersModel.ViewModel.GridModel.GridItem>() ?? new UsersModel.ViewModel.GridModel.GridItem();
             await Model.ValidateUserEmail(userEmail: submitModel.UserEmail, userID: key);
             if (Model.Form.HasErrors)
             {
@@ -50,7 +50,7 @@ namespace SixtyThreeBits.Web.Controllers.Admin
         public async Task<ActionResult> UsersGridUpdate(int? key, string values)
         {
             var result = default(ActionResult);
-            var submitModel = values.DeserializeJsonTo<UsersModel.PageViewModel.GridModel.GridItem>() ?? new UsersModel.PageViewModel.GridModel.GridItem();
+            var submitModel = values.DeserializeJsonTo<UsersModel.ViewModel.GridModel.GridItem>() ?? new UsersModel.ViewModel.GridModel.GridItem();
 
             await Model.ValidateUserEmail(userEmail: submitModel.UserEmail, userID: key);
             if (Model.Form.HasErrors)
@@ -77,7 +77,7 @@ namespace SixtyThreeBits.Web.Controllers.Admin
         [Route("grid/delete", Name = ControllerActionRouteNames.Admin.UsersController.GridDelete)]
         public async Task<ActionResult> UsersGridDelete(int? key)
         {
-            await Model.CRUD(databaseAction: Enums.DatabaseActions.DELETE, userID: key, submitModel: new UsersModel.PageViewModel.GridModel.GridItem());
+            await Model.CRUD(databaseAction: Enums.DatabaseActions.DELETE, userID: key, submitModel: new UsersModel.ViewModel.GridModel.GridItem());
             if (Model.Form.HasErrors)
             {
                 return GetDevexpressErrorResult(Model.Form.ErrorMessage);
