@@ -1,34 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <UserSecretsId>920b1ae2-b527-45b0-b2d9-ed8ff53e6aae</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Remove="App_Data\**" />
-    <Content Remove="App_Data\**" />
-    <EmbeddedResource Remove="App_Data\**" />
-    <None Remove="App_Data\**" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Remove="Models\Admin\ProductsModel2.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="63BITS.Libraries.DotNetCore" Version="1.0.7" />
-    <PackageReference Include="DevExpress.AspNetCore.Reporting" Version="24.1.5" />
-    <PackageReference Include="DevExtreme.AspNet.Core" Version="24.1.5" />
-    <PackageReference Include="DevExtreme.AspNet.Data" Version="4.0.1" />
-    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="8.0.0" />
+    <PackageReference Include="63BITS.Libraries.DotNetCore" Version="1.0.8" />
+    <PackageReference Include="DevExtreme.AspNet.Core" Version="24.2.3" />
+    <PackageReference Include="DevExtreme.AspNet.Data" Version="5.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SixtyThreeBits.Core\SixtyThreeBits.Core.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="wwwroot\upload\" />
-  </ItemGroup>
-  <ProjectExtensions>
-    <VisualStudio>
-      <UserProperties DismissedDevExtremeVersion="" />
-    </VisualStudio>
-  </ProjectExtensions>
 </Project>
