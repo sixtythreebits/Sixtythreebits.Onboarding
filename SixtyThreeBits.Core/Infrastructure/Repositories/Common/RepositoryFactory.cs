@@ -24,12 +24,7 @@ namespace SixtyThreeBits.Core.Infrastructure.Repositories
         public PermissionsRepository GetPermissionsRepository()
         {
             return new PermissionsRepository(_dbContextFactory);
-        }
-
-        public ProductsRepository GetProductsRepository()
-        {
-            return new ProductsRepository(_dbContextFactory);
-        }
+        }        
 
         public RolesRepository GetRolesRepository()
         {
