@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace SixtyThreeBits.Core.Libraries.FileStorages.Common
+namespace SixtyThreeBits.Core.Libraries.FileStorages.DTO
 {
-    public record FileStorageItem
+    public record FileStorageItemDTO
     (
         string Filename,
         long FilesizeBytes,
