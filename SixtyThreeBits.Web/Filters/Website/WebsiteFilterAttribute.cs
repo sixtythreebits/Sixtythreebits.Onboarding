@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SixtyThreeBits.Web.Filters.Website
 {
-    public class BeforeWebsitePageLoad : IAsyncActionFilter
+    public class WebsiteFilterAttribut : IAsyncActionFilter
     {
         #region Properties
         ModelBase _model;

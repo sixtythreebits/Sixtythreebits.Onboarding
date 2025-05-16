@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace SixtyThreeBits.Core.DTO
+namespace SixtyThreeBits.Core.Infrastructure.Repositories.DTO
 {
     public record UserDTO
     {

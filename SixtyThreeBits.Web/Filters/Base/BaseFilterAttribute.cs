@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
-using SixtyThreeBits.Core.DTO;
 using SixtyThreeBits.Core.Factories;
+using SixtyThreeBits.Core.Infrastructure.Repositories.DTO;
 using SixtyThreeBits.Core.Libraries.FileStorages;
 using SixtyThreeBits.Core.Utilities;
 using SixtyThreeBits.Libraries.Extensions;
@@ -13,16 +13,16 @@ using SixtyThreeBits.Web.Domain.ViewModels.Shared;
 using SixtyThreeBits.Web.Models.Base;
 using System.Threading.Tasks;
 
-namespace SixtyThreeBits.Web.Filters.Shared
+namespace SixtyThreeBits.Web.Filters.Base
 {
-    public class SharedFilterAttribute : IAsyncActionFilter
+    public class BaseFilterAttribute : IAsyncActionFilter
     {
         AppSettingsCollection _appSettings;
         UtilityCollection _utilities;
         RepositoryFactory _dataAccessFactory;
         ModelBase _model;
 
-        public SharedFilterAttribute(AppSettingsCollection appSettings, UtilityCollection utilities, RepositoryFactory dataAccessFactory)
+        public BaseFilterAttribute(AppSettingsCollection appSettings, UtilityCollection utilities, RepositoryFactory dataAccessFactory)
         {
             _appSettings = appSettings;
             _utilities = utilities;

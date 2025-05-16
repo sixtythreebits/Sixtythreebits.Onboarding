@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace SixtyThreeBits.Web.Filters.Admin
 {
-    public class BeforeAdminPageLoad : IAsyncActionFilter
+    public class AdminFilterAttribute : IAsyncActionFilter
     {
         #region Properties
         ModelBase _model;
