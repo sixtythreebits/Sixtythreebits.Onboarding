@@ -1,23 +1,17 @@
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Localization;
-using Microsoft.AspNetCore.ResponseCompression;
-using Microsoft.AspNetCore.Rewrite;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
-using SixtyThreeBits.Core.Infrastructure.Repositories;
+using SixtyThreeBits.Core.Factories;
+using SixtyThreeBits.Core.Libraries.Loggers;
 using SixtyThreeBits.Core.Utilities;
-using SixtyThreeBits.Libraries.Extensions;
-using SixtyThreeBits.Web.Domain.Libraries;
 using SixtyThreeBits.Web.Domain.Utilities;
 using SixtyThreeBits.Web.Domain.ViewModels.Shared;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace SixtyThreeBits.Web
@@ -43,9 +37,19 @@ namespace SixtyThreeBits.Web
                 appSettingsConfiguration = new ConfigurationBuilder().SetBasePath(env.ContentRootPath).AddJsonFile("appsettings.release.json").Build();                
                 #endif
             }
-            _appSettings = new AppSettingsCollection(env.WebRootPath, appSettingsConfiguration);
-            _utilities = new UtilityCollection();
-            _repositoryFactory = new RepositoryFactory(_appSettings.ConnectionStrings.DbConnectionString);            
+            _appSettings = new AppSettingsCollection(
+                contentRootPath: env.ContentRootPath,
+                webRootPath: env.WebRootPath,
+                configuration: appSettingsConfiguration
+            );
+            _utilities = new UtilityCollection(
+                contentRootPath: env.ContentRootPath,
+                webRootPath: env.WebRootPath
+            );
+            _repositoryFactory = new RepositoryFactory(
+                dbConnectionString: _appSettings.ConnectionStrings.DbConnectionString,
+                logger: new ErrorLogTxtFileLogger()
+            );
         }
 
         public void ConfigureServices(IServiceCollection services)
@@ -82,34 +86,7 @@ namespace SixtyThreeBits.Web
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            var urlRewriteOptions = new RewriteOptions().AddRedirect(@"(.*)/$", "$1", 301).AddRewrite(@"^$", "/", true).AddRewrite(@"(.*)/$", "$1", true);
-
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler(exceptionHandlerApp =>
-                {
-                    exceptionHandlerApp.Run(async context =>
-                    {
-                        var exceptionHandlerPathFeature = context.Features.Get<IExceptionHandlerPathFeature>();
-                        if (exceptionHandlerPathFeature != null)
-                        {
-                            var messageCollected = await ExceptionRequestInformationCollector.Create(request: context.Request, exception: exceptionHandlerPathFeature.Error).Collect();
-                            messageCollected.LogString();
-                            await RenderNotFoundView(context);
-                        }
-                    });
-                });
-
-                app.UseHsts();
-
-                urlRewriteOptions.AddRedirectToNonWwwPermanent().AddRedirectToHttpsPermanent();
-            }
-
-            app.UseRewriter(urlRewriteOptions);
+            app.UseDeveloperExceptionPage();
 
             app.UseFileServer();
             app.UseStaticFiles(new StaticFileOptions

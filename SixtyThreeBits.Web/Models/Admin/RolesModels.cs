@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace SixtyThreeBits.Web.Models.Admin
 {
-    public class RolesModel : ModelBase
+    public class RolesModels : ModelBase
     {
         #region Methods
         public ViewModel GetPageViewModel()
@@ -36,7 +36,7 @@ namespace SixtyThreeBits.Web.Models.Admin
 
         public async Task<List<ViewModel.GridModel.GridItem>> GetGridViewModel()
         {
-            var repository = RepositoriesFactory.GetRolesRepository();
+            var repository = RepositoriesFactory.CreateRolesRepository();
             var viewModel = (await repository.RolesList())
             .Select(Item => new ViewModel.GridModel.GridItem
             {
@@ -50,7 +50,7 @@ namespace SixtyThreeBits.Web.Models.Admin
 
         public async Task CRUD(Enums.DatabaseActions databaseAction, int? roleID, ViewModel.GridModel.GridItem submitModel)
         {
-            var repository = RepositoriesFactory.GetRolesRepository();
+            var repository = RepositoriesFactory.CreateRolesRepository();
             await repository.RolesIUD(
                 databaseAction: databaseAction,
                 roleID: roleID,
@@ -86,7 +86,7 @@ namespace SixtyThreeBits.Web.Models.Admin
 
                     grid
                     .ID("Roles.Grid")
-                    .OnInitialized("rolesModel.onGridInit")
+                    .OnInitialized("model.onGridInit")
                     .Columns(columns =>
                     {
                         columns.AddFor(m => m.RoleName).Caption(Resources.TextName).Width(300).ValidationRules(options =>

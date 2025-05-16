@@ -32,7 +32,7 @@ namespace SixtyThreeBits.Web.Filters.Website
 
         async Task initStartUp(ActionExecutingContext filterContext)
         {
-            var repository = _model.RepositoriesFactory.GetSystemPropertiesRepository();            
+            var repository = _model.RepositoriesFactory.CreateSystemPropertiesRepository();            
             _model.SystemProperties = await repository.SystemPropertiesGet();
             _viewModel.ProjectName = _model.SystemProperties.ProjectName;            
         }

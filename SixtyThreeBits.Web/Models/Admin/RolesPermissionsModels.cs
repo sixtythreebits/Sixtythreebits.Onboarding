@@ -23,9 +23,9 @@ namespace SixtyThreeBits.Web.Models.Admin
             viewModel.UrlPermissionsGetByRole = Url.RouteUrl(ControllerActionRouteNames.Admin.RolePermissionsController.GetPermissionsByRole);
             viewModel.UrlSave = Url.RouteUrl(ControllerActionRouteNames.Admin.RolePermissionsController.Save);
 
-            viewModel.RolesGrid = new ViewModel.RolesGridModel();
+            viewModel.RolesGrid = new ViewModel.RolesGridViewModel();
             viewModel.RolesGrid.UrlLoad = Url.RouteUrl(ControllerActionRouteNames.Admin.RolePermissionsController.RolesGrid);
-            viewModel.PermissionsTree = new ViewModel.PermissionsTreeModel();
+            viewModel.PermissionsTree = new ViewModel.PermissionsTreeViewModel();
             viewModel.PermissionsTree.UrlLoad = Url.RouteUrl(ControllerActionRouteNames.Admin.RolePermissionsController.PermissionsTree);
 
             return viewModel;
@@ -34,50 +34,57 @@ namespace SixtyThreeBits.Web.Models.Admin
         public async Task<AjaxResponse> GetRolePermissions(int? roleID)
         {
             var viewModel = new AjaxResponse();
-            var repository = RepositoriesFactory.GetPermissionsRepository();
-            var permissions = await repository.PermissionsListByRoleID(roleID);
-            var permissionIDs = permissions?.Select(item=>item.PermissionID).ToList();
+            var repository = RepositoriesFactory.CreatePermissionsRepository();
+            var permissionIDs = (await repository.PermissionsListByRoleID(roleID))
+                ?.Select(item => item.PermissionID)
+                .ToList();
+
             viewModel.IsSuccess = true;
             viewModel.Data = permissionIDs;
+
             return viewModel;
         }
 
-        public async Task<List<ViewModel.RolesGridModel.GridItem>> GetRolesGridModel()
+        public async Task<List<ViewModel.RolesGridViewModel.GridItem>> ListRolesGridItems()
         {
-            var repository = RepositoriesFactory.GetRolesRepository();
+            var repository = RepositoriesFactory.CreateRolesRepository();
             var viewModel = (await repository.RolesList())
-            .Select(Item => new ViewModel.RolesGridModel.GridItem
+            ?.Select(Item => new ViewModel.RolesGridViewModel.GridItem
             {
                 RoleID = Item.RoleID,
                 RoleName = Item.RoleName
             })
             .ToList();
+
             return viewModel;
         }
 
-        public async Task<List<ViewModel.PermissionsTreeModel.TreeItem>> GetPermissionsTreeModel()
+        public async Task<List<ViewModel.PermissionsTreeViewModel.TreeItem>> ListPermissionsTreeItems()
         {
-            var repository = RepositoriesFactory.GetPermissionsRepository();
+            var repository = RepositoriesFactory.CreatePermissionsRepository();
             var viewModel = (await repository.PermissionsList())
-            .Select(Item => new ViewModel.PermissionsTreeModel.TreeItem
+            ?.Select(Item => new ViewModel.PermissionsTreeViewModel.TreeItem
             {
                 PermissionID = Item.PermissionID,
                 PermissionParentID = Item.PermissionParentID,
                 PermissionCaption = Item.PermissionCaption
             })
             .ToList();
+
             return viewModel;
         }
 
-        public async Task<AjaxResponse> SaveRolePermissions(ViewModel.RolePermissionSaveSubmitModel submitModel)
+        public async Task<AjaxResponse> Save(SubmitModelRolePermissionSave submitModel)
         {
             var viewModel = new AjaxResponse();
-            var repository = RepositoriesFactory.GetRolesRepository();
+            var repository = RepositoriesFactory.CreateRolesRepository();
+
             await repository.RolesPermissionsUpdate(
                 roleID: submitModel.RoleID,
                 permissionIDs: submitModel.PermissionIDs
             );
             viewModel.IsSuccess = !repository.IsError;
+
             return viewModel;
         }
         #endregion
@@ -87,8 +94,8 @@ namespace SixtyThreeBits.Web.Models.Admin
         {
             #region Properties
             public bool ShowSaveButton { get; set; }
-            public RolesGridModel RolesGrid { get; set; }
-            public PermissionsTreeModel PermissionsTree { get; set; }
+            public RolesGridViewModel RolesGrid { get; set; }
+            public PermissionsTreeViewModel PermissionsTree { get; set; }
             public string UrlPermissionsGetByRole { get; set; }
             public string UrlSave { get; set; }
 
@@ -97,7 +104,7 @@ namespace SixtyThreeBits.Web.Models.Admin
             #endregion
 
             #region Nested Classes
-            public class RolesGridModel : DevExtremeGridViewModelBase<RolesGridModel.GridItem>
+            public class RolesGridViewModel : DevExtremeGridViewModelBase<RolesGridViewModel.GridItem>
             {
                 #region Methods
                 public override DataGridBuilder<GridItem> Render(IHtmlHelper Html)
@@ -106,8 +113,8 @@ namespace SixtyThreeBits.Web.Models.Admin
 
                     Grid
                     .ID("RolesGrid")
-                    .OnInitialized("rolesPermissionsModel.onRolesGridInit")
-                    .OnFocusedRowChanged("rolesPermissionsModel.onRolesGridFocusedRowChanged")
+                    .OnInitialized("model.onGridInit")
+                    .OnFocusedRowChanged("model.onGridFocusedRowChanged")
                     .FilterRow(Options =>
                     {
                         Options.Visible(false);
@@ -141,17 +148,17 @@ namespace SixtyThreeBits.Web.Models.Admin
                 #endregion
             }
 
-            public class PermissionsTreeModel : DevExtremeTreeViewModelBase<PermissionsTreeModel.TreeItem>
+            public class PermissionsTreeViewModel : DevExtremeTreeViewModelBase<PermissionsTreeViewModel.TreeItem>
             {
                 #region Methods
                 public override TreeListBuilder<TreeItem> Render(IHtmlHelper Html)
                 {
-                    var Tree = CreateTreeWithStartupValues(html: Html, keyFieldName: nameof(TreeItem.PermissionID), parentFieldName: nameof(TreeItem.PermissionParentID));
+                    var tree = CreateTreeWithStartupValues(html: Html, keyFieldName: nameof(TreeItem.PermissionID), parentFieldName: nameof(TreeItem.PermissionParentID));
 
-                    Tree
+                    tree
                     .ID("PermissionsTree")
-                    .OnInitialized("rolesPermissionsModel.onPermissionsTreeInit")
-                    .OnContentReady("rolesPermissionsModel.onPermissionsTreeContentReady")
+                    .OnInitialized("model.onTreeInit")
+                    .OnContentReady("model.onTreeContentReady")
                     .FilterRow(Options =>
                     {
                         Options.Visible(false);
@@ -175,7 +182,7 @@ namespace SixtyThreeBits.Web.Models.Admin
 
                     });
 
-                    return Tree;
+                    return tree;
                 }
                 #endregion
 
@@ -189,15 +196,15 @@ namespace SixtyThreeBits.Web.Models.Admin
                     #endregion
                 }
                 #endregion
-            }
+            }            
+            #endregion
+        }
 
-            public class RolePermissionSaveSubmitModel
-            {
-                #region Properties
-                public int? RoleID { get; set; }
-                public List<int?> PermissionIDs { get; set; }
-                #endregion
-            }
+        public class SubmitModelRolePermissionSave
+        {
+            #region Properties
+            public int? RoleID { get; set; }
+            public List<int?> PermissionIDs { get; set; }
             #endregion
         }
         #endregion

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using System.IO;
 using System.Runtime.CompilerServices;
 
 namespace SixtyThreeBits.Core.Utilities
@@ -7,24 +8,35 @@ namespace SixtyThreeBits.Core.Utilities
     {
         #region Properties        
         IConfiguration _configuration;
-
-        public readonly string WebRootPath;
+        const string _uploadFolderName = "upload";
+        const string _downloadFolderName = "download";
 
         public readonly ConnectionStringSettings ConnectionStrings;
-
-        public readonly string OgImageDefaultHttpPath = "/img/og_image_default.jpg";
-
-        public string DownloadFolderPhysicalPath => GetConfigValue();
-        public string UploadFolderPhysicalPath => GetConfigValue();
-        public string UploadFolderHttpPath => GetConfigValue();
-        public bool IsDevelopment => GetConfigValue() == "true";
+        public readonly string ContentRootPath;
+        public readonly string DownloadFolderPhysicalPath;                        
+        public readonly string UploadFolderPhysicalPath;
+        public readonly string UploadFolderHttpPath = $"/{_uploadFolderName}/";
+        public readonly string WebRootPath;
         #endregion
 
         #region Constructors
-        public AppSettingsCollection(string webRootPath, IConfiguration configuration)
+        public AppSettingsCollection(string contentRootPath, string webRootPath, IConfiguration configuration)
         {
-            WebRootPath = webRootPath;
             _configuration = configuration;
+            ContentRootPath = contentRootPath;
+            WebRootPath = webRootPath;
+
+            DownloadFolderPhysicalPath = $"{WebRootPath}{Path.DirectorySeparatorChar}{_downloadFolderName}";
+            UploadFolderPhysicalPath = GetConfigValue(nameof(UploadFolderPhysicalPath));
+            if (string.IsNullOrWhiteSpace(UploadFolderPhysicalPath))
+            {
+                UploadFolderPhysicalPath = $"{WebRootPath}{Path.DirectorySeparatorChar}{_uploadFolderName}";
+            }
+            if (string.IsNullOrWhiteSpace(UploadFolderPhysicalPath))
+            {
+                throw new System.Exception($"UploadFolderPhysicalPath: \"{UploadFolderPhysicalPath}\" is not found");
+            }
+            
             ConnectionStrings = new ConnectionStringSettings(configuration);
         }
         #endregion
@@ -40,7 +52,7 @@ namespace SixtyThreeBits.Core.Utilities
         {
             #region Properties
             IConfiguration _configuration { get; set; }
-            public string DbConnectionString => getDbConnectionString();            
+            public string DbConnectionString => GetDBConnectionString();            
             #endregion
 
             #region Constructors
@@ -51,7 +63,7 @@ namespace SixtyThreeBits.Core.Utilities
             #endregion
 
             #region Methods
-            string getDbConnectionString([CallerMemberName] string key = "")
+            string GetDBConnectionString([CallerMemberName] string key = "")
             {
                 return _configuration.GetConnectionString(key);
             }

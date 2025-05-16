@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace SixtyThreeBits.Web.Models.Admin
 {
-    public class DictionariesModel : ModelBase
+    public class DictionariesModels : ModelBase
     {
         #region Methods
         public ViewModel GetViewModel()
@@ -28,7 +28,7 @@ namespace SixtyThreeBits.Web.Models.Admin
             viewModel.Tree.AllowDelete = User.HasPermission(ControllerActionRouteNames.Admin.DictionariesController.TreeDelete);
             viewModel.Tree.UrlLoad = Url.RouteUrl(ControllerActionRouteNames.Admin.DictionariesController.Tree);
             viewModel.Tree.UrlAddNew = Url.RouteUrl(ControllerActionRouteNames.Admin.DictionariesController.TreeAdd);
-            viewModel.Tree.UrlUpdate = viewModel.UrlUpdate = Url.RouteUrl(ControllerActionRouteNames.Admin.DictionariesController.TreeUpdate);
+            viewModel.Tree.UrlUpdate = Url.RouteUrl(ControllerActionRouteNames.Admin.DictionariesController.TreeUpdate);
             viewModel.Tree.UrlDelete = Url.RouteUrl(ControllerActionRouteNames.Admin.DictionariesController.TreeDelete);
 
             return viewModel;
@@ -36,7 +36,7 @@ namespace SixtyThreeBits.Web.Models.Admin
 
         public async Task<List<ViewModel.TreeModel.TreeItem>> GetTreeModel()
         {
-            var repository = RepositoriesFactory.GetDictionariesRepository();
+            var repository = RepositoriesFactory.CreateDictionariesRepository();
             var viewModel = (await repository.DictionariesList())
             .Select(Item => new ViewModel.TreeModel.TreeItem
             {
@@ -56,7 +56,7 @@ namespace SixtyThreeBits.Web.Models.Admin
 
         public async Task CRUD(Enums.DatabaseActions DatabaseAction, int? dictionaryID, ViewModel.TreeModel.TreeItem submitModel)
         {
-            var repository = RepositoriesFactory.GetDictionariesRepository();
+            var repository = RepositoriesFactory.CreateDictionariesRepository();
             await repository.DictionariesIUD(
                 databaseAction: DatabaseAction,
                 dictionaryID: dictionaryID,
@@ -81,7 +81,7 @@ namespace SixtyThreeBits.Web.Models.Admin
 
         public async Task DeleteRecursive(int? dictionaryID)
         {
-            var repository = RepositoriesFactory.GetDictionariesRepository();
+            var repository = RepositoriesFactory.CreateDictionariesRepository();
             await repository.DictionariesDeleteRecursive(dictionaryID);
             if (repository.IsError)
             {
@@ -95,8 +95,7 @@ namespace SixtyThreeBits.Web.Models.Admin
         {
             #region Properties
             public bool ShowAddNewButton { get; set; }
-            public TreeModel Tree { get; set; }
-            public string UrlUpdate { get; set; }
+            public TreeModel Tree { get; set; }            
             #endregion
 
             #region Nested Classes
@@ -109,7 +108,7 @@ namespace SixtyThreeBits.Web.Models.Admin
 
                     tree
                     .ID("DictionariesTree")
-                    .OnInitialized("dictionariesModel.onTreeInit")
+                    .OnInitialized("model.onTreeInit")
                     .AutoExpandAll(false)
                     .Pager(options =>
                     {

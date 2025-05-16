@@ -65,7 +65,7 @@
             public static class RolePermissionsController
             {
                 #region Properties
-                public const string RolePermissions = "AdminRolePermissionsControllerRolePermissions";
+                public const string RolesPermissions = "AdminRolePermissionsControllerRolesPermissions";
                 public const string RolesGrid = "AdminRolePermissionsControllerRolesGrid";
                 public const string PermissionsTree = "AdminRolePermissionsControllerPermissionsTree";
                 public const string GetPermissionsByRole = "AdminRolePermissionsControllerGetPermissionsByRole";

@@ -1,10 +1,10 @@
-﻿const permissionsModel = {    
+﻿const model = {    
     tree: null,
     urlUpdate: null,
 
     onTreeInit: function (e) {
-        permissionsModel.tree = e.component;
-        globals.devexpress.setGridFullHeight(e.component, e.element[0]);
+        model.tree = e.component;
+        globals.devexpress.setGridFullHeight(e.component);
     },
     onTreeInitNewRow: function (e) {
         e.data.PermissionIsMenuItem = false;
@@ -38,6 +38,6 @@
 
 $(function () {
     $(globals.selectors.buttonAddNew).click(function () {
-        permissionsModel.tree.addRow();
+        model.tree.addRow();
     });
 });

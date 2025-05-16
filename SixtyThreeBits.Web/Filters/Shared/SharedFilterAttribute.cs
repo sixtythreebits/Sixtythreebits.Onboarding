@@ -1,9 +1,8 @@
-﻿using Microsoft.AspNetCore.Localization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using SixtyThreeBits.Core.DTO;
-using SixtyThreeBits.Core.Infrastructure.Repositories;
+using SixtyThreeBits.Core.Factories;
 using SixtyThreeBits.Core.Libraries.FileStorages;
 using SixtyThreeBits.Core.Utilities;
 using SixtyThreeBits.Libraries.Extensions;
@@ -81,7 +80,7 @@ namespace SixtyThreeBits.Web.Filters.Shared
                 var userID = userIDEncrypted.AesDecryptString().ToInt();
                 if (userID != null)
                 {
-                    var repository = _dataAccessFactory.GetUsersRepository();
+                    var repository = _dataAccessFactory.CreateUsersRepository();
                     _model.User = await repository.UsersGetSingleByID(userID);
                     _model.SessionAssistance.Set(WebConstants.Session.User, _model.User);
                 }
@@ -90,7 +89,7 @@ namespace SixtyThreeBits.Web.Filters.Shared
 
         async Task InitSystemProperties()
         {
-            var repository = _dataAccessFactory.GetSystemPropertiesRepository();
+            var repository = _dataAccessFactory.CreateSystemPropertiesRepository();
             _model.SystemProperties = await repository.SystemPropertiesGet();
         }
 

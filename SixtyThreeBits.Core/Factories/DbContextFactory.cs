@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace SixtyThreeBits.Core.Infrastructure.Database
+namespace SixtyThreeBits.Core.Factories
 {
     public class DbContextFactory
     {
@@ -16,7 +16,7 @@ namespace SixtyThreeBits.Core.Infrastructure.Database
         #endregion
 
         #region Methods
-        public DbContext GetDbContext()
+        public DbContext CreateDbContext()
         {
             var optionsBuilder = new DbContextOptionsBuilder<DbContext>();
             optionsBuilder.UseSqlServer(_dbConnectionString);

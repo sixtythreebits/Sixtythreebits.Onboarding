@@ -1,7 +1,7 @@
 /*!
 * DevExtreme (dx.messages.tr.js)
-* Version: 24.2.6
-* Build date: Mon Mar 17 2025
+* Version: 24.2.7
+* Build date: Mon Apr 28 2025
 *
 * Copyright (c) 2012 - 2025 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
@@ -71,6 +71,7 @@
             "dxList-selectAll-checked": "Checked",
             "dxList-selectAll-notChecked": "Not checked",
             "dxList-ariaRoleDescription": "List",
+            "dxList-listAriaLabel-itemContent": "List item content",
             "dxScrollView-pullingDownText": "Yenilemek i\xe7in a\u015fa\u011f\u0131ya \xe7ekin...",
             "dxScrollView-pulledDownText": "Yenilemek i\xe7in b\u0131rak\u0131n...",
             "dxScrollView-refreshingText": "Yenileniyor...",

@@ -11,7 +11,7 @@ namespace SixtyThreeBits.Web.Controllers.Admin
     {
         #region Methods
         [HttpGet]
-        [Route("", Name = ControllerActionRouteNames.Admin.RolePermissionsController.RolePermissions)]
+        [Route("", Name = ControllerActionRouteNames.Admin.RolePermissionsController.RolesPermissions)]
         public ActionResult RolesPermissions()
         {
             Model.PluginsClient.EnableDevextreme(true).Enable63BitsSuccessErrorToast(true);
@@ -23,7 +23,7 @@ namespace SixtyThreeBits.Web.Controllers.Admin
         [Route("roles/grid", Name = ControllerActionRouteNames.Admin.RolePermissionsController.RolesGrid)]
         public async Task<ActionResult> RolesGrid()
         {
-            var viewModel = await Model.GetRolesGridModel();
+            var viewModel = await Model.ListRolesGridItems();
             return Json(viewModel);
         }
 
@@ -31,23 +31,23 @@ namespace SixtyThreeBits.Web.Controllers.Admin
         [Route("permissions/tree", Name = ControllerActionRouteNames.Admin.RolePermissionsController.PermissionsTree)]
         public async Task<ActionResult> PermissionsTree()
         {
-            var viewModel = await Model.GetPermissionsTreeModel();
+            var viewModel = await Model.ListPermissionsTreeItems();
             return Json(viewModel);
         }
 
         [HttpGet]
         [Route("permissions/get-by-role", Name = ControllerActionRouteNames.Admin.RolePermissionsController.GetPermissionsByRole)]
         public async Task<ActionResult> PermissionsGetByRole(int? RoleID)
-        {            
+        {
             var viewModel = await Model.GetRolePermissions(RoleID);
             return Json(viewModel);
         }
 
         [HttpPost]
         [Route("save", Name = ControllerActionRouteNames.Admin.RolePermissionsController.Save)]
-        public async Task<ActionResult> Save(RolePermissionsModel.ViewModel.RolePermissionSaveSubmitModel submitModel)
+        public async Task<ActionResult> Save(RolePermissionsModel.SubmitModelRolePermissionSave submitModel)
         {
-            var viewModel = await Model.SaveRolePermissions(submitModel);
+            var viewModel = await Model.Save(submitModel);
             return Json(viewModel);
         }
         #endregion

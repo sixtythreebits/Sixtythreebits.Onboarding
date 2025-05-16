@@ -1,7 +1,7 @@
 /*!
 * DevExtreme (dx.messages.el.js)
-* Version: 24.2.6
-* Build date: Mon Mar 17 2025
+* Version: 24.2.7
+* Build date: Mon Apr 28 2025
 *
 * Copyright (c) 2012 - 2025 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
@@ -71,6 +71,7 @@
             "dxList-selectAll-checked": "Checked",
             "dxList-selectAll-notChecked": "Not checked",
             "dxList-ariaRoleDescription": "List",
+            "dxList-listAriaLabel-itemContent": "List item content",
             "dxScrollView-pullingDownText": "\u03a3\u03cd\u03c1\u03b5\u03c4\u03b5 \u03b1\u03c0\u03bf \u03c0\u03ac\u03bd\u03c9 \u03c0\u03c1\u03bf\u03c2 \u03c4\u03b1 \u03ba\u03ac\u03c4\u03c9 \u03b3\u03b9\u03b1 \u03b1\u03bd\u03b1\u03bd\u03ad\u03c9\u03c3\u03b7...",
             "dxScrollView-pulledDownText": "\u0391\u03c0\u03b5\u03bb\u03b5\u03c5\u03b8\u03b5\u03c1\u03ce\u03c3\u03c4\u03b5 \u03b3\u03b9\u03b1 \u03b1\u03bd\u03b1\u03bd\u03ad\u03c9\u03c3\u03b7...",
             "dxScrollView-refreshingText": "\u0391\u03bd\u03b1\u03bd\u03ad\u03c9\u03c3\u03b7...",

@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace SixtyThreeBits.Web.Models.Admin
 {
-    public class PermissionsModel : ModelBase
+    public class PermissionsModels : ModelBase
     {
         #region Methods
         public ViewModel GetViewModel()
@@ -36,7 +36,7 @@ namespace SixtyThreeBits.Web.Models.Admin
 
         public async Task<List<ViewModel.TreeModel.TreeItem>> GetGridViewModel()
         {
-            var repository = RepositoriesFactory.GetPermissionsRepository();
+            var repository = RepositoriesFactory.CreatePermissionsRepository();
             var viewModel = (await repository.PermissionsList())
             .Select(item => new ViewModel.TreeModel.TreeItem
             {
@@ -58,7 +58,7 @@ namespace SixtyThreeBits.Web.Models.Admin
 
         public async Task CRUD(Enums.DatabaseActions databaseAction, int? permissionID, ViewModel.TreeModel.TreeItem submitModel)
         {
-            var repository = RepositoriesFactory.GetPermissionsRepository();
+            var repository = RepositoriesFactory.CreatePermissionsRepository();
             await repository.PermissionsIUD(
                 databaseAction: databaseAction,
                 permissionID: permissionID,
@@ -85,7 +85,7 @@ namespace SixtyThreeBits.Web.Models.Admin
 
         public async Task DeleteRecursive(int? permissionID)
         {
-            var repository = RepositoriesFactory.GetPermissionsRepository();
+            var repository = RepositoriesFactory.CreatePermissionsRepository();
             await repository.PermissionsDeleteRecursive(permissionID);
             if (repository.IsError)
             {
@@ -113,8 +113,8 @@ namespace SixtyThreeBits.Web.Models.Admin
 
                     Tree
                     .ID("PermissionsTree")
-                    .OnInitialized("permissionsModel.onTreeInit")
-                    .OnInitNewRow("permissionsModel.onTreeInitNewRow")
+                    .OnInitialized("model.onTreeInit")
+                    .OnInitNewRow("model.onTreeInitNewRow")
                     .RowDragging(Options =>
                     {
                         if (AllowUpdate)
@@ -122,7 +122,7 @@ namespace SixtyThreeBits.Web.Models.Admin
                             Options.AllowDropInsideItem(true);
                             Options.AllowReordering(false);
                             Options.ShowDragIcons(true);
-                            Options.OnReorder("permissionsModel.onTreeReorder");
+                            Options.OnReorder("model.onTreeReorder");
                         }
                     })
                     .AutoExpandAll(false)

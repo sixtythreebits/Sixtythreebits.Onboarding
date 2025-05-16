@@ -1,7 +1,7 @@
 /*!
  * DevExpress Diagram (dx-diagram)
- * Version: 2.2.15
- * Build date: Tue Jan 07 2025
+ * Version: 2.2.16
+ * Build date: Fri Apr 04 2025
  *
  * Copyright (c) 2012 - 2025 Developer Express Inc. ALL RIGHTS RESERVED
  * Read about DevExpress licensing here: https://www.devexpress.com/Support/EULAs
@@ -33447,11 +33447,11 @@ var CanvasItemsManager = (function (_super) {
     };
     CanvasItemsManager.prototype.notifyDragScrollStart = function () { };
     CanvasItemsManager.prototype.notifyDragScrollEnd = function () { };
-    CanvasItemsManager.prototype.notifyTextInputStart = function (item, text, position, size) {
+    CanvasItemsManager.prototype.notifyTextInputStart = function (item, _text, _position, _size) {
         var element = this.itemElements[item.key];
         dom_1.DomUtils.addClassName(element, "text-input");
     };
-    CanvasItemsManager.prototype.notifyTextInputEnd = function (item, captureFocus) {
+    CanvasItemsManager.prototype.notifyTextInputEnd = function (item, _captureFocus) {
         var element = this.itemElements[item.key];
         dom_1.DomUtils.removeClassName(element, "text-input");
     };
@@ -33468,7 +33468,7 @@ var CanvasItemsManager = (function (_super) {
         this.dom.changeByFunc(this.itemSelectorsContainer, function (e) { return e.setAttribute("transform", scale); });
         this.actualZoom = actualZoom;
     };
-    CanvasItemsManager.prototype.notifyViewAdjusted = function (canvasOffset) { };
+    CanvasItemsManager.prototype.notifyViewAdjusted = function (_canvasOffset) { };
     CanvasItemsManager.prototype.invalidatePrimitives = function (item) {
         if (this.primitives[item.key]) {
             this.primitives[item.key].forEach(function (primitive) {
@@ -33659,7 +33659,7 @@ var CanvasItemsManager = (function (_super) {
         if (this.itemGroupContainers[key] === undefined || this.itemGroupContainers[key][zIndex] === undefined) {
             if (this.itemGroupContainers[key] === undefined)
                 this.itemGroupContainers[key] = [];
-            var nextSiblingZIndex = Object.keys(this.itemGroupContainers[key]).map(function (z) { return +z; }).sort().filter(function (z) { return z > zIndex; })[0];
+            var nextSiblingZIndex = Object.keys(this.itemGroupContainers[key]).map(function (z) { return +z; }).sort(function (a, b) { return a - b; }).filter(function (z) { return z > zIndex; })[0];
             this.itemGroupContainers[key][zIndex] = this.createAndChangePrimitiveElement(new GroupPrimitive_1.GroupPrimitive([], null, zIndex), parent, this.itemGroupContainers[key][nextSiblingZIndex]);
         }
         return this.itemGroupContainers[key][zIndex];
@@ -33670,7 +33670,7 @@ var CanvasItemsManager = (function (_super) {
         if (this.itemSelectorGroupContainers[key] === undefined || this.itemSelectorGroupContainers[key][zIndex] === undefined) {
             if (this.itemSelectorGroupContainers[key] === undefined)
                 this.itemSelectorGroupContainers[key] = [];
-            var nextSiblingZIndex = Object.keys(this.itemSelectorGroupContainers[key]).map(function (z) { return +z; }).sort().filter(function (z) { return z > zIndex; })[0];
+            var nextSiblingZIndex = Object.keys(this.itemSelectorGroupContainers[key]).map(function (z) { return +z; }).sort(function (a, b) { return a - b; }).filter(function (z) { return z > zIndex; })[0];
             this.itemSelectorGroupContainers[key][zIndex] = this.createAndChangePrimitiveElement(new GroupPrimitive_1.GroupPrimitive([], null, zIndex), parent, this.itemSelectorGroupContainers[key][nextSiblingZIndex]);
         }
         return this.itemSelectorGroupContainers[key][zIndex];

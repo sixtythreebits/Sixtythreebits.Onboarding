@@ -6,7 +6,7 @@ using SixtyThreeBits.Web.Models.Admin;
 namespace SixtyThreeBits.Web.Controllers.Admin
 {
     [Route("admin")]
-    public class HomeController : AdminControllerBase<HomeModel>
+    public class HomeControllers : AdminControllerBase<HomeModel>
     {
         #region Actions
         [HttpGet]

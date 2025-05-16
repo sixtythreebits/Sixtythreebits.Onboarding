@@ -1,7 +1,7 @@
 /*!
 * DevExtreme (dx.messages.ar.js)
-* Version: 24.2.6
-* Build date: Mon Mar 17 2025
+* Version: 24.2.7
+* Build date: Mon Apr 28 2025
 *
 * Copyright (c) 2012 - 2025 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
@@ -71,6 +71,7 @@
             "dxList-selectAll-checked": "Checked",
             "dxList-selectAll-notChecked": "Not checked",
             "dxList-ariaRoleDescription": "List",
+            "dxList-listAriaLabel-itemContent": "List item content",
             "dxScrollView-pullingDownText": "\u0644\u0644\u062a\u062d\u062f\u064a\u062b \u0627\u0633\u062d\u0628 \u0644\u0644\u0623\u0633\u0641\u0644...",
             "dxScrollView-pulledDownText": "\u062d\u0631\u0631 \u0644\u0644\u062a\u062d\u062f\u064a\u062b ...",
             "dxScrollView-refreshingText": "\u062c\u0627\u0631 \u0627\u0644\u062a\u062d\u062f\u064a\u062b ...",

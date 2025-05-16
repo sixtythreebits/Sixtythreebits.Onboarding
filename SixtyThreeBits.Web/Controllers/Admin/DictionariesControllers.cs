@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace SixtyThreeBits.Web.Controllers.Admin
 {
     [Route("admin/dictionaries")]
-    public class DictionariesController : AdminControllerBase<DictionariesModel>
+    public class DictionariesController : AdminControllerBase<DictionariesModels>
     {
         #region Actions
         [HttpGet]
@@ -32,7 +32,7 @@ namespace SixtyThreeBits.Web.Controllers.Admin
         [Route("tree/add", Name = ControllerActionRouteNames.Admin.DictionariesController.TreeAdd)]
         public async Task<ActionResult> TreeAdd(int? key, string values)
         {
-            var submitModel = values.DeserializeJsonTo<DictionariesModel.ViewModel.TreeModel.TreeItem>() ?? new DictionariesModel.ViewModel.TreeModel.TreeItem();
+            var submitModel = values.DeserializeJsonTo<DictionariesModels.ViewModel.TreeModel.TreeItem>() ?? new DictionariesModels.ViewModel.TreeModel.TreeItem();
             await Model.CRUD(DatabaseAction: Enums.DatabaseActions.CREATE, dictionaryID: key, submitModel: submitModel);
             if (Model.Form.HasErrors)
             {
@@ -48,7 +48,7 @@ namespace SixtyThreeBits.Web.Controllers.Admin
         [Route("tree/update", Name = ControllerActionRouteNames.Admin.DictionariesController.TreeUpdate)]
         public async Task<ActionResult> TreeUpdate(int? key, string values)
         {
-            var submitModel = values.DeserializeJsonTo<DictionariesModel.ViewModel.TreeModel.TreeItem>() ?? new DictionariesModel.ViewModel.TreeModel.TreeItem();
+            var submitModel = values.DeserializeJsonTo<DictionariesModels.ViewModel.TreeModel.TreeItem>() ?? new DictionariesModels.ViewModel.TreeModel.TreeItem();
             await Model.CRUD(DatabaseAction: Enums.DatabaseActions.UPDATE, dictionaryID: key, submitModel: submitModel);
             if (Model.Form.HasErrors)
             {

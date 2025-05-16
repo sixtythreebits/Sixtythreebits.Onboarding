@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace SixtyThreeBits.Web.Controllers.Admin
 {
     [Route("admin/permissions")]
-    public class PermissionsController : AdminControllerBase<PermissionsModel>
+    public class PermissionsControllers : AdminControllerBase<PermissionsModels>
     {
         #region Actions
         [HttpGet]
@@ -32,7 +32,7 @@ namespace SixtyThreeBits.Web.Controllers.Admin
         [Route("tree/add", Name = ControllerActionRouteNames.Admin.PermissionsController.TreeAdd)]
         public async Task<ActionResult> TreeAdd(int? key, string values)
         {
-            var submitModel = values.DeserializeJsonTo<PermissionsModel.ViewModel.TreeModel.TreeItem>() ?? new PermissionsModel.ViewModel.TreeModel.TreeItem();
+            var submitModel = values.DeserializeJsonTo<PermissionsModels.ViewModel.TreeModel.TreeItem>() ?? new PermissionsModels.ViewModel.TreeModel.TreeItem();
             await Model.CRUD(databaseAction: Enums.DatabaseActions.CREATE, permissionID: key, submitModel: submitModel);
             if (Model.Form.HasErrors)
             {
@@ -48,7 +48,7 @@ namespace SixtyThreeBits.Web.Controllers.Admin
         [Route("tree/update", Name = ControllerActionRouteNames.Admin.PermissionsController.TreeUpdate)]
         public async Task<ActionResult> TreeUpdate(int? key, string values)
         {
-            var submitModel = values.DeserializeJsonTo<PermissionsModel.ViewModel.TreeModel.TreeItem>() ?? new PermissionsModel.ViewModel.TreeModel.TreeItem();
+            var submitModel = values.DeserializeJsonTo<PermissionsModels.ViewModel.TreeModel.TreeItem>() ?? new PermissionsModels.ViewModel.TreeModel.TreeItem();
             await Model.CRUD(databaseAction: Enums.DatabaseActions.UPDATE, permissionID: key, submitModel: submitModel);
             if (Model.Form.HasErrors)
             {

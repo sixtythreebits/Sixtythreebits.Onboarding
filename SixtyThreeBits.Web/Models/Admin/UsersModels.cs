@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace SixtyThreeBits.Web.Models.Admin
 {
-    public class UsersModel : ModelBase
+    public class UsersModels : ModelBase
     {
         #region Methods
         public async Task<ViewModel> GetViewModel()
@@ -26,7 +26,7 @@ namespace SixtyThreeBits.Web.Models.Admin
             viewModel.ShowAddNewButton = User.HasPermission(ControllerActionRouteNames.Admin.UsersController.GridAdd);
             viewModel.Grid = new ViewModel.GridModel();
 
-            var repository = RepositoriesFactory.GetRolesRepository();
+            var repository = RepositoriesFactory.CreateRolesRepository();
             viewModel.Grid.Roles = await repository.RolesListAsKeyValueTuple();
             viewModel.Grid.UrlLoad = Url.RouteUrl(ControllerActionRouteNames.Admin.UsersController.Grid);
             viewModel.Grid.UrlAddNew = Url.RouteUrl(ControllerActionRouteNames.Admin.UsersController.GridAdd);
@@ -39,7 +39,7 @@ namespace SixtyThreeBits.Web.Models.Admin
 
         public async Task<List<ViewModel.GridModel.GridItem>> GetGridViewModel()
         {
-            var repository = RepositoriesFactory.GetUsersRepository();
+            var repository = RepositoriesFactory.CreateUsersRepository();
             var viewModel = (await repository.UsersList())
             ?.Select(Item => new ViewModel.GridModel.GridItem
             {
@@ -56,7 +56,7 @@ namespace SixtyThreeBits.Web.Models.Admin
 
         public async Task ValidateUserEmail(string userEmail, int? userID)
         {
-            var repository = RepositoriesFactory.GetUsersRepository();
+            var repository = RepositoriesFactory.CreateUsersRepository();
             var isUniq = await repository.UsersIsEmailUnique(userEmail, userID);
             if (!isUniq)
             {
@@ -66,7 +66,7 @@ namespace SixtyThreeBits.Web.Models.Admin
 
         public async Task CRUD(Enums.DatabaseActions databaseAction, int? userID, ViewModel.GridModel.GridItem submitModel)
         {
-            var repository = RepositoriesFactory.GetUsersRepository();
+            var repository = RepositoriesFactory.CreateUsersRepository();
 
             await repository.UsersIUD(
                 databaseAction: databaseAction,
@@ -110,7 +110,7 @@ namespace SixtyThreeBits.Web.Models.Admin
 
                     grid
                     .ID("UsersGrid")
-                    .OnInitialized("usersModel.onGridInit")
+                    .OnInitialized("model.onGridInit")
                     .Columns(columns =>
                     {                        
                         columns.AddFor(m => m.UserFirstname).Caption(Resources.TextFirstname).Width(150).ValidationRules(options =>

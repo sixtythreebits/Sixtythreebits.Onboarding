@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using SixtyThreeBits.Core.DTO;
+using SixtyThreeBits.Core.Factories;
 using SixtyThreeBits.Core.Infrastructure.Database;
 using SixtyThreeBits.Libraries.Extensions;
 using System.Data;
@@ -10,7 +12,7 @@ namespace SixtyThreeBits.Core.Infrastructure.Repositories
     public class SystemPropertiesRepository : RepositoryBase
     {
         #region Contructors
-        public SystemPropertiesRepository(DbContextFactory dbContextFactory) : base(dbContextFactory)
+        public SystemPropertiesRepository(DbContextFactory dbContextFactory, ILogger logger) : base(dbContextFactory, logger)
         {
         }
         #endregion
@@ -22,7 +24,7 @@ namespace SixtyThreeBits.Core.Infrastructure.Repositories
                 logString: $"{nameof(SystemPropertiesGet)}()", 
                 asyncFuncToTry: async () =>
                 {
-                    using (var dbContext = _dbContextFactory.GetDbContext())
+                    using (var dbContext = _dbContextFactory.CreateDbContext())
                     {
                         var sqb = new SqlQueryBuilder(
                             dbContext: dbContext,
@@ -47,7 +49,7 @@ namespace SixtyThreeBits.Core.Infrastructure.Repositories
                 logString: $"{nameof(SystemPropertiesUpdate)}({nameof(systemProperties)} = {systemPropertiesJson})", 
                 asyncFuncToTry: async () =>
                 {
-                    using (var dbContext = _dbContextFactory.GetDbContext())
+                    using (var dbContext = _dbContextFactory.CreateDbContext())
                     {
                         var sqb = new SqlQueryBuilder(
                             dbContext: dbContext,
