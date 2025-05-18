@@ -101,8 +101,8 @@
             public static class ProductsController
             {
                 #region Proeprties
-                public const string Products = "ProductsControllerProducts";
-                public const string Product = "ProductsControllerProduct";
+                public const string Products = "WebsiteProductsControllerProducts";
+                public const string Product = "WebsiteProductsControllerProduct";
                 #endregion
             }
             #endregion
