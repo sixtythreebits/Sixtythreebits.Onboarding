@@ -4,12 +4,6 @@
     <UserSecretsId>920b1ae2-b527-45b0-b2d9-ed8ff53e6aae</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Remove="wwwroot\html\**" />
-    <Content Remove="wwwroot\html\**" />
-    <EmbeddedResource Remove="wwwroot\html\**" />
-    <None Remove="wwwroot\html\**" />
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="63BITS.Libraries.DotNetCore" Version="1.0.8" />
     <PackageReference Include="DevExtreme.AspNet.Core" Version="24.2.7" />
     <PackageReference Include="DevExtreme.AspNet.Data" Version="5.1.0" />

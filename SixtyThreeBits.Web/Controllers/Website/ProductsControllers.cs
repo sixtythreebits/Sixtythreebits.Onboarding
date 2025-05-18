@@ -13,7 +13,7 @@ namespace SixtyThreeBits.Web.Controllers.Website
         public async Task<IActionResult> Product()
         {
             var viewModel = await Model.GetViewModel();            
-            return View(ViewNames.Website.Products.ProductView, viewModel);
+            return View(ViewNames.Website.Products.ProductsView, viewModel);
         }
         #endregion
     }
