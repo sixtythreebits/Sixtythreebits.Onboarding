@@ -12,8 +12,7 @@ namespace SixtyThreeBits.Web.Controllers.Website
         [Route("products", Name = ControllerActionRouteNames.Website.ProductsController.Product)]
         public async Task<IActionResult> Product()
         {
-            var viewModel = await Model.GetViewModel();
-            Model.PageTitle.Set(viewModel.PageTitle);
+            var viewModel = await Model.GetViewModel();            
             return View(ViewNames.Website.Products.ProductView, viewModel);
         }
         #endregion

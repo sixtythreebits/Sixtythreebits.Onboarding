@@ -13,6 +13,8 @@ namespace SixtyThreeBits.Web.Models.Website
             var viewModel = new ViewModel();
             viewModel.PageTitle = "Products";
 
+            PageTitle.Set(viewModel.PageTitle);
+
             var repository = RepositoriesFactory.CreateProductsRepository();
             viewModel.Products = (await repository.ProductsList())?
             .Select(item => new ViewModel.Product
