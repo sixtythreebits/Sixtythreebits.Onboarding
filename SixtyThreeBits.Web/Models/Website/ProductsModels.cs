@@ -19,7 +19,7 @@ namespace SixtyThreeBits.Web.Models.Website
             {
                 ProductName = item.ProductName,
                 ProductCoverImageHttpPath = FileStorage.GetUploadedFileHttpPath(item.ProductCoverImageFilename),
-                ProductPrice = Utilities.FormatPrice(item.ProductPrice),
+                ProductPrice = Utilities.FormatPrice(price: item.ProductPrice, currencySign: "$"),
                 UrlProductDetails = "#"
             }).ToList();
 
