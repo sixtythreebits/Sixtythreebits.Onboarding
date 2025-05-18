@@ -41,15 +41,18 @@
                 public const string TreeUpdate = "AdminPermissionsControllerTreeUpdate";
                 public const string TreeDelete = "AdminPermissionsControllerTreeDelete";
                 #endregion
-            }                        
+            }
 
-            public static class ProductPropertiesController
+            public static class ProductsController
             {
                 #region Properties
-                public const string Properties = "AdminProductsPropertiesControllerProperties";
-                public const string DeleteImage = "AdminProductsPropertiesControllerDeleteImage";                
+                public const string Products = "AdminProductsControllerProducts";
+                public const string Grid = "AdminProductsControllerGrid";
+                public const string GridAdd = "AdminProductsControllerGridAdd";
+                public const string GridUpdate = "AdminProductsControllerGridUpdate";
+                public const string GridDelete = "AdminProductsControllerGridDelete";
                 #endregion
-            }            
+            }
 
             public static class RolesControllers
             {

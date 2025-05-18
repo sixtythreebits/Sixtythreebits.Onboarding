@@ -9,7 +9,7 @@ namespace SixtyThreeBits.Web.Controllers.Website
     public class ProductsControllers : WebsiteControllerBase<ProductsModel>
     {
         #region Actions
-        [Route("products", Name = ControllerActionRouteNames.Website.ProductsController.Product)]
+        [Route("products", Name = ControllerActionRouteNames.Website.ProductsController.Products)]
         public async Task<IActionResult> Product()
         {
             var viewModel = await Model.GetViewModel();            
@@ -21,6 +21,19 @@ namespace SixtyThreeBits.Web.Controllers.Website
     public class ProductControllers : WebsiteControllerBase<ProductModel>
     {
         #region Actions
+        [Route("products/{productID:int}", Name = ControllerActionRouteNames.Website.ProductsController.Product)]
+        public async Task<IActionResult> Product(int? productID)
+        {
+            var viewModel = await Model.GetViewModel(productID);
+            if (viewModel == null)
+            {
+                return Model.GetNotFoundWebsiteViewResult();
+            }
+            else
+            {
+                return View(ViewNames.Website.Products.ProductView, viewModel);
+            }
+        }
         #endregion
     }
 }
