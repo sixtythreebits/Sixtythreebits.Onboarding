@@ -41,15 +41,7 @@
                 public const string TreeUpdate = "AdminPermissionsControllerTreeUpdate";
                 public const string TreeDelete = "AdminPermissionsControllerTreeDelete";
                 #endregion
-            }                        
-
-            public static class ProductPropertiesController
-            {
-                #region Properties
-                public const string Properties = "AdminProductsPropertiesControllerProperties";
-                public const string DeleteImage = "AdminProductsPropertiesControllerDeleteImage";                
-                #endregion
-            }            
+            }                                  
 
             public static class RolesControllers
             {
@@ -97,14 +89,6 @@
 
                 #endregion
             }                       
-
-            public static class ProductsController
-            {
-                #region Proeprties
-                public const string Products = "WebsiteProductsControllerProducts";
-                public const string Product = "WebsiteProductsControllerProduct";
-                #endregion
-            }
             #endregion
         }
     }

@@ -115,14 +115,6 @@
                 #endregion
             }                      
 
-            public static class Products
-            {
-                #region Properties
-                public const string ProductsView = "~/Views/Website/Products/Products.cshtml";
-                public const string ProductView = "~/Views/Website/Products/Product.cshtml";
-                #endregion
-            }
-
             public static class Shared
             {
                 #region Properties
