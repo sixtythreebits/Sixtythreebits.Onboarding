@@ -12,4 +12,7 @@
   <ItemGroup>
     <ProjectReference Include="..\SixtyThreeBits.Core\SixtyThreeBits.Core.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\Website\Products\" />
+  </ItemGroup>
 </Project>
