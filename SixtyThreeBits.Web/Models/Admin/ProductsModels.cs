@@ -1,19 +1,20 @@
-﻿using DevExtreme.AspNet.Mvc;
-using DevExtreme.AspNet.Mvc.Builders;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using DevExtreme.AspNet.Mvc.Builders;
+using DevExtreme.AspNet.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using SixtyThreeBits.Core.Libraries;
-using SixtyThreeBits.Core.Utilities;
 using SixtyThreeBits.Libraries;
 using SixtyThreeBits.Web.Domain.Libraries;
-using SixtyThreeBits.Web.Domain.Utilities;
-using SixtyThreeBits.Web.Domain.ViewModels.Base;
 using SixtyThreeBits.Web.Models.Base;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using SixtyThreeBits.Web.Domain.Utilities;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using System.Linq;
+using SixtyThreeBits.Core.Infrastructure.Repositories.DTO;
+using SixtyThreeBits.Core.Utilities;
+using Microsoft.AspNetCore.Http;
+using SixtyThreeBits.Core.Libraries;
+using SixtyThreeBits.Web.Domain.ViewModels.Base;
 
 namespace SixtyThreeBits.Web.Models.Admin
 {
@@ -35,44 +36,40 @@ namespace SixtyThreeBits.Web.Models.Admin
             viewModel.Grid.AllowUpdate = User.HasPermission(ControllerActionRouteNames.Admin.ProductsController.GridUpdate);
             viewModel.Grid.AllowDelete = User.HasPermission(ControllerActionRouteNames.Admin.ProductsController.GridDelete);
 
-            viewModel.Grid.Categories = (await repository.CategoriesList())
-                ?.Select(item => new KeyValueTuple<int?, string>
-                {
-                    Key = item.CategoryID,
-                    Value = item.CategoryName
-                }).ToList();
-
-            return viewModel;
-        }
-        public async Task<List<ViewModel.GridViewModel.GridItem>> ListGridItems()
-        {
-            var repository = RepositoriesFactory.GetProductRepository();
-
-            var viewModel = (await repository.ProductsList())
-                ?.Select(item => new ViewModel.GridViewModel.GridItem
-                {
-                    ProductID = item.ProductID,
-                    ProductName = item.ProductName,
-                    CategoryID = item.CategoryID,
-                    ProductPrice = item.ProductPrice,
-                    ProductIsPublished = item.ProductIsPublished,
-                    ProductDateCreated = item.ProductDateCreated,
-                    UrlProperties = Url.RouteUrl(
-                        ControllerActionRouteNames.Admin.ProductPropertiesController.Properties,
-                        new { productID = item.ProductID }
-                    )
-                }).ToList();
-
-            return viewModel;
-        }
-        public async Task IUD(Enums.DatabaseActions databaseAction, int? productID, ViewModel.GridViewModel.GridItem submitModel)
-        {
-            var repository = RepositoriesFactory.GetProductRepository();
-
-            if (databaseAction == Enums.DatabaseActions.DELETE)
+            viewModel.Grid.Categories = (await repository.CategoriesList())?
+            .Select(item => new KeyValueTuple<int?, string>
             {
-                await deleteProductImage(productID);
-            }
+                Key = item.CategoryID,
+                Value = item.CategoryName
+            }).ToList();
+
+            return viewModel;
+        }
+
+        public async Task<List<ViewModel.GridViewModel.GridItem>> GetGridItems()
+        {
+            var repository = RepositoriesFactory.CreateProductsRepository();
+
+            var viewModel = (await repository.ProductsList())?
+            .Select(item => new ViewModel.GridViewModel.GridItem
+            {
+                ProductID = item.ProductID,
+                ProductName = item.ProductName,
+                CategoryID = item.CategoryID,
+                ProductPrice = item.ProductPrice,
+                ProductIsPublished = item.ProductIsPublished,
+                ProductDateCreated = item.ProductDateCreated,
+                UrlProperties = Url.RouteUrl(ControllerActionRouteNames.Admin.ProductPropertiesController.Properties, new { productID = item.ProductID })
+            }).ToList();
+
+            return viewModel;
+        }
+
+        public async Task<AjaxResponse> IUD(Enums.DatabaseActions databaseAction, int? productID, ViewModel.GridViewModel.GridItem submitModel)
+        {
+            var viewModel = new AjaxResponse();
+
+            var repository = RepositoriesFactory.CreateProductsRepository();
 
             await repository.ProductsIUD(
                 databaseAction: databaseAction,
@@ -88,28 +85,21 @@ namespace SixtyThreeBits.Web.Models.Admin
 
             if (repository.IsError)
             {
-                Form.AddError(repository.ErrorMessage);
+                viewModel.Data = repository.ErrorMessage;
             }
-        }
-        async Task deleteProductImage(int? productID)
-        {
-            if (productID.HasValue)
+            else
             {
-                var repository = RepositoriesFactory.GetProductRepository();
-                var product = await repository.ProductsGetSingleByID(productID);
-                var isValidProduct = product != null && !string.IsNullOrEmpty(product.ProductCoverImageFilename);
-
-                if (isValidProduct)
-                {
-                    await FileStorage.DeleteFile(product.ProductCoverImageFilename);
-                }
+                viewModel.IsSuccess = true;
             }
+
+            return viewModel;
         }
         #endregion
 
         #region Nested Classes
         public class ViewModel
         {
+            #region Properties
             public bool ShowAddNewButton { get; set; }
             public GridViewModel Grid { get; set; }
 
@@ -130,23 +120,15 @@ namespace SixtyThreeBits.Web.Models.Admin
                     .Columns(columns =>
                     {
                         columns.Add().Width(30).Caption(" ").InitDetailsUrlCellTemplate(nameof(GridItem.UrlProperties));
-
-                        columns.AddFor(m => m.ProductName)
-                               .Caption("Product")
-                               .Width(300)
-                               .ValidationRules(options =>
-                               {
-                                   options.AddRequired();
-                               });
-
+                        columns.AddFor(m => m.ProductName).Caption("Product").Width(300)
+                        .ValidationRules(options =>
+                        {
+                            options.AddRequired();
+                        });
                         columns.AddFor(m => m.CategoryID).Caption("Category").Width(150).InitLookupColumn(data: Categories);
-
                         columns.AddFor(m => m.ProductPrice).Caption("Price").InitNumberColumn(format: DevExtremeBuilderCustomExtensions.NumberColumnFormatType.Money);
-
                         columns.AddFor(m => m.ProductIsPublished).Caption("Published").Width(120).InitCheckboxColumn();
-
                         columns.AddFor(m => m.ProductDateCreated).Caption("Date Created").Width(140).InitDateColumn(true).AllowEditing(false);
-
                         columns.Add();
                     });
 
@@ -154,7 +136,7 @@ namespace SixtyThreeBits.Web.Models.Admin
                 }
                 #endregion
 
-                #region NestedClasses
+                #region Nested Classes
                 public class GridItem
                 {
                     #region Properties
@@ -168,14 +150,16 @@ namespace SixtyThreeBits.Web.Models.Admin
                     #endregion
                 }
                 #endregion
-            }
+            } 
+            #endregion
         }
         #endregion
     }
+
     public class ProductModelBase : ModelBase
     {
         #region Properties
-        public ProductDTO DBItem { get; set; }
+        public ProductDTO Product { get; set; }
         #endregion
     }
 
@@ -187,28 +171,29 @@ namespace SixtyThreeBits.Web.Models.Admin
             if (viewModel == null)
             {
                 viewModel = new ViewModel();
-                viewModel.ProductName = DBItem.ProductName;
-                viewModel.ProductPrice = DBItem.ProductPrice;
-                viewModel.CategoryID = DBItem.CategoryID;
-                viewModel.ProductIsPublished = DBItem.ProductIsPublished;
+                viewModel.ProductName = Product.ProductName;
+                viewModel.ProductPrice = Product.ProductPrice;
+                viewModel.CategoryID = Product.CategoryID;
+                viewModel.ProductIsPublished = Product.ProductIsPublished;
             }
 
             viewModel.ProductPriceString = Utilities.FormatPrice(viewModel.ProductPrice);
-            viewModel.ProductCoverImageFileName = DBItem.ProductCoverImageFilename;
-            viewModel.ProductCoverImageHttpPath = FileStorage.GetUploadedFileHttpPath(DBItem.ProductCoverImageFilename);
-            viewModel.UrlDeleteImage = Url.RouteUrl(ControllerActionRouteNames.Admin.ProductPropertiesController.DeleteImage, new { ProductID = DBItem.ProductID });
+            viewModel.ProductCoverImageFileName = Product.ProductCoverImageFilename;
+            viewModel.ProductCoverImageHttpPath = FileStorage.GetUploadedFileHttpPath(Product.ProductCoverImageFilename);
+            viewModel.UrlDeleteImage = Url.RouteUrl(ControllerActionRouteNames.Admin.ProductPropertiesController.DeleteImage, new { ProductID = Product.ProductID });
 
-            var reopsitory = RepositoriesFactory.GetProductRepository();
-            viewModel.Categories = (await reopsitory.CategoriesList())
-                ?.Select(item => new KeyValueSelectedTuple<int?, string>
-                {
-                    Key = item.CategoryID,
-                    Value = item.CategoryName,
-                    IsSelected = item.CategoryID == DBItem.CategoryID,
-                }).ToList();
+            var reopsitory = RepositoriesFactory.CreateProductsRepository();
+            viewModel.Categories = (await reopsitory.CategoriesList())?
+            .Select(item => new KeyValueSelectedTuple<int?, string>
+            {
+                Key = item.CategoryID,
+                Value = item.CategoryName,
+                IsSelected = item.CategoryID == Product.CategoryID,
+            }).ToList();
 
             return viewModel;
         }
+
         public void Validate(ViewModel viewModel)
         {
             var error = default(ErrorItem);
@@ -246,6 +231,7 @@ namespace SixtyThreeBits.Web.Models.Admin
             );
             viewModel.AddError(error);
         }
+
         public async Task Save(ViewModel viewModel)
         {
             var productCoverImageFilename = default(string);
@@ -253,16 +239,16 @@ namespace SixtyThreeBits.Web.Models.Admin
 
             if (hasProductCoverImage)
             {
-                await FileStorage.DeleteFile(DBItem.ProductCoverImageFilename);
+                await FileStorage.DeleteFile(Product.ProductCoverImageFilename);
 
                 productCoverImageFilename = GetFilenameFromUploadedFile(viewModel.ProductCoverImage);
             }
 
-            var repository = RepositoriesFactory.GetProductRepository();
+            var repository = RepositoriesFactory.CreateProductsRepository();
 
             await repository.ProductsIUD(
                 databaseAction: Enums.DatabaseActions.UPDATE,
-                productID: DBItem.ProductID,
+                productID: Product.ProductID,
                 product: new ProductIudDTO
                 {
                     ProductName = viewModel.ProductName,
@@ -285,17 +271,18 @@ namespace SixtyThreeBits.Web.Models.Admin
                 }
             }
         }
+
         public async Task<AjaxResponse> DeleteImage()
         {
             var viewModel = new AjaxResponse();
 
-            await FileStorage.DeleteFile(DBItem.ProductCoverImageFilename);
+            await FileStorage.DeleteFile(Product.ProductCoverImageFilename);
 
-            var repository = RepositoriesFactory.GetProductRepository();
+            var repository = RepositoriesFactory.CreateProductsRepository();
 
             await repository.ProductsIUD(
                 databaseAction: Enums.DatabaseActions.UPDATE,
-                productID: DBItem.ProductID,
+                productID: Product.ProductID,
                 product: new ProductIudDTO
                 {
                     ProductCoverImageFilename = Constants.NullValueFor.String

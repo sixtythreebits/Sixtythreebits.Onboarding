@@ -1,0 +1,30 @@
+﻿@model ProductsModel.ViewModel
+
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col">
+                @if (Model.ShowAddNewButton)
+                {
+                        <button type="button" class="btn btn-light btn-rounded js-add-new-button">
+                            <i class="fa-solid fa-plus"></i> Add
+                        </button>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col">
+                @Model.Grid.Render(Html)
+            </div>
+        </div>
+    </div>
+</div>
+
+@section FooterSection {
+        <script src="/js/admin/products/products.js"></script>
+}

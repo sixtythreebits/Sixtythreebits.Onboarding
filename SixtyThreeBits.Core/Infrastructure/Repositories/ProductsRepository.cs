@@ -22,6 +22,32 @@ namespace SixtyThreeBits.Core.Infrastructure.Repositories
         #endregion
 
         #region Methods
+        public async Task<List<CategoriesListDTO>> CategoriesList()
+        {
+            var result = await TryToReturnAsyncTask(
+                logString: $"{nameof(CategoriesList)}()",
+                asyncFuncToTry: async () =>
+                {
+                    using (var dbContext = _dbContextFactory.CreateDbContext())
+                    {
+                        var sqb = new SqlQueryBuilder(
+                            dbContext: dbContext,
+                            databaseObjectName: nameof(CategoriesList)
+                        );
+
+                        var resultQueryable = sqb.ExecuteTableValuedFunction<CategoriesListDTO>();
+                        resultQueryable = resultQueryable.OrderBy(item => item.CategoryName);
+                        var result = await resultQueryable.ToListAsync();
+
+                        return result;
+                    }
+                }
+            );
+
+            return result;
+        }
+
+
         public async Task<ProductDTO> ProductsGetSingleByID(int? productID)
         {
             var result = await TryToReturnAsyncTask(

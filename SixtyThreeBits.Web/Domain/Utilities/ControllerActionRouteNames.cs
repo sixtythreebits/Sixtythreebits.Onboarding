@@ -54,6 +54,14 @@
                 #endregion
             }
 
+            public static class ProductPropertiesController
+            {
+                #region Properties
+                public const string Properties = "AdminProductsPropertiesControllerProperties";
+                public const string DeleteImage = "AdminProductsPropertiesControllerDeleteImage";
+                #endregion
+            }
+
             public static class RolesControllers
             {
                 #region Properties
