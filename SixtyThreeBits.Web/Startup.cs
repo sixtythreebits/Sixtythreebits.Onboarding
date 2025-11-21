@@ -18,29 +18,35 @@ namespace SixtyThreeBits.Web
 {
     public class Startup
     {
+        #region Properties
         readonly AppSettingsCollection _appSettings;
         readonly UtilityCollection _utilities;
         readonly RepositoryFactory _repositoryFactory;
+        readonly bool _isDevelopmentEnvironment;
+        #endregion
 
+        #region Constructors
         public Startup(IWebHostEnvironment env)
         {
             IConfiguration appSettingsConfiguration;
-            if (env.IsDevelopment())
+            _isDevelopmentEnvironment = env.IsDevelopment();
+            if (_isDevelopmentEnvironment)
             {
                 appSettingsConfiguration = new ConfigurationBuilder().SetBasePath(env.ContentRootPath).AddJsonFile("appsettings.json").Build();
             }
             else
             {
-                #if DEBUG
+#if DEBUG
                 appSettingsConfiguration = new ConfigurationBuilder().SetBasePath(env.ContentRootPath).AddJsonFile("appsettings.debug.json").Build();
-                #else
+#else
                 appSettingsConfiguration = new ConfigurationBuilder().SetBasePath(env.ContentRootPath).AddJsonFile("appsettings.release.json").Build();                
-                #endif
+#endif
             }
             _appSettings = new AppSettingsCollection(
                 contentRootPath: env.ContentRootPath,
                 webRootPath: env.WebRootPath,
-                configuration: appSettingsConfiguration
+                configuration: appSettingsConfiguration,
+                isDevelopmentEnvironment: _isDevelopmentEnvironment
             );
             _utilities = new UtilityCollection(
                 contentRootPath: env.ContentRootPath,
@@ -51,13 +57,15 @@ namespace SixtyThreeBits.Web
                 logger: new ErrorLogTxtFileLogger()
             );
         }
+        #endregion
 
+        #region Methods
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton(_appSettings);
             services.AddSingleton(_utilities);
             services.AddSingleton(_repositoryFactory);
-            
+
             services.AddDistributedMemoryCache();
             services.AddSession(options =>
             {
@@ -71,17 +79,20 @@ namespace SixtyThreeBits.Web
                 Options.CheckConsentNeeded = context => false;
                 Options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-            
 
-            services.AddControllersWithViews(Options=> { 
-                Options.RespectBrowserAcceptHeader = true;                
-            }).AddJsonOptions(options => { 
-                options.JsonSerializerOptions.PropertyNamingPolicy = null;  
+
+            services.AddControllersWithViews(Options =>
+            {
+                Options.RespectBrowserAcceptHeader = true;
+            }).AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.PropertyNamingPolicy = null;
             });
-            
-            services.Configure<RouteOptions>(routeOptions => {
+
+            services.Configure<RouteOptions>(routeOptions =>
+            {
                 routeOptions.AppendTrailingSlash = false;
-            });                        
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -95,7 +106,7 @@ namespace SixtyThreeBits.Web
                 RequestPath = _appSettings.UploadFolderHttpPath.TrimEnd('/')
             });
             app.UseRouting();
-            app.UseSession();            
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {
@@ -166,6 +177,7 @@ namespace SixtyThreeBits.Web
                 // If the view is not found, you can display a default message
                 await context.Response.WriteAsync("<h1>An error occurred</h1>");
             }
-        }        
+        }         
+        #endregion
     }
 }
