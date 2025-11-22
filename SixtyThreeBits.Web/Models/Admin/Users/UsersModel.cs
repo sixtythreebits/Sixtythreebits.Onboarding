@@ -3,6 +3,7 @@ using DevExtreme.AspNet.Mvc.Builders;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SixtyThreeBits.Core.Infrastructure.Repositories.DTO;
+using SixtyThreeBits.Core.Libraries;
 using SixtyThreeBits.Core.Properties;
 using SixtyThreeBits.Core.Utilities;
 using SixtyThreeBits.Libraries;
@@ -16,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace SixtyThreeBits.Web.Models.Admin
 {
-    public class UsersModels : ModelBase
+    public class UsersModel : ModelBase
     {
         #region Methods
         public async Task<ViewModel> GetViewModel()
@@ -34,58 +35,88 @@ namespace SixtyThreeBits.Web.Models.Admin
             viewModel.Grid.UrlDelete = Url.RouteUrl(ControllerActionRouteNames.Admin.UsersController.GridDelete);
             viewModel.Grid.AllowUpdate = User.HasPermission(ControllerActionRouteNames.Admin.UsersController.GridUpdate);
             viewModel.Grid.AllowDelete = User.HasPermission(ControllerActionRouteNames.Admin.UsersController.GridDelete);
+
             return viewModel;
         }
 
-        public async Task<List<ViewModel.GridModel.GridItem>> GetGridViewModel()
+        public async Task<AjaxResponse> GetGridItems()
         {
+            var viewModel = new AjaxResponse();
             var repository = RepositoriesFactory.CreateUsersRepository();
-            var viewModel = (await repository.UsersList())
-            ?.Select(Item => new ViewModel.GridModel.GridItem
+
+            var users = await repository.UsersList();
+
+            viewModel.IsSuccess = !repository.IsError;
+            viewModel.Data = repository.IsError ? repository.ErrorMessage : users.Select(Item => new ViewModel.GridModel.GridItem
             {
                 UserID = Item.UserID,
                 UserFirstname = Item.UserFirstname,
                 UserLastname = Item.UserLastname,
                 UserEmail = Item.UserEmail,
                 RoleID = Item.RoleID,
-                UserDateCreated = Item.UserDateCreated
-            })
-            .ToList();
+                UserDateCreated = Item.UserDateCreated,
+            }).ToList();
+
             return viewModel;
         }
 
-        public async Task ValidateUserEmail(string userEmail, int? userID)
+        public async Task<AjaxResponse> IUD(Enums.DatabaseActions databaseAction, int? userID, ViewModel.GridModel.GridItem submitModel)
         {
-            var repository = RepositoriesFactory.CreateUsersRepository();
-            var isUniq = await repository.UsersIsEmailUnique(userEmail, userID);
-            if (!isUniq)
-            {
-                Form.AddError(Resources.ValidationUserEmailNotUniq);
-            }
-        }
+            var viewModel = new AjaxResponse();
 
-        public async Task CRUD(Enums.DatabaseActions databaseAction, int? userID, ViewModel.GridModel.GridItem submitModel)
+            var validationResult = await iudValidate(
+                databaseAction: databaseAction, 
+                userID: userID, 
+                submitModel: submitModel
+            );
+
+            if (validationResult.HasErrors)
+            {
+                viewModel.Data = validationResult.ErrorMessage;
+            }
+            else
+            {
+                var repository = RepositoriesFactory.CreateUsersRepository();
+                await repository.UsersIUD(
+                    databaseAction: databaseAction,
+                    userID: userID,
+                    user: new UserIudDTO
+                    {
+                        RoleID = submitModel.RoleID ?? Constants.NullValueFor.Numeric,
+                        UserEmail = submitModel.UserEmail,
+                        UserPassword = submitModel.UserPassword,
+                        UserFirstname = submitModel.UserFirstname,
+                        UserLastname = submitModel.UserLastname,
+                    }
+                );
+                viewModel.IsSuccess = !repository.IsError;
+                viewModel.Data = repository.ErrorMessage;                
+            }
+
+            return viewModel;
+        }
+        async Task<ValidationResult63> iudValidate(Enums.DatabaseActions databaseAction, int? userID, ViewModel.GridModel.GridItem submitModel)
         {
-            var repository = RepositoriesFactory.CreateUsersRepository();
-
-            await repository.UsersIUD(
-                databaseAction: databaseAction,
-                userID: userID,
-                user: new UserIudDTO
-                {
-                    RoleID = submitModel.RoleID,
-                    UserEmail = submitModel.UserEmail,
-                    UserPassword = submitModel.UserPassword,
-                    UserFirstname = submitModel.UserFirstname,
-                    UserLastname = submitModel.UserLastname
-                }                
-            );            
-
-            if (repository.IsError)
+            var result = new ValidationResult63();
+            var error = default(Error63);
+            if (databaseAction is Enums.DatabaseActions.INSERT or Enums.DatabaseActions.UPDATE)
             {
-                Form.AddError(Resources.TextError);
+                error = await Validation63.ValidateEmail(
+                    errorKey: null,
+                    userEmail: submitModel.UserEmail,
+                    validateRequired: true,
+                    validateUnique: true,
+                    validationPredicateReturnTrueWhenError: async () =>
+                    {
+                        var repository = RepositoriesFactory.CreateUsersRepository();
+                        var isEmailUnique = await repository.UsersIsEmailUnique(submitModel.UserEmail, userID);
+                        return !isEmailUnique;
+                    }
+                );
+                result.AddError(error);
             }
-        }
+            return result;
+        }        
         #endregion
 
         #region Nested Classes
@@ -111,8 +142,9 @@ namespace SixtyThreeBits.Web.Models.Admin
                     grid
                     .ID("UsersGrid")
                     .OnInitialized("model.onGridInit")
+                    .OnRowUpdating("model.onGridRowUpdating")
                     .Columns(columns =>
-                    {                        
+                    {
                         columns.AddFor(m => m.UserFirstname).Caption(Resources.TextFirstname).Width(150).ValidationRules(options =>
                         {
                             options.AddRequired();
@@ -124,7 +156,7 @@ namespace SixtyThreeBits.Web.Models.Admin
                             //Options.AddEmail();
                         });
                         columns.AddFor(m => m.UserPassword).Caption(Resources.TextPassword).Width(150);
-                        columns.AddFor(m => m.RoleID).Caption(Resources.TextRole).Width(150).InitLookupColumn(data: Roles);
+                        columns.AddFor(m => m.RoleID).Caption(Resources.TextRole).Width(150).InitLookupColumn(data: Roles, allowNull: true);
                         columns.AddFor(m => m.UserDateCreated).Caption(Resources.TextDateCreated).DataType(GridColumnDataType.DateTime).Width(140).InitDateColumn(true).AllowEditing(false);
                         columns.Add();
                     });
@@ -152,5 +184,5 @@ namespace SixtyThreeBits.Web.Models.Admin
             #endregion
         }
         #endregion
-    }
+    }   
 }

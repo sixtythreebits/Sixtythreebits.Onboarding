@@ -1,12 +1,12 @@
-﻿@model PermissionsModels.ViewModel
+﻿@model UsersModel.ViewModel
 <div class="card">
     <div class="card-body">
         <div class="row">
             <div class="col">
                 @if (Model.ShowAddNewButton)
                 {
-                    @await Html.PartialAsync(ViewNames.Admin.Shared.ButtonAddNewPartialView, new ButtonAddNewViewModel())
-                }
+                    @await Html.PartialAsync(ViewNames.Admin.Shared.ButtonAddNewPartial, new ButtonAddNewViewModel())
+                }                
             </div>
         </div>
     </div>
@@ -15,14 +15,11 @@
     <div class="card-body">        
         <div class="row">
             <div class="col">
-                @Model.Tree.Render(Html)
+                @Model.Grid.Render(Html)
             </div>
         </div>
     </div>
 </div>
 @section FooterSection{
-    <script src="/js/admin/permissions/permissions.js"></script>
-    <script>
-    permissionsModel.urlUpdate = '@Model.UrlUpdate';
-    </script>
+    <script src="/js/admin/users/users.js"></script>
 }

@@ -5,16 +5,16 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using SixtyThreeBits.Core.Infrastructure.Repositories.DTO;
 using SixtyThreeBits.Core.Properties;
 using SixtyThreeBits.Core.Utilities;
+using SixtyThreeBits.Libraries;
 using SixtyThreeBits.Web.Domain.Libraries;
 using SixtyThreeBits.Web.Domain.Utilities;
 using SixtyThreeBits.Web.Models.Base;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace SixtyThreeBits.Web.Models.Admin
 {
-    public class PermissionsModels : ModelBase
+    public class PermissionsModel : ModelBase
     {
         #region Methods
         public ViewModel GetViewModel()
@@ -34,15 +34,20 @@ namespace SixtyThreeBits.Web.Models.Admin
             return viewModel;
         }
 
-        public async Task<List<ViewModel.TreeModel.TreeItem>> GetGridViewModel()
+        public async Task<AjaxResponse> GetTreeItems()
         {
+            var viewModel = new AjaxResponse();
             var repository = RepositoriesFactory.CreatePermissionsRepository();
-            var viewModel = (await repository.PermissionsList())
-            .Select(item => new ViewModel.TreeModel.TreeItem
+
+            var permissions = await repository.PermissionsList();
+
+            viewModel.IsSuccess = !repository.IsError;
+            viewModel.Data = repository.IsError ? repository.ErrorMessage : permissions.Select(item => new ViewModel.TreeModel.TreeItem
             {
                 PermissionID = item.PermissionID,
                 PermissionParentID = item.PermissionParentID,
-                PermissionCaption = item.PermissionCaption,                
+                PermissionCaption = item.PermissionCaption,
+                PermissionCaptionEng = item.PermissionCaptionEng,
                 PermissionPagePath = item.PermissionPagePath,
                 PermissionCodeName = item.PermissionCodeName,
                 PermissionCode = item.PermissionCode,
@@ -51,13 +56,15 @@ namespace SixtyThreeBits.Web.Models.Admin
                 PermissionMenuTitle = item.PermissionMenuTitle,
                 PermissionMenuTitleEng = item.PermissionMenuTitleEng,
                 PermissionSortIndex = item.PermissionSortIndex
-            })
-            .ToList();
+            }).ToList();
+
             return viewModel;
         }
 
-        public async Task CRUD(Enums.DatabaseActions databaseAction, int? permissionID, ViewModel.TreeModel.TreeItem submitModel)
+        public async Task<AjaxResponse> IUD(Enums.DatabaseActions databaseAction, int? permissionID, ViewModel.TreeModel.TreeItem submitModel)
         {
+            var viewModel = new AjaxResponse();
+
             var repository = RepositoriesFactory.CreatePermissionsRepository();
             await repository.PermissionsIUD(
                 databaseAction: databaseAction,
@@ -65,7 +72,8 @@ namespace SixtyThreeBits.Web.Models.Admin
                 permission: new PermissionIudDTO
                 {
                     PermissionParentID = submitModel.PermissionParentID,
-                    PermissionCaption = submitModel.PermissionCaption,                    
+                    PermissionCaption = submitModel.PermissionCaption,
+                    PermissionCaptionEng = submitModel.PermissionCaptionEng,
                     PermissionPagePath = submitModel.PermissionPagePath,
                     PermissionCodeName = submitModel.PermissionCodeName,
                     PermissionCode = submitModel.PermissionCode,
@@ -74,23 +82,23 @@ namespace SixtyThreeBits.Web.Models.Admin
                     PermissionMenuTitle = submitModel.PermissionMenuTitle,
                     PermissionMenuTitleEng = submitModel.PermissionMenuTitleEng,
                     PermissionSortIndex = submitModel.PermissionSortIndex
-                }                
+                }   
             );
 
-            if (repository.IsError)
-            {
-                Form.AddError(repository.ErrorMessage);
-            }
+            viewModel.IsSuccess=!repository.IsError;
+            viewModel.Data = repository.ErrorMessage;                 
+
+            return viewModel;
         }
 
-        public async Task DeleteRecursive(int? permissionID)
+        public async Task<AjaxResponse> DeleteRecursive(int? permissionID)
         {
+            var viewModel = new AjaxResponse();
             var repository = RepositoriesFactory.CreatePermissionsRepository();
             await repository.PermissionsDeleteRecursive(permissionID);
-            if (repository.IsError)
-            {
-                Form.AddError(Resources.TextError);
-            }
+            viewModel.IsSuccess = !repository.IsError;
+            viewModel.Data = repository.ErrorMessage;
+            return viewModel;
         }
         #endregion
 
@@ -109,9 +117,9 @@ namespace SixtyThreeBits.Web.Models.Admin
                 #region Methods
                 public override TreeListBuilder<TreeItem> Render(IHtmlHelper Html)
                 {
-                    var Tree = CreateTreeWithStartupValues(html: Html, keyFieldName: nameof(TreeItem.PermissionID), parentFieldName: nameof(TreeItem.PermissionParentID));
+                    var tree = CreateTreeWithStartupValues(html: Html, keyFieldName: nameof(TreeItem.PermissionID), parentFieldName: nameof(TreeItem.PermissionParentID));
 
-                    Tree
+                    tree
                     .ID("PermissionsTree")
                     .OnInitialized("model.onTreeInit")
                     .OnInitNewRow("model.onTreeInitNewRow")
@@ -139,7 +147,8 @@ namespace SixtyThreeBits.Web.Models.Admin
                         Columns.AddFor(m => m.PermissionCaption).Caption(Resources.TextCaption).Width(400).ValidationRules(Options =>
                         {
                             Options.AddRequired();
-                        });                        
+                        });
+                        Columns.AddFor(m => m.PermissionCaptionEng).Caption(Resources.TextCaptionEng).Width(200);
                         Columns.AddFor(m => m.PermissionPagePath).Caption(Resources.TextPageUrl).Width(300);
                         Columns.AddFor(m => m.PermissionCodeName).Caption(Resources.TextCodename).Width(300);
                         Columns.AddFor(m => m.PermissionSortIndex).Caption(Resources.TextSortIndex).DataType(GridColumnDataType.Number).Width(100);
@@ -152,7 +161,7 @@ namespace SixtyThreeBits.Web.Models.Admin
 
                     });
 
-                    return Tree;
+                    return tree;
                 }
                 #endregion
 
@@ -162,7 +171,8 @@ namespace SixtyThreeBits.Web.Models.Admin
                     #region Properties
                     public int? PermissionID { get; set; }
                     public int? PermissionParentID { get; set; }
-                    public string PermissionCaption { get; set; }                    
+                    public string PermissionCaption { get; set; }
+                    public string PermissionCaptionEng { get; set; }
                     public string PermissionPagePath { get; set; }
                     public string PermissionCodeName { get; set; }
                     public string PermissionCode { get; set; }

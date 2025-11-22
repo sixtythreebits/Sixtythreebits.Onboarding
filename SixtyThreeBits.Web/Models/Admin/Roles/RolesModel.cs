@@ -5,51 +5,57 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using SixtyThreeBits.Core.Infrastructure.Repositories.DTO;
 using SixtyThreeBits.Core.Properties;
 using SixtyThreeBits.Core.Utilities;
+using SixtyThreeBits.Libraries;
 using SixtyThreeBits.Web.Domain.Libraries;
 using SixtyThreeBits.Web.Domain.Utilities;
 using SixtyThreeBits.Web.Models.Base;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace SixtyThreeBits.Web.Models.Admin
 {
-    public class RolesModels : ModelBase
+    public class RolesModel : ModelBase
     {
         #region Methods
-        public ViewModel GetPageViewModel()
+        public ViewModel GetViewModel()
         {
             var viewModel = new ViewModel();
-            viewModel.ShowAddNewButton = User.HasPermission(ControllerActionRouteNames.Admin.RolesControllers.GridAdd);
+            viewModel.ShowAddNewButton = User.HasPermission(ControllerActionRouteNames.Admin.RolesController.GridAdd);
 
             viewModel.Grid = new ViewModel.GridModel();
-            viewModel.Grid.AllowAdd = User.HasPermission(ControllerActionRouteNames.Admin.RolesControllers.GridAdd);
-            viewModel.Grid.AllowUpdate = User.HasPermission(ControllerActionRouteNames.Admin.RolesControllers.GridUpdate);
-            viewModel.Grid.AllowDelete = User.HasPermission(ControllerActionRouteNames.Admin.RolesControllers.GridDelete);
-            viewModel.Grid.UrlLoad = Url.RouteUrl(ControllerActionRouteNames.Admin.RolesControllers.Grid);
-            viewModel.Grid.UrlAddNew = Url.RouteUrl(ControllerActionRouteNames.Admin.RolesControllers.GridAdd);
-            viewModel.Grid.UrlUpdate = Url.RouteUrl(ControllerActionRouteNames.Admin.RolesControllers.GridUpdate);
-            viewModel.Grid.UrlDelete = Url.RouteUrl(ControllerActionRouteNames.Admin.RolesControllers.GridDelete);
+            viewModel.Grid.AllowAdd = User.HasPermission(ControllerActionRouteNames.Admin.RolesController.GridAdd);
+            viewModel.Grid.AllowUpdate = User.HasPermission(ControllerActionRouteNames.Admin.RolesController.GridUpdate);
+            viewModel.Grid.AllowDelete = User.HasPermission(ControllerActionRouteNames.Admin.RolesController.GridDelete);
+            viewModel.Grid.UrlLoad = Url.RouteUrl(ControllerActionRouteNames.Admin.RolesController.Grid);
+            viewModel.Grid.UrlAddNew = Url.RouteUrl(ControllerActionRouteNames.Admin.RolesController.GridAdd);
+            viewModel.Grid.UrlUpdate = Url.RouteUrl(ControllerActionRouteNames.Admin.RolesController.GridUpdate);
+            viewModel.Grid.UrlDelete = Url.RouteUrl(ControllerActionRouteNames.Admin.RolesController.GridDelete);
 
             return viewModel;
         }
 
-        public async Task<List<ViewModel.GridModel.GridItem>> GetGridViewModel()
+        public async Task<AjaxResponse> GetGridItems()
         {
+            var viewModel = new AjaxResponse();
             var repository = RepositoriesFactory.CreateRolesRepository();
-            var viewModel = (await repository.RolesList())
-            .Select(Item => new ViewModel.GridModel.GridItem
+
+            var roles = await repository.RolesList();
+
+            viewModel.IsSuccess = !repository.IsError;
+            viewModel.Data = repository.IsError ? repository.ErrorMessage : roles.Select(Item => new ViewModel.GridModel.GridItem
             {
                 RoleID = Item.RoleID,
                 RoleName = Item.RoleName,
                 RoleCode = Item.RoleCode
-            })
-            .ToList();
+            }).ToList();
+
             return viewModel;
         }
 
-        public async Task CRUD(Enums.DatabaseActions databaseAction, int? roleID, ViewModel.GridModel.GridItem submitModel)
+        public async Task<AjaxResponse> IUD(Enums.DatabaseActions databaseAction, int? roleID, ViewModel.GridModel.GridItem submitModel)
         {
+            var viewModel = new AjaxResponse();
+
             var repository = RepositoriesFactory.CreateRolesRepository();
             await repository.RolesIUD(
                 databaseAction: databaseAction,
@@ -60,11 +66,10 @@ namespace SixtyThreeBits.Web.Models.Admin
                     RoleCode = submitModel.RoleCode
                 }                
             );
+            viewModel.IsSuccess = !repository.IsError;
+            viewModel.Data = repository.ErrorMessage;
 
-            if (repository.IsError)
-            {
-                Form.AddError(repository.ErrorMessage);
-            }
+            return viewModel;
         }
         #endregion
 
@@ -85,7 +90,7 @@ namespace SixtyThreeBits.Web.Models.Admin
                     var grid = CreateGridWithStartupValues(html: html, keyFieldName: nameof(GridItem.RoleID));
 
                     grid
-                    .ID("Roles.Grid")
+                    .ID("RolesGrid")
                     .OnInitialized("model.onGridInit")
                     .Columns(columns =>
                     {

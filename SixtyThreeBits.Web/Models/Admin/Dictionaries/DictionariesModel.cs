@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using SixtyThreeBits.Core.Infrastructure.Repositories.DTO;
 using SixtyThreeBits.Core.Properties;
 using SixtyThreeBits.Core.Utilities;
+using SixtyThreeBits.Libraries;
 using SixtyThreeBits.Web.Domain.Libraries;
 using SixtyThreeBits.Web.Domain.Utilities;
 using SixtyThreeBits.Web.Models.Base;
@@ -14,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace SixtyThreeBits.Web.Models.Admin
 {
-    public class DictionariesModels : ModelBase
+    public class DictionariesModel : ModelBase
     {
         #region Methods
         public ViewModel GetViewModel()
@@ -34,11 +35,15 @@ namespace SixtyThreeBits.Web.Models.Admin
             return viewModel;
         }
 
-        public async Task<List<ViewModel.TreeModel.TreeItem>> GetTreeModel()
+        public async Task<AjaxResponse> GetTreeItems()
         {
+            var viewModel = new AjaxResponse();            
             var repository = RepositoriesFactory.CreateDictionariesRepository();
-            var viewModel = (await repository.DictionariesList())
-            .Select(Item => new ViewModel.TreeModel.TreeItem
+
+            var dictionaries = (await repository.DictionariesList());
+
+            viewModel.IsSuccess = !repository.IsError;
+            viewModel.Data = repository.IsError ? repository.ErrorMessage : dictionaries.Select(Item => new ViewModel.TreeModel.TreeItem
             {
                 DictionaryID = Item.DictionaryID,
                 DictionaryParentID = Item.DictionaryParentID,
@@ -49,16 +54,18 @@ namespace SixtyThreeBits.Web.Models.Admin
                 DictionaryDecimalValue = Item.DictionaryDecimalValue,
                 DictionaryCode = Item.DictionaryCode,
                 DictionarySortIndex = Item.DictionarySortIndex
-            })
-            .ToList();
+            }).ToList();
+
             return viewModel;
         }
 
-        public async Task CRUD(Enums.DatabaseActions DatabaseAction, int? dictionaryID, ViewModel.TreeModel.TreeItem submitModel)
+        public async Task<AjaxResponse> IUD(Enums.DatabaseActions databaseAction, int? dictionaryID, ViewModel.TreeModel.TreeItem submitModel)
         {
+            var viewModel = new AjaxResponse();
+
             var repository = RepositoriesFactory.CreateDictionariesRepository();
             await repository.DictionariesIUD(
-                databaseAction: DatabaseAction,
+                databaseAction: databaseAction,
                 dictionaryID: dictionaryID,
                 dictionary: new DictionariesIudDTO
                 {
@@ -73,20 +80,20 @@ namespace SixtyThreeBits.Web.Models.Admin
                 }                
             );
 
-            if (repository.IsError)
-            {
-                Form.AddError(Resources.TextError);
-            }
+            viewModel.IsSuccess = !repository.IsError;
+            viewModel.Data = repository.ErrorMessage;
+
+            return viewModel;
         }
 
-        public async Task DeleteRecursive(int? dictionaryID)
+        public async Task<AjaxResponse> DeleteRecursive(int? dictionaryID)
         {
+            var viewModel = new AjaxResponse();
             var repository = RepositoriesFactory.CreateDictionariesRepository();
             await repository.DictionariesDeleteRecursive(dictionaryID);
-            if (repository.IsError)
-            {
-                Form.AddError(Resources.TextError);
-            }
+            viewModel.IsSuccess = !repository.IsError;
+            viewModel.Data = repository.ErrorMessage;
+            return viewModel;
         }
         #endregion
 
@@ -109,6 +116,7 @@ namespace SixtyThreeBits.Web.Models.Admin
                     tree
                     .ID("DictionariesTree")
                     .OnInitialized("model.onTreeInit")
+                    .OnRowUpdating("model.onTreeRowUpdating")
                     .AutoExpandAll(false)
                     .Pager(options =>
                     {

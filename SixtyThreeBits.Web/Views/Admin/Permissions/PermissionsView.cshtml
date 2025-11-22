@@ -1,11 +1,11 @@
-﻿@model DictionariesModels.ViewModel
+﻿@model PermissionsModel.ViewModel
 <div class="card">
     <div class="card-body">
         <div class="row">
             <div class="col">
                 @if (Model.ShowAddNewButton)
                 {
-                    @await Html.PartialAsync(ViewNames.Admin.Shared.ButtonAddNewPartialView, new ButtonAddNewViewModel())
+                    @await Html.PartialAsync(ViewNames.Admin.Shared.ButtonAddNewPartial, new ButtonAddNewViewModel())
                 }
             </div>
         </div>
@@ -21,5 +21,8 @@
     </div>
 </div>
 @section FooterSection{
-<script src="/js/admin/dictionaries/dictionaries.js"></script>
+    <script src="/js/admin/permissions/permissions.js"></script>
+    <script>
+    permissionsModel.urlUpdate = '@Model.UrlUpdate';
+    </script>
 }

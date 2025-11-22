@@ -1,11 +1,11 @@
-﻿@model RolePermissionsModel.ViewModel
+﻿@model RolesPermissionsModel.ViewModel
 <div class="card">
     <div class="card-body">
         <div class="row">
             <div class="col">
                 @if (Model.ShowSaveButton)
                 {
-                    @await Html.PartialAsync(ViewNames.Admin.Shared.ButtonSavePartialView, new ButtonSaveViewModel())
+                    @await Html.PartialAsync(ViewNames.Admin.Shared.ButtonSavePartial, new ButtonSaveViewModel())
                 }
             </div>
         </div>

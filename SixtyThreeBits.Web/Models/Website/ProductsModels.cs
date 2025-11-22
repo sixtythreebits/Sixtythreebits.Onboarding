@@ -24,7 +24,7 @@ namespace SixtyThreeBits.Web.Models.Website
                 ProductName = item.ProductName,
                 ProductCoverImageHttpPath = FileStorage.GetUploadedFileHttpPath(item.ProductCoverImageFilename),
                 ProductPrice = Utilities.FormatPrice(price: item.ProductPrice, currencySign: "$"),
-                UrlProductDetails = Url.RouteUrl(ControllerActionRouteNames.Website.ProductsController.Product, new { productID = item.ProductID })
+                UrlProductDetails = Url.RouteUrl(ControllerActionRouteNames.Website.ProductController.Product, new { productID = item.ProductID })
             }).ToList();
 
             return viewModel;

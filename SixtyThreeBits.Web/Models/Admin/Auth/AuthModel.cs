@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SixtyThreeBits.Web.Models.Admin
 {
-    public class LoginModel : ModelBase
+    public class AuthModel : ModelBase
     {
         #region Methods
         public ViewModel GetViewModel(ViewModel viewModel = null)
@@ -25,16 +25,16 @@ namespace SixtyThreeBits.Web.Models.Admin
 
         public bool IsUserLoggedIn()
         {
-            var isLoggedIn = SessionAssistance.Get<UserDTO>(WebConstants.Session.User) != null;
+            var isLoggedIn = SessionAssistance.Get<UserDTO>(key: WebConstants.SessionKeys.User) != null;
             return isLoggedIn;
         }
 
-        public async Task<bool> AuthenticateUser(ViewModel viewModel)
+        public async Task<bool> AuthenticateUser(ViewModel viewModel) 
         {
             bool isAuthenticated = false;
 
             var repository = RepositoriesFactory.CreateUsersRepository();
-            var user = await repository.UsersGetSingleUserByEmailAndPassword(userEmail: viewModel.Username, userPassword: viewModel.Password);
+            var user = await repository.UsersGetSingleByEmailAndPassword(userEmail: viewModel.Username, userPassword: viewModel.Password);
             if (user == null)
             {
                 viewModel.IsLoginFailed = true;
@@ -42,7 +42,7 @@ namespace SixtyThreeBits.Web.Models.Admin
             else
             {
                 isAuthenticated = true;
-                SessionAssistance.Set(key: WebConstants.Session.User, value: user);
+                SessionAssistance.Set(key: WebConstants.SessionKeys.User, value: user);
                 if (viewModel.IsRememberMeChecked)
                 {
                     CookieAssistance.Set(
@@ -58,16 +58,22 @@ namespace SixtyThreeBits.Web.Models.Admin
 
         public async Task ReloginUser()
         {
-            var sessionUser = SessionAssistance.Get<UserDTO>(WebConstants.Session.User);
+            var sessionUser = SessionAssistance.Get<UserDTO>(WebConstants.SessionKeys.User);
             if (sessionUser != null)
             {
                 var repository = RepositoriesFactory.CreateUsersRepository();
                 var user = await repository.UsersGetSingleByID(sessionUser.UserID);
                 if (user != null)
                 {
-                    SessionAssistance.Set(WebConstants.Session.User, user);
+                    SessionAssistance.Set(WebConstants.SessionKeys.User, user);
                 }
             }
+        }
+
+        public void Logout()
+        {
+            SessionAssistance.Clear();
+            CookieAssistance.Remove(WebConstants.Cookies.User);
         }
         #endregion
 
@@ -81,6 +87,7 @@ namespace SixtyThreeBits.Web.Models.Admin
             public string Password { get; set; }
             public bool IsRememberMeChecked { get; set; }
             public bool IsLoginFailed { get; set; }
+
             public readonly string TextAdminWelcomeTitle = Resources.TextAdminWelcomeTitle;
             public readonly string TextAdminWelcomeSubTitle = Resources.TextAdminWelcomeSubTitle;
             public readonly string TextUsername = Resources.TextUsername;
@@ -91,37 +98,5 @@ namespace SixtyThreeBits.Web.Models.Admin
             #endregion
         }
         #endregion
-    }
-
-    public class LogoutModel : ModelBase
-    {
-        #region Methods
-        public void Logout()
-        {
-            SessionAssistance.Clear();
-            CookieAssistance.Remove(WebConstants.Cookies.User);
-        }
-        #endregion
-
-        #region Nested Classes
-        public class PageViewModel
-        {
-            #region Properties         
-            public PluginsClientViewModel PluginsClient { get; set; }
-            public string ProjectName { get; set; }
-            public string Username { get; set; }
-            public string Password { get; set; }
-            public bool IsRememberMeChecked { get; set; }
-            public bool IsLoginFailed { get; set; }
-            public readonly string TextAdminWelcomeTitle = Resources.TextAdminWelcomeTitle;
-            public readonly string TextAdminWelcomeSubTitle = Resources.TextAdminWelcomeSubTitle;
-            public readonly string TextUsername = Resources.TextUsername;
-            public readonly string TextPassword = Resources.TextPassword;
-            public readonly string TextRememberMe = Resources.TextRememberMe;
-            public readonly string TextLogin = Resources.TextLogin;
-            public readonly string ValidationUserInvalidUsernameOrPassword = Resources.ValidationUserInvalidUsernameOrPassword;
-            #endregion
-        }
-        #endregion
-    }
+    }    
 }

@@ -21,7 +21,7 @@ namespace SixtyThreeBits.Web.Controllers.Website
     public class ProductControllers : WebsiteControllerBase<ProductModel>
     {
         #region Actions
-        [Route("products/{productID:int}", Name = ControllerActionRouteNames.Website.ProductsController.Product)]
+        [Route("products/{productID:int}", Name = ControllerActionRouteNames.Website.ProductController.Product)]
         public async Task<IActionResult> Product(int? productID)
         {
             var viewModel = await Model.GetViewModel(productID);

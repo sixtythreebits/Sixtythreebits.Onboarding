@@ -2,12 +2,18 @@
 {
     public static partial class ControllerActionRouteNames
     {
+        #region Netsed Classes
         public static partial class Admin
         {
+            #region Netsed Classes
             public static class SystemPropertiesController
             {
-                public const string SystemProperties = $"{nameof(Admin)}{nameof(SystemPropertiesController)}{nameof(SystemProperties)}";
+                #region Properties
+                public const string SystemProperties = $"{nameof(Admin)}{nameof(SystemPropertiesController)}{nameof(SystemProperties)}";                
+                #endregion
             }
+            #endregion
         }
+        #endregion
     }
 }

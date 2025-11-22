@@ -9,8 +9,8 @@
             public static class Shared
             {
                 #region Properties
-                public const string LayoutView = "~/Views/Website/Shared/Layout.cshtml";
-                public const string PagerPartialView = "~/Views/Website/Shared/PagerPartialView.cshtml";
+                public const string Layout = "~/Views/Website/Shared/Layout.cshtml";
+                public const string PagerPartial = "~/Views/Website/Shared/PagerPartialView.cshtml";
                 #endregion
             }
             #endregion
