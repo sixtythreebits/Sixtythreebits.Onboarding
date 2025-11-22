@@ -12,4 +12,8 @@
   <ItemGroup>
     <ProjectReference Include="..\SixtyThreeBits.Core\SixtyThreeBits.Core.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Domain\Utilities\ViewNames\Admin\" />
+    <Folder Include="Domain\Utilities\ViewNames\Website\" />
+  </ItemGroup>
 </Project>

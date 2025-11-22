@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace SixtyThreeBits.Web.Controllers.Admin
 {
     [Route("admin")]
-    public class LoginController : ControllerBase<LoginModel>
+    public class AuthController : ControllerBase<AuthModel>
     {
         #region Actions
         [HttpGet]
@@ -28,7 +28,7 @@ namespace SixtyThreeBits.Web.Controllers.Admin
 
         [HttpPost]
         [Route("login")]
-        public async Task<IActionResult> Login(LoginModel.ViewModel submitModel)
+        public async Task<IActionResult> Login(AuthModel.ViewModel submitModel)
         {
             Model.PluginsClient.EnableAdminTheme(true).EnableFontAwesome(true).Enable63BitsFonts(true);
             var viewModel = Model.GetViewModel(submitModel);
@@ -50,20 +50,7 @@ namespace SixtyThreeBits.Web.Controllers.Admin
             await Model.ReloginUser();
             return Redirect(Model.UrlPreviousPage);
         }
-        #endregion
-    }
 
-    [Route("admin")]
-    public class LogoutController : ControllerBase<LogoutModel>
-    {
-        #region Constructors
-        public LogoutController()
-        {
-            Model = new LogoutModel();
-        }
-        #endregion
-
-        #region Actions
         [Route("logout", Name = ControllerActionRouteNames.Admin.AuthController.Logout)]
         public IActionResult Logout()
         {
@@ -71,5 +58,5 @@ namespace SixtyThreeBits.Web.Controllers.Admin
             return Redirect(Url.RouteUrl(ControllerActionRouteNames.Admin.AuthController.Login));
         }
         #endregion
-    }
+    }    
 }

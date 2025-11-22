@@ -6,14 +6,15 @@ using SixtyThreeBits.Web.Models.Admin;
 namespace SixtyThreeBits.Web.Controllers.Admin
 {
     [Route("admin")]
-    public class HomeControllers : AdminControllerBase<HomeModel>
+    public class HomeController : AdminControllerBase<HomeModel>
     {
         #region Actions
         [HttpGet]
         [Route("", Name = ControllerActionRouteNames.Admin.HomeController.Index)]
         public IActionResult Index()
         {
-            return View(ViewNames.Admin.Home.IndexView);
+            var viewModel = Model.GetViewModel();
+            return View(ViewNames.Admin.Home.IndexView, viewModel);
         } 
         #endregion
     }
