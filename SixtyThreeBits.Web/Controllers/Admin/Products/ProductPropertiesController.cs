@@ -28,6 +28,7 @@ namespace SixtyThreeBits.Web.Controllers.Admin
             var viewModel = await Model.Save(submitModel);
             if (viewModel.HasErrors)
             {
+                Model.PluginsClient.Enable63BitsForms(true).EnableJQueryNumericInput(true).EnableFancybox(true).Enable63BitsSuccessErrorToast(true);
                 return View(ViewNames.Admin.Products.ProductPropertiesView, viewModel);
             }
             else
