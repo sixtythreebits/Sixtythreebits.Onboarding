@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Rewrite;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using SixtyThreeBits.Core.Factories;
 using SixtyThreeBits.Core.Libraries.Loggers;
 using SixtyThreeBits.Core.Utilities;
+using SixtyThreeBits.Web.Domain.Libraries;
 using SixtyThreeBits.Web.Domain.Utilities;
 using SixtyThreeBits.Web.Domain.ViewModels.Shared;
 using System;
@@ -97,7 +100,18 @@ namespace SixtyThreeBits.Web
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseDeveloperExceptionPage();
+            var urlRewriteOptions = new RewriteOptions().AddRedirect(@"(.*)/$", "$1", 301).AddRewrite(@"^$", "/", true).AddRewrite(@"(.*)/$", "$1", true);
+
+            if (_isDevelopmentEnvironment)
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+
+            }
+
+            app.UseRewriter(urlRewriteOptions);
 
             app.UseFileServer();
             app.UseStaticFiles(new StaticFileOptions
@@ -105,6 +119,7 @@ namespace SixtyThreeBits.Web
                 FileProvider = new PhysicalFileProvider(_appSettings.UploadFolderPhysicalPath),
                 RequestPath = _appSettings.UploadFolderHttpPath.TrimEnd('/')
             });
+
             app.UseRouting();
             app.UseSession();
 
@@ -113,71 +128,6 @@ namespace SixtyThreeBits.Web
                 endpoints.MapControllers();
             });
         }
-
-        public async Task RenderNotFoundView(HttpContext context)
-        {
-            // Set the response content type to HTML
-            context.Response.ContentType = "text/html";
-
-            // Get the MVC services from the request scope
-            var services = context.RequestServices;
-            var viewEngine = services.GetRequiredService<Microsoft.AspNetCore.Mvc.ViewEngines.ICompositeViewEngine>();
-            var tempDataFactory = services.GetRequiredService<Microsoft.AspNetCore.Mvc.ViewFeatures.ITempDataDictionaryFactory>();
-            var tempData = tempDataFactory.GetTempData(context);
-
-            // Create an ActionContext using the current HttpContext
-            var actionContext = new Microsoft.AspNetCore.Mvc.ActionContext(
-                context,
-                new Microsoft.AspNetCore.Routing.RouteData(),
-                new Microsoft.AspNetCore.Mvc.Abstractions.ActionDescriptor()
-            );
-
-            // Define the error view you want to return (e.g., Error.cshtml)
-            var viewName = ViewNames.Website.Errors.NotFoundView; // You can define a specific view here
-
-            // Use a ViewDataDictionary to pass data to the view (without ModelState)
-            var viewModel = new NotFoundViewModel
-            {
-                PluginsClient = new PluginsClientViewModel(),
-                UrlLogout = "/"
-            };
-            viewModel.PluginsClient.EnableBootstrap(true);
-            var viewData = new Microsoft.AspNetCore.Mvc.ViewFeatures.ViewDataDictionary(
-                new Microsoft.AspNetCore.Mvc.ModelBinding.EmptyModelMetadataProvider(),
-                new Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary()
-            )
-            {
-                Model = viewModel
-            };
-
-            // Find the view
-            var viewEngineResult = viewEngine.GetView(viewName, viewName, false);
-
-            if (viewEngineResult.Success)
-            {
-                // Render the view and write it to the response stream
-                var view = viewEngineResult.View;
-                using (var writer = new System.IO.StringWriter())
-                {
-                    var viewContext = new Microsoft.AspNetCore.Mvc.Rendering.ViewContext(
-                        actionContext,
-                        view,
-                        viewData,
-                        tempData,
-                        writer,
-                        new Microsoft.AspNetCore.Mvc.ViewFeatures.HtmlHelperOptions()
-                    );
-
-                    await view.RenderAsync(viewContext);
-                    await context.Response.WriteAsync(writer.ToString());
-                }
-            }
-            else
-            {
-                // If the view is not found, you can display a default message
-                await context.Response.WriteAsync("<h1>An error occurred</h1>");
-            }
-        }         
         #endregion
     }
 }
