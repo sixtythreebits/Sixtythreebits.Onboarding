@@ -184,16 +184,16 @@ namespace SixtyThreeBits.Web.Models.Admin
                 #endregion
 
                 #region Nested Classes
-                public class GridItem
+                public record GridItem
                 {
                     #region Properties
-                    public int? ProductID { get; set; }
-                    public string ProductName { get; set; }
-                    public int? CategoryID { get; set; }
-                    public decimal? ProductPrice { get; set; }
-                    public bool? ProductIsPublished { get; set; }
-                    public DateTime? ProductDateCreated { get; set; }
-                    public string UrlProperties { get; set; }
+                    public int? ProductID { get; init; }
+                    public string ProductName { get; init; }
+                    public int? CategoryID { get; init; }
+                    public decimal? ProductPrice { get; init; }
+                    public bool? ProductIsPublished { get; init; }
+                    public DateTime? ProductDateCreated { get; init; }
+                    public string UrlProperties { get; init; }
                     #endregion
                 }
                 #endregion
