@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using SixtyThreeBits.Core.Factories;
-using SixtyThreeBits.Core.Infrastructure.Database;
 using SixtyThreeBits.Core.Infrastructure.Repositories.DTO;
+using SixtyThreeBits.Core.Libraries.Database;
 using SixtyThreeBits.Core.Utilities;
 using SixtyThreeBits.Libraries.Extensions;
 using System.Collections.Generic;
@@ -46,17 +46,17 @@ namespace SixtyThreeBits.Core.Infrastructure.Repositories
             return result;
         }
 
-        public async Task<UserDTO> UsersGetSingleUserByEmailAndPassword(string userEmail, string userPassword)
+        public async Task<UserDTO> UsersGetSingleByEmailAndPassword(string userEmail, string userPassword)
         {
             var result = await TryToReturnAsyncTask(
-                logString: $"{nameof(UsersGetSingleUserByEmailAndPassword)}({nameof(userEmail)} = {userEmail}, {nameof(userPassword)} = {userPassword})", 
+                logString: $"{nameof(UsersGetSingleByEmailAndPassword)}({nameof(userEmail)} = {userEmail}, {nameof(userPassword)} = {userPassword})", 
                 asyncFuncToTry: async () =>
                 {
                     using (var dbContext = _dbContextFactory.CreateDbContext())
                     {
                         var sqb = new SqlQueryBuilder(
                             dbContext: dbContext,
-                            databaseObjectName: nameof(UsersGetSingleUserByEmailAndPassword),
+                            databaseObjectName: nameof(UsersGetSingleByEmailAndPassword),
                             sqlParameters:
                             [
                                 userEmail.ToSqlParameter(nameof(userEmail), SqlDbType.VarChar),

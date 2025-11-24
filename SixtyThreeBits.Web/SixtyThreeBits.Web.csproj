@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <UserSecretsId>920b1ae2-b527-45b0-b2d9-ed8ff53e6aae</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
@@ -11,8 +11,5 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SixtyThreeBits.Core\SixtyThreeBits.Core.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\Website\Products\" />
   </ItemGroup>
 </Project>

@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using SixtyThreeBits.Core.Factories;
-using SixtyThreeBits.Core.Infrastructure.Database;
 using SixtyThreeBits.Core.Infrastructure.Repositories.DTO;
+using SixtyThreeBits.Core.Libraries.Database;
 using SixtyThreeBits.Core.Utilities;
 using SixtyThreeBits.Libraries;
 using SixtyThreeBits.Libraries.Extensions;
@@ -45,7 +45,7 @@ namespace SixtyThreeBits.Core.Infrastructure.Repositories
             );
         }
 
-        public async Task<int?> DictionariesIUD(Enums.DatabaseActions databaseAction, int? dictionaryID, DictionarieIudDTO dictionary)
+        public async Task<int?> DictionariesIUD(Enums.DatabaseActions databaseAction, int? dictionaryID, DictionariesIudDTO dictionary)
         {
             var dictionaryJson = dictionary.ToJson();
 

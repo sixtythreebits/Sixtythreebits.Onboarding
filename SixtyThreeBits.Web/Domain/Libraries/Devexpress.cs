@@ -243,8 +243,8 @@ namespace SixtyThreeBits.Web.Domain.Libraries
             .Columns(Columns =>
             {
                 if (AllowAdd || AllowUpdate || AllowDelete)
-                {
-                    var isAllowedAddOrUpdate = AllowAdd || AllowUpdate;
+                {                    
+					var isAllowedAddOrUpdate = AllowAdd || AllowUpdate;
                     var isAllowedAll = AllowAdd && AllowUpdate && AllowDelete;
                     var width = isAllowedAll ? 90 : (isAllowedAddOrUpdate ? 60 : 30);
                     var commandColumn = Columns.Add();
@@ -298,6 +298,7 @@ namespace SixtyThreeBits.Web.Domain.Libraries
         {
             if (formatDateTime)
             {
+                column.DataType(GridColumnDataType.DateTime);
                 column.Format(Constants.Formats.DateTime);
             }
             else
@@ -388,7 +389,13 @@ namespace SixtyThreeBits.Web.Domain.Libraries
                 }
             });
             return column;
-        }        
+        }
+
+        public static DataGridBuilder<T> SetOnRowUpdatingSendAllColumnsData<T>(this DataGridBuilder<T> grid)
+        {
+            grid.OnRowUpdating("globals.devexpress.onRowUpdatingSendAllColumnsData");
+            return grid;
+        }
         #endregion
 
         #region Enums

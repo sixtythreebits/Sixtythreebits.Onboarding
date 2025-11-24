@@ -1,5 +1,6 @@
-﻿using SixtyThreeBits.Core.Libraries;
+﻿using SixtyThreeBits.Core.Libraries.Validation;
 using SixtyThreeBits.Core.Properties;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace SixtyThreeBits.Web.Domain.ViewModels.Base
@@ -7,40 +8,34 @@ namespace SixtyThreeBits.Web.Domain.ViewModels.Base
     public class FormViewModelBase
     {
         #region Properties        
-        readonly Errors _errors = new Errors();
+        readonly ValidationResult63 _formErrors = new ValidationResult63();
 
-        public string ErrorMessage => HasErrors ? string.Join("<br />", _errors.GetErrors().Select(Item => Item.Value)) : null;
-        public bool HasErrors => _errors?.Count > 0;
-        public bool IsValid => !HasErrors;
-        public string ErrorsJson => _errors.ErrorsJson;
+        public string FormErrorsJson => _formErrors.ErrorsJson;
+        public string FormErrorsMessage => HasFormErrors ? string.Join("<br />", _formErrors.GetErrors().Select(Item => Item.Value)) : null;
+        public bool HasFormErrors => _formErrors.Count > 0;
 
+        public string ToastError { get; private set; }
+        public bool HasToastError { get; private set; }
 
-        public bool IsSaved { get; set; }
+        public bool HasErrors => HasFormErrors || HasToastError;
+
         public readonly string TextConfirmDelete = Resources.TextConfirmDelete;
         #endregion
 
         #region Methods
-        public void AddError(string errorKey, string errorMessage)
+        public void AddToastError(string errorMessage)
         {
+            ToastError = errorMessage;
+            HasToastError = true;
+        }
 
-            if (!string.IsNullOrWhiteSpace(errorMessage))
+        public void AddFormErrors(IEnumerable<Error63> formErrors)
+        {
+            foreach (var error in formErrors)
             {
-                _errors.AddError(new ErrorItem(Key: errorKey, Value: errorMessage));
+                _formErrors.AddError(error);
             }
-        }
-
-        public void AddError(string errorMessage)
-        {
-            AddError(errorKey: null, errorMessage: errorMessage);
-        }
-
-        public void AddError(ErrorItem error)
-        {
-            if (error != null)
-            {
-                AddError(errorKey: error.Key, errorMessage: error.Value);
-            }
-        }
+        }      
         #endregion
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using SixtyThreeBits.Core.Factories;
 using SixtyThreeBits.Core.Libraries;
+using System.Threading.Tasks;
 
 namespace SixtyThreeBits.Core.Infrastructure.Repositories
 {
@@ -15,6 +16,6 @@ namespace SixtyThreeBits.Core.Infrastructure.Repositories
         {
             _dbContextFactory = dbContextFactory;
         }
-        #endregion
+        #endregion        
     }
 }
