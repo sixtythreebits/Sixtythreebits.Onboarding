@@ -9,8 +9,8 @@
             public static class Products
             {
                 #region Properties
-                public const string ProductView = "~/Views/Website/Products/Product.cshtml";
-                public const string ProductsView = "~/Views/Website/Products/Products.cshtml";                
+                public const string ProductView = "~/Views/Website/Products/ProductView.cshtml";
+                public const string ProductsView = "~/Views/Website/Products/ProductsView.cshtml";
                 #endregion
             }
             #endregion

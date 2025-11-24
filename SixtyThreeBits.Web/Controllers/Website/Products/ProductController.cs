@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SixtyThreeBits.Web.Controllers.Website
 {
-    public class ProductControllers : WebsiteControllerBase<ProductModel>
+    public class ProductController : WebsiteControllerBase<ProductModel>
     {
         #region Actions
         [Route("products/{productID:int}", Name = ControllerActionRouteNames.Website.ProductController.Product)]

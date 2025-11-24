@@ -1,8 +1,7 @@
 ﻿namespace SixtyThreeBits.Web.Domain.Utilities
 {
     public static partial class ControllerActionRouteNames
-    {
-      
+    {      
         public static partial class Website
         {
             public static class ProductsController
