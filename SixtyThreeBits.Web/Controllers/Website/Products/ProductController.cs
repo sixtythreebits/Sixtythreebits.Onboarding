@@ -6,18 +6,6 @@ using System.Threading.Tasks;
 
 namespace SixtyThreeBits.Web.Controllers.Website
 {
-    public class ProductsControllers : WebsiteControllerBase<ProductsModel>
-    {
-        #region Actions
-        [Route("products", Name = ControllerActionRouteNames.Website.ProductsController.Products)]
-        public async Task<IActionResult> Product()
-        {
-            var viewModel = await Model.GetViewModel();            
-            return View(ViewNames.Website.Products.ProductsView, viewModel);
-        }
-        #endregion
-    }
-
     public class ProductControllers : WebsiteControllerBase<ProductModel>
     {
         #region Actions
