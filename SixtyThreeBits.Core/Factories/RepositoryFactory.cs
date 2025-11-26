@@ -28,7 +28,7 @@ namespace SixtyThreeBits.Core.Factories
         {
             return new PermissionsRepository(_dbContextFactory, _logger);
         }
-        
+
         public RolesRepository CreateRolesRepository()
         {
             return new RolesRepository(_dbContextFactory, _logger);

@@ -108,7 +108,7 @@ namespace SixtyThreeBits.Web
             }
             else
             {
-
+               
             }
 
             app.UseRewriter(urlRewriteOptions);
