@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using SixtyThreeBits.Core.Infrastructure.Repositories.DTO;
 using SixtyThreeBits.Core.Utilities;
 using SixtyThreeBits.Libraries;
-using SixtyThreeBits.Web.Domain.Libraries;
+using SixtyThreeBits.Web.Domain.Libraries.DevExtreme;
 using SixtyThreeBits.Web.Domain.Utilities;
 using SixtyThreeBits.Web.Models.Base;
 using System;
@@ -22,17 +22,20 @@ namespace SixtyThreeBits.Web.Models.Admin
         {
             var viewModel = new ViewModel();
             viewModel.ShowAddNewButton = User.HasPermission(ControllerActionRouteNames.Admin.ProductsController.GridAdd);
-            viewModel.Grid = new ViewModel.GridModel();
 
-            var repository = RepositoriesFactory.CreateProductsRepository();
+
+            viewModel.Grid = new ViewModel.GridModel();
 
             viewModel.Grid.UrlLoad = Url.RouteUrl(ControllerActionRouteNames.Admin.ProductsController.Grid);
             viewModel.Grid.UrlAddNew = Url.RouteUrl(ControllerActionRouteNames.Admin.ProductsController.GridAdd);
             viewModel.Grid.UrlUpdate = Url.RouteUrl(ControllerActionRouteNames.Admin.ProductsController.GridUpdate);
             viewModel.Grid.UrlDelete = Url.RouteUrl(ControllerActionRouteNames.Admin.ProductsController.GridDelete);
+
             viewModel.Grid.AllowUpdate = User.HasPermission(ControllerActionRouteNames.Admin.ProductsController.GridUpdate);
             viewModel.Grid.AllowDelete = User.HasPermission(ControllerActionRouteNames.Admin.ProductsController.GridDelete);
 
+
+            var repository = RepositoriesFactory.CreateProductsRepository();
             viewModel.Grid.Categories = (await repository.CategoriesList())?
             .Select(item => new KeyValueTuple<int?, string>
             {
@@ -43,7 +46,7 @@ namespace SixtyThreeBits.Web.Models.Admin
             return viewModel;
         }
 
-        public async Task<AjaxResponse> GetGridModel()
+        public async Task<AjaxResponse> GridList()
         {
             var viewModel = new AjaxResponse();
             var repository = RepositoriesFactory.CreateProductsRepository();
@@ -66,7 +69,7 @@ namespace SixtyThreeBits.Web.Models.Admin
             return viewModel;
         }
 
-        public async Task<AjaxResponse> ProductAdd(ViewModel.GridModel.GridItem submitModel)
+        public async Task<AjaxResponse> GridAdd(ViewModel.GridModel.GridItem submitModel)
         {
             var viewModel = new AjaxResponse();
             var repository = RepositoriesFactory.CreateProductsRepository();
@@ -89,7 +92,7 @@ namespace SixtyThreeBits.Web.Models.Admin
             return viewModel;
         }
 
-        public async Task<AjaxResponse> ProductUpdate(int? productID, ViewModel.GridModel.GridItem submitModel)
+        public async Task<AjaxResponse> GridUpdate(int? productID, ViewModel.GridModel.GridItem submitModel)
         {
             var viewModel = new AjaxResponse();
             var repository = RepositoriesFactory.CreateProductsRepository();
@@ -112,7 +115,7 @@ namespace SixtyThreeBits.Web.Models.Admin
             return viewModel;
         }
 
-        public async Task<AjaxResponse> ProductDelete(int? productID)
+        public async Task<AjaxResponse> GridDelete(int? productID)
         {
             var viewModel = new AjaxResponse();
             var repository = RepositoriesFactory.CreateProductsRepository();
@@ -149,8 +152,10 @@ namespace SixtyThreeBits.Web.Models.Admin
             #region Properties
             public bool ShowAddNewButton { get; set; }
             public GridModel Grid { get; set; }
+            #endregion
 
-            public class GridModel : DevExtremeGridViewModelBase<GridModel.GridItem>
+            #region Nested Classes
+            public class GridModel : DevExtremeGridModelBase<GridModel.GridItem>
             {
                 #region Properties
                 public List<KeyValueTuple<int?, string>> Categories { get; set; }
@@ -173,9 +178,9 @@ namespace SixtyThreeBits.Web.Models.Admin
                             options.AddRequired();
                         });
                         columns.AddFor(m => m.CategoryID).Caption("Category").Width(150).InitLookupColumn(data: Categories);
-                        columns.AddFor(m => m.ProductPrice).Caption("Price").InitNumberColumn(format: DevExtremeBuilderCustomExtensions.NumberColumnFormatType.Money);
+                        columns.AddFor(m => m.ProductPrice).Caption("Price").InitNumberColumn(format: DevExtremeExtensions63.NumberColumnFormatType.Money);
                         columns.AddFor(m => m.ProductIsPublished).Caption("Published").Width(120).InitCheckboxColumn();
-                        columns.AddFor(m => m.ProductDateCreated).Caption("Date Created").Width(140).InitDateColumn(true).AllowEditing(false);
+                        columns.AddFor(m => m.ProductDateCreated).Caption("Date Created").Width(140).InitDateColumn(format: DevExtremeExtensions63.DateColumnFormat.DateTime).AllowEditing(false);
                         columns.Add();
                     });
 
@@ -184,20 +189,20 @@ namespace SixtyThreeBits.Web.Models.Admin
                 #endregion
 
                 #region Nested Classes
-                public record GridItem
+                public class GridItem
                 {
                     #region Properties
-                    public int? ProductID { get; init; }
-                    public string ProductName { get; init; }
+                    public int? ProductID { get; set; }
+                    public string ProductName { get; set; }
                     public int? CategoryID { get; init; }
-                    public decimal? ProductPrice { get; init; }
-                    public bool? ProductIsPublished { get; init; }
-                    public DateTime? ProductDateCreated { get; init; }
-                    public string UrlProperties { get; init; }
+                    public decimal? ProductPrice { get; set; }
+                    public bool? ProductIsPublished { get; set; }
+                    public DateTime? ProductDateCreated { get; set; }
+                    public string UrlProperties { get; set; }
                     #endregion
                 }
                 #endregion
-            } 
+            }              
             #endregion
         }
         #endregion

@@ -47,7 +47,6 @@ namespace SixtyThreeBits.Core.Infrastructure.Repositories
             return result;
         }
 
-
         public async Task<ProductDTO> ProductsGetSingleByID(int? productID)
         {
             var result = await TryToReturnAsyncTask(

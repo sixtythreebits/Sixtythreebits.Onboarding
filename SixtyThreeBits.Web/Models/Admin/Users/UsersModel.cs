@@ -8,6 +8,7 @@ using SixtyThreeBits.Core.Properties;
 using SixtyThreeBits.Core.Utilities;
 using SixtyThreeBits.Libraries;
 using SixtyThreeBits.Web.Domain.Libraries;
+using SixtyThreeBits.Web.Domain.Libraries.DevExtreme;
 using SixtyThreeBits.Web.Domain.Utilities;
 using SixtyThreeBits.Web.Models.Base;
 using System;
@@ -128,7 +129,7 @@ namespace SixtyThreeBits.Web.Models.Admin
             #endregion
 
             #region Nested Classes
-            public class GridModel : DevExtremeGridViewModelBase<GridModel.GridItem>
+            public class GridModel : DevExtremeGridModelBase<GridModel.GridItem>
             {
                 #region Properties
                 public List<KeyValueTuple<int?, string>> Roles { get; set; }
@@ -157,7 +158,7 @@ namespace SixtyThreeBits.Web.Models.Admin
                         });
                         columns.AddFor(m => m.UserPassword).Caption(Resources.TextPassword).Width(150);
                         columns.AddFor(m => m.RoleID).Caption(Resources.TextRole).Width(150).InitLookupColumn(data: Roles, allowNull: true);
-                        columns.AddFor(m => m.UserDateCreated).Caption(Resources.TextDateCreated).DataType(GridColumnDataType.DateTime).Width(140).InitDateColumn(true).AllowEditing(false);
+                        columns.AddFor(m => m.UserDateCreated).Caption(Resources.TextDateCreated).Width(140).InitDateColumn(format: DevExtremeExtensions63.DateColumnFormat.DateTime).AllowEditing(false);
                         columns.Add();
                     });
 

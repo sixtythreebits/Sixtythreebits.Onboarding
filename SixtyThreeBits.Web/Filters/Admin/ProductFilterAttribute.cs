@@ -23,32 +23,32 @@ namespace SixtyThreeBits.Web.Filters.Admin
 
             if(_model.Product == null)
             {
-                filterContext.Result = _model.GetNotFoundAdminViewResult();
+                _filterContext.Result = _model.GetNotFoundAdminViewResult();
             }
             else
             {
                 initPageTitle();
                 reinitBreadCrumbs();
                 await next();
-            }
+            }            
+        }
 
-            async Task initProduct()
-            {
-                var repository = _model.RepositoriesFactory.CreateProductsRepository();
-                var productID = _filterContext.RouteData.Values["productID"].ToString().ToInt();
-                _model.Product = await repository.ProductsGetSingleByID(productID);
-            }
+        async Task initProduct()
+        {
+            var repository = _model.RepositoriesFactory.CreateProductsRepository();
+            var productID = _filterContext.RouteData.Values["productID"].ToString().ToInt();
+            _model.Product = await repository.ProductsGetSingleByID(productID);
+        }
 
-            void initPageTitle()
-            {
-                _model.PageTitle.Set(_model.Product.ProductName);
-            }
+        void initPageTitle()
+        {
+            _model.PageTitle.Set(_model.Product.ProductName);
+        }
 
-            void reinitBreadCrumbs()
-            {
-                _model.Breadcrumbs.DeleteLastItem();
-                _model.Breadcrumbs.RenameLastItem(_model.Product.ProductName);
-            }
+        void reinitBreadCrumbs()
+        {
+            _model.Breadcrumbs.DeleteLastItem();
+            _model.Breadcrumbs.RenameLastItem(_model.Product.ProductName);
         }
         #endregion
     }

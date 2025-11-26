@@ -45,7 +45,7 @@ namespace SixtyThreeBits.Web.Models.Admin
 
         public async Task<ViewModel> Save(ViewModel submitModel)
         {
-            var viewModel = await  GetViewModel(submitModel);
+            var viewModel = await GetViewModel(submitModel);
 
             var validationResult = validateSubmitModel(submitModel);
             if (validationResult.HasErrors)
@@ -79,7 +79,7 @@ namespace SixtyThreeBits.Web.Models.Admin
 
                 if (repository.IsError)
                 {
-                    submitModel.AddToastError(repository.ErrorMessage);
+                    viewModel.AddToastError(repository.ErrorMessage);
                 }
                 else
                 {
