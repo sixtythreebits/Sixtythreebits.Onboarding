@@ -1,24 +1,24 @@
 /*!
 * DevExtreme (dx.messages.pt.js)
-* Version: 25.1.6
-* Build date: Mon Oct 13 2025
+* Version: 25.2.7
+* Build date: Tue May 05 2026
 *
-* Copyright (c) 2012 - 2025 Developer Express Inc. ALL RIGHTS RESERVED
+* Copyright (c) 2012 - 2026 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
 */
 "use strict";
 
 ! function(root, factory) {
     if ("function" === typeof define && define.amd) {
-        define((function(require) {
+        define(function(require) {
             factory(require("devextreme/common/core/localization"))
-        }))
+        })
     } else if ("object" === typeof module && module.exports) {
         factory(require("devextreme/common/core/localization"))
     } else {
         factory(DevExpress.localization)
     }
-}(0, (function(localization) {
+}(0, function(localization) {
     localization.loadMessages({
         pt: {
             Yes: "Sim",
@@ -100,14 +100,27 @@
             "dxFileUploader-invalidFileExtension": "Tipo de arquivo n\xe3o \xe9 permitido",
             "dxFileUploader-invalidMaxFileSize": "O arquivo \xe9 muito grande",
             "dxFileUploader-invalidMinFileSize": "O arquivo \xe9 muito pequeno",
+            "dxFileUploader-fileListLabel": "File list",
+            "dxFileUploader-removeFileButtonLabel": "Remove file {0}",
+            "dxFileUploader-uploadFileButtonLabel": "Upload file {0}",
             "dxRangeSlider-ariaFrom": "De {0}",
             "dxRangeSlider-ariaTill": "At\xe9 {0}",
             "dxSwitch-switchedOnText": "LIGADO",
             "dxSwitch-switchedOffText": "DESLIGADO",
             "dxForm-optionalMark": "opcional",
             "dxForm-requiredMessage": "{0} \xe9 de preenchimento obrigat\xf3rio",
+            "dxForm-smartPasteButtonText": "Smart Paste",
+            "dxForm-resetButtonText": "Limpar",
+            "dxForm-submitButtonText": "Submit",
             "dxNumberBox-invalidValueMessage": "Valor deve ser um n\xfamero",
             "dxNumberBox-noDataText": "Sem dados",
+            "dxDataGrid-aiPromptEditorTitle": "AI Prompt Editor",
+            "dxDataGrid-aiPromptEditorPlaceholder": "Prompt AI to generate the column's values",
+            "dxDataGrid-aiPromptEditorApplyButton": "Apply",
+            "dxDataGrid-aiPromptEditorRegenerateButton": "Regenerate Data",
+            "dxDataGrid-aiPromptEditorStopButton": "Stop",
+            "dxDataGrid-aiDropDownAutofill": "Autofill with AI",
+            "dxDataGrid-aiDropDownClear": "Clear Data",
             "dxDataGrid-emptyHeaderWithColumnChooserText": "Use {0} para exibir colunas",
             "dxDataGrid-emptyHeaderWithGroupPanelText": "Arraste uma coluna do painel do grupo aqui",
             "dxDataGrid-emptyHeaderWithColumnChooserAndGroupPanelText": "Use {0} ou arraste uma coluna do painel do grupo",
@@ -263,11 +276,17 @@
             "dxScheduler-appointmentAriaLabel-group": "Grupo: {0}",
             "dxScheduler-appointmentAriaLabel-recurring": "Compromisso recorrente",
             "dxScheduler-appointmentListAriaLabel": "Lista de compromissos",
+            "dxScheduler-newPopupTitle": "New Appointment",
+            "dxScheduler-editPopupTitle": "Edit Appointment",
+            "dxScheduler-editPopupSaveButtonText": "Save",
             "dxScheduler-editorLabelTitle": "Assunto",
             "dxScheduler-editorLabelStartDate": "Data de In\xedcio",
+            "dxScheduler-editorAriaLabelStartTime": "Start time",
             "dxScheduler-editorLabelEndDate": "Data Final",
+            "dxScheduler-editorAriaLabelEndTime": "End time",
             "dxScheduler-editorLabelDescription": "Descri\xe7\xe3o",
             "dxScheduler-editorLabelRecurrence": "Repetir",
+            "dxScheduler-noSubject": "(No subject)",
             "dxScheduler-navigationToday": "Today",
             "dxScheduler-navigationPrevious": "P\xe1gina anterior",
             "dxScheduler-navigationNext": "Pr\xf3xima p\xe1gina",
@@ -379,6 +398,9 @@
             "dxChat-editingDeleteConfirmText": "Are you sure you want to delete this message?",
             "dxChat-deletedMessageText": "This message was deleted",
             "dxChat-defaultImageAlt": "Image shared in chat",
+            "dxChat-fileViewLabel": "File list",
+            "dxChat-downloadButtonLabel": "Download file {0}",
+            "dxChat-fileLimitReachedWarning": "You selected too many files. Select no more than {0} files and retry.",
             "dxColorView-ariaRed": "Vermelho",
             "dxColorView-ariaGreen": "Verde",
             "dxColorView-ariaBlue": "Azul",
@@ -532,6 +554,38 @@
             "dxHtmlEditor-aiToolbarItemAriaLabel": "AI Assistant toolbar item",
             "dxHtmlEditor-aiResultTextAreaAriaLabel": "AI Assistant result",
             "dxHtmlEditor-aiAskPlaceholder": "Ask AI to modify text",
+            "dxHtmlEditor-aiCommandSummarize": "Summarize",
+            "dxHtmlEditor-aiCommandProofread": "Proofread",
+            "dxHtmlEditor-aiCommandExpand": "Expand",
+            "dxHtmlEditor-aiCommandShorten": "Shorten",
+            "dxHtmlEditor-aiCommandChangeStyle": "Change Style",
+            "dxHtmlEditor-aiCommandChangeTone": "Change Tone",
+            "dxHtmlEditor-aiCommandTranslate": "Translate",
+            "dxHtmlEditor-aiCommandAskAI": "Ask AI",
+            "dxHtmlEditor-aiCommandChangeStyleFormal": "Formal",
+            "dxHtmlEditor-aiCommandChangeStyleInformal": "Informal",
+            "dxHtmlEditor-aiCommandChangeStyleTechnical": "Technical",
+            "dxHtmlEditor-aiCommandChangeStyleBusiness": "Business",
+            "dxHtmlEditor-aiCommandChangeStyleCreative": "Creative",
+            "dxHtmlEditor-aiCommandChangeStyleJournalistic": "Journalistic",
+            "dxHtmlEditor-aiCommandChangeStyleAcademic": "Academic",
+            "dxHtmlEditor-aiCommandChangeStylePersuasive": "Persuasive",
+            "dxHtmlEditor-aiCommandChangeStyleNarrative": "Narrative",
+            "dxHtmlEditor-aiCommandChangeStyleExpository": "Expository",
+            "dxHtmlEditor-aiCommandChangeStyleDescriptive": "Descriptive",
+            "dxHtmlEditor-aiCommandChangeStyleConversational": "Conversational",
+            "dxHtmlEditor-aiCommandChangeToneProfessional": "Professional",
+            "dxHtmlEditor-aiCommandChangeToneCasual": "Casual",
+            "dxHtmlEditor-aiCommandChangeToneStraightforward": "Straightforward",
+            "dxHtmlEditor-aiCommandChangeToneConfident": "Confident",
+            "dxHtmlEditor-aiCommandChangeToneFriendly": "Friendly",
+            "dxHtmlEditor-aiCommandTranslateArabic": "Arabic",
+            "dxHtmlEditor-aiCommandTranslateChinese": "Chinese",
+            "dxHtmlEditor-aiCommandTranslateEnglish": "English",
+            "dxHtmlEditor-aiCommandTranslateFrench": "French",
+            "dxHtmlEditor-aiCommandTranslateGerman": "German",
+            "dxHtmlEditor-aiCommandTranslateJapanese": "Japanese",
+            "dxHtmlEditor-aiCommandTranslateSpanish": "Spanish",
             "dxFileManager-newDirectoryName": "Diret\xf3rio sem t\xedtulo",
             "dxFileManager-rootDirectoryName": "Arquivos",
             "dxFileManager-errorNoAccess": "Acesso negado. A opera\xe7\xe3o n\xe3o p\xf4de ser conclu\xedda.",
@@ -799,7 +853,9 @@
             "dxMultiView-itemAriaLabel": "{0} de {1}",
             "dxSplitter-resizeHandleAriaLabel": "Barra de divis\xe3o",
             "dxSplitter-resizeHandleAriaRoleDescription": "Separator",
-            "dxStepper-optionalMark": "(Optional)"
+            "dxStepper-optionalMark": "(Optional)",
+            "dxSpeechToText-ariaLabelStart": "Press to start voice transcription",
+            "dxSpeechToText-ariaLabelStop": "Press to stop voice transcription"
         }
     })
-}));
+});

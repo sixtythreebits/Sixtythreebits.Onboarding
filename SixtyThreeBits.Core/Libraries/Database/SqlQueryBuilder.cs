@@ -12,9 +12,9 @@ namespace SixtyThreeBits.Core.Libraries.Database
     internal class SqlQueryBuilder
     {
         #region Properties
-        public string SqlQuery { get; set; }        
+        public string SqlQuery { get; set; }
         readonly DbContext _dbContext;
-        readonly string _databaseObjectName;        
+        readonly string _databaseObjectName;
         readonly SqlParameter[] _sqlParameters;
 
         Type _resultType;
@@ -34,7 +34,7 @@ namespace SixtyThreeBits.Core.Libraries.Database
             _sqlParameters = sqlParameters;
 
             buildParameters();
-            
+
             if (sqlParameters?.Any() == true)
             {
                 _outputParameters = sqlParameters.Where(item => item.Direction == ParameterDirection.Output || item.Direction == ParameterDirection.InputOutput).ToList();
@@ -64,8 +64,8 @@ namespace SixtyThreeBits.Core.Libraries.Database
         {
             buildScalarValuedFunctionSqlScript();
             var iQueryableResult = _dbContext.Database.SqlQueryRaw<T>(SqlQuery, _sqlParameters);
-            var queryResult = (await iQueryableResult.ToListAsync());
-            var result = queryResult.FirstOrDefault();            
+            var queryResult = await iQueryableResult.ToListAsync();
+            var result = queryResult.FirstOrDefault();
             return result;
         }
 
@@ -95,15 +95,23 @@ namespace SixtyThreeBits.Core.Libraries.Database
         public async Task<T> ExecuteSqlScriptScalarValued<T>(string sqlScriptScalarValued)
         {
             var iQueryableResult = _dbContext.Database.SqlQueryRaw<T>(sqlScriptScalarValued, _sqlParameters);
-            var queryResult = (await iQueryableResult.ToListAsync());
+            var queryResult = await iQueryableResult.ToListAsync();
             var result = queryResult.FirstOrDefault();
-            return result;            
+            return result;
         }
 
         public IQueryable<T> ExecuteSqlScriptTableValued<T>(string sqlScriptTableValued)
         {
-            _resultType = typeof(T);            
+            _resultType = typeof(T);
             var result = _dbContext.Database.SqlQueryRaw<T>(sqlScriptTableValued, _sqlParameters);
+            return result;
+        }
+
+        public IQueryable<T> ExecuteSqlScriptView<T>() where T : class
+        {
+            _resultType = typeof(T);
+            buildViewSqlScript();
+            var result = _dbContext.Database.SqlQueryRaw<T>(SqlQuery, _sqlParameters);
             return result;
         }
 
@@ -114,8 +122,10 @@ namespace SixtyThreeBits.Core.Libraries.Database
             {
                 if (outputParameterToGetIndex < outputParametersCount)
                 {
-                    var value = _outputParameters[outputParameterToGetIndex].Value;
-                    result = (T)value;
+                    var param = _outputParameters[outputParameterToGetIndex];
+                    var value = param.Value == DBNull.Value ? null : param.Value;
+                    ++outputParameterToGetIndex;
+                    result = value == null ? default(T) : (T)value;
                 }
             }
             return result;
@@ -139,7 +149,14 @@ namespace SixtyThreeBits.Core.Libraries.Database
             var propertiesString = string.Join(", ", propertyNames);
             SqlQuery = $"SELECT {propertiesString} FROM dbo.{_databaseObjectName}({_parametersString})";
         }
-        
+
+        void buildViewSqlScript()
+        {
+            var propertyNames = _resultType.GetProperties().Select(item => item.Name);
+            var propertiesString = string.Join(", ", propertyNames);
+            SqlQuery = $"SELECT {propertiesString} FROM dbo.{_databaseObjectName}";
+        }
+
         void buildParameters()
         {
             var parametersStringBuilder = new StringBuilder();
@@ -169,5 +186,5 @@ namespace SixtyThreeBits.Core.Libraries.Database
             #endregion
         }
         #endregion
-    }    
+    }
 }

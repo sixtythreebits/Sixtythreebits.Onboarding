@@ -1,24 +1,24 @@
 /*!
 * DevExtreme (dx.messages.hu.js)
-* Version: 25.1.6
-* Build date: Mon Oct 13 2025
+* Version: 25.2.7
+* Build date: Tue May 05 2026
 *
-* Copyright (c) 2012 - 2025 Developer Express Inc. ALL RIGHTS RESERVED
+* Copyright (c) 2012 - 2026 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
 */
 "use strict";
 
 ! function(root, factory) {
     if ("function" === typeof define && define.amd) {
-        define((function(require) {
+        define(function(require) {
             factory(require("devextreme/common/core/localization"))
-        }))
+        })
     } else if ("object" === typeof module && module.exports) {
         factory(require("devextreme/common/core/localization"))
     } else {
         factory(DevExpress.localization)
     }
-}(0, (function(localization) {
+}(0, function(localization) {
     localization.loadMessages({
         hu: {
             Yes: "Igen",
@@ -100,14 +100,27 @@
             "dxFileUploader-invalidFileExtension": "Nem enged\xe9lyezett f\xe1jlt\xedpus",
             "dxFileUploader-invalidMaxFileSize": "T\xfal nagy f\xe1jl",
             "dxFileUploader-invalidMinFileSize": "T\xfal kicsi f\xe1jl",
+            "dxFileUploader-fileListLabel": "File list",
+            "dxFileUploader-removeFileButtonLabel": "Remove file {0}",
+            "dxFileUploader-uploadFileButtonLabel": "Upload file {0}",
             "dxRangeSlider-ariaFrom": "-t\xf3l",
             "dxRangeSlider-ariaTill": "-ig",
             "dxSwitch-switchedOnText": "BE",
             "dxSwitch-switchedOffText": "KI",
             "dxForm-optionalMark": "v\xe1laszthat\xf3",
             "dxForm-requiredMessage": "{0} k\xf6telez\u0151",
+            "dxForm-smartPasteButtonText": "Smart Paste",
+            "dxForm-resetButtonText": "Vissza\xe1ll\xedt\xe1s",
+            "dxForm-submitButtonText": "Submit",
             "dxNumberBox-invalidValueMessage": "Az \xe9rt\xe9k sz\xe1m kell legyen",
             "dxNumberBox-noDataText": "Nincs adat",
+            "dxDataGrid-aiPromptEditorTitle": "AI Prompt Editor",
+            "dxDataGrid-aiPromptEditorPlaceholder": "Prompt AI to generate the column's values",
+            "dxDataGrid-aiPromptEditorApplyButton": "Apply",
+            "dxDataGrid-aiPromptEditorRegenerateButton": "Regenerate Data",
+            "dxDataGrid-aiPromptEditorStopButton": "Stop",
+            "dxDataGrid-aiDropDownAutofill": "Autofill with AI",
+            "dxDataGrid-aiDropDownClear": "Clear Data",
             "dxDataGrid-emptyHeaderWithColumnChooserText": "Use {0} to display columns",
             "dxDataGrid-emptyHeaderWithGroupPanelText": "Drag a column from the group panel here",
             "dxDataGrid-emptyHeaderWithColumnChooserAndGroupPanelText": "Use {0} or drag a column from the group panel",
@@ -263,11 +276,17 @@
             "dxScheduler-appointmentAriaLabel-group": "Group: {0}",
             "dxScheduler-appointmentAriaLabel-recurring": "Recurring appointment",
             "dxScheduler-appointmentListAriaLabel": "Appointment list",
+            "dxScheduler-newPopupTitle": "New Appointment",
+            "dxScheduler-editPopupTitle": "Edit Appointment",
+            "dxScheduler-editPopupSaveButtonText": "Save",
             "dxScheduler-editorLabelTitle": "T\xe1rgy",
             "dxScheduler-editorLabelStartDate": "Kezd\xe9s d\xe1tuma",
+            "dxScheduler-editorAriaLabelStartTime": "Start time",
             "dxScheduler-editorLabelEndDate": "Befejez\xe9s d\xe1tuma",
+            "dxScheduler-editorAriaLabelEndTime": "End time",
             "dxScheduler-editorLabelDescription": "Le\xedr\xe1s",
             "dxScheduler-editorLabelRecurrence": "Ism\xe9tl\u0151d\xe9s",
+            "dxScheduler-noSubject": "(No subject)",
             "dxScheduler-navigationToday": "Today",
             "dxScheduler-navigationPrevious": "Previous page",
             "dxScheduler-navigationNext": "Next page",
@@ -379,6 +398,9 @@
             "dxChat-editingDeleteConfirmText": "Are you sure you want to delete this message?",
             "dxChat-deletedMessageText": "This message was deleted",
             "dxChat-defaultImageAlt": "Image shared in chat",
+            "dxChat-fileViewLabel": "File list",
+            "dxChat-downloadButtonLabel": "Download file {0}",
+            "dxChat-fileLimitReachedWarning": "You selected too many files. Select no more than {0} files and retry.",
             "dxColorView-ariaRed": "Piros",
             "dxColorView-ariaGreen": "Z\xf6ld",
             "dxColorView-ariaBlue": "K\xe9k",
@@ -532,6 +554,38 @@
             "dxHtmlEditor-aiToolbarItemAriaLabel": "AI Assistant toolbar item",
             "dxHtmlEditor-aiResultTextAreaAriaLabel": "AI Assistant result",
             "dxHtmlEditor-aiAskPlaceholder": "Ask AI to modify text",
+            "dxHtmlEditor-aiCommandSummarize": "Summarize",
+            "dxHtmlEditor-aiCommandProofread": "Proofread",
+            "dxHtmlEditor-aiCommandExpand": "Expand",
+            "dxHtmlEditor-aiCommandShorten": "Shorten",
+            "dxHtmlEditor-aiCommandChangeStyle": "Change Style",
+            "dxHtmlEditor-aiCommandChangeTone": "Change Tone",
+            "dxHtmlEditor-aiCommandTranslate": "Translate",
+            "dxHtmlEditor-aiCommandAskAI": "Ask AI",
+            "dxHtmlEditor-aiCommandChangeStyleFormal": "Formal",
+            "dxHtmlEditor-aiCommandChangeStyleInformal": "Informal",
+            "dxHtmlEditor-aiCommandChangeStyleTechnical": "Technical",
+            "dxHtmlEditor-aiCommandChangeStyleBusiness": "Business",
+            "dxHtmlEditor-aiCommandChangeStyleCreative": "Creative",
+            "dxHtmlEditor-aiCommandChangeStyleJournalistic": "Journalistic",
+            "dxHtmlEditor-aiCommandChangeStyleAcademic": "Academic",
+            "dxHtmlEditor-aiCommandChangeStylePersuasive": "Persuasive",
+            "dxHtmlEditor-aiCommandChangeStyleNarrative": "Narrative",
+            "dxHtmlEditor-aiCommandChangeStyleExpository": "Expository",
+            "dxHtmlEditor-aiCommandChangeStyleDescriptive": "Descriptive",
+            "dxHtmlEditor-aiCommandChangeStyleConversational": "Conversational",
+            "dxHtmlEditor-aiCommandChangeToneProfessional": "Professional",
+            "dxHtmlEditor-aiCommandChangeToneCasual": "Casual",
+            "dxHtmlEditor-aiCommandChangeToneStraightforward": "Straightforward",
+            "dxHtmlEditor-aiCommandChangeToneConfident": "Confident",
+            "dxHtmlEditor-aiCommandChangeToneFriendly": "Friendly",
+            "dxHtmlEditor-aiCommandTranslateArabic": "Arabic",
+            "dxHtmlEditor-aiCommandTranslateChinese": "Chinese",
+            "dxHtmlEditor-aiCommandTranslateEnglish": "English",
+            "dxHtmlEditor-aiCommandTranslateFrench": "French",
+            "dxHtmlEditor-aiCommandTranslateGerman": "German",
+            "dxHtmlEditor-aiCommandTranslateJapanese": "Japanese",
+            "dxHtmlEditor-aiCommandTranslateSpanish": "Spanish",
             "dxFileManager-newDirectoryName": "N\xe9vtelen k\xf6nyvt\xe1r",
             "dxFileManager-rootDirectoryName": "F\xe1jlok",
             "dxFileManager-errorNoAccess": "Hozz\xe1f\xe9r\xe9s megtagadva. A m\u0171veletet nem lehet befejezni.",
@@ -799,7 +853,9 @@
             "dxMultiView-itemAriaLabel": "{0} of {1}",
             "dxSplitter-resizeHandleAriaLabel": "Split bar",
             "dxSplitter-resizeHandleAriaRoleDescription": "Separator",
-            "dxStepper-optionalMark": "(Optional)"
+            "dxStepper-optionalMark": "(Optional)",
+            "dxSpeechToText-ariaLabelStart": "Press to start voice transcription",
+            "dxSpeechToText-ariaLabelStop": "Press to stop voice transcription"
         }
     })
-}));
+});

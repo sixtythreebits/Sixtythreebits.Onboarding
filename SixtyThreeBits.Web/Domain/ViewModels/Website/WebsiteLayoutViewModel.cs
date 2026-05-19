@@ -16,9 +16,9 @@ namespace SixtyThreeBits.Web.Domain.ViewModels.Website
         public string ScriptsBodyStart { get; set; }
         public string ScriptsBodyEnd { get; set; }
 
-        public List<ProjectMenuViewItem> FooterMenu1 { get; set; }
+        public List<Menu63ViewItem> FooterMenu1 { get; set; }
         public bool HasFooterMenu1 => FooterMenu1?.Any() == true;
-        public List<ProjectMenuViewItem> FooterMenu2 { get; set; }
+        public List<Menu63ViewItem> FooterMenu2 { get; set; }
         public bool HasFooterMenu2 => FooterMenu2?.Any() == true;
 
         public string FacebookUrl { get; set; }

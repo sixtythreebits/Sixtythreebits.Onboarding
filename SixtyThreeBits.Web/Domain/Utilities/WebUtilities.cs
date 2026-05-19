@@ -18,11 +18,6 @@ namespace SixtyThreeBits.Web.Domain.Utilities
             return Model;
         }
 
-        public static T GetLayoutViewModel<T>(ViewDataDictionary viewData, string key)
-        {
-            return (T)viewData[key];
-        }
-
         public static string GetWebsiteDomain(HttpRequest request)
         {
             var port = request.Host.Port;
@@ -31,11 +26,6 @@ namespace SixtyThreeBits.Web.Domain.Utilities
 
             var websiteDomain = $"{request.Scheme}://{hostString}{portString}";
             return websiteDomain;
-        }
-
-        public static void SetLayoutViewModel<T>(ViewDataDictionary viewData, T viewModel, string key)
-        {
-            viewData[key] = viewModel;
         }
         #endregion
     }

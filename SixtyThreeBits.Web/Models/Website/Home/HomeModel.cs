@@ -1,8 +1,6 @@
-﻿using SixtyThreeBits.Web.Models.Base;
-
-namespace SixtyThreeBits.Web.Models.Website
+﻿namespace SixtyThreeBits.Web.Models.Website
 {
-    public class HomeModel : ModelBase
+    public class HomeModel : WebsiteModelBase
     {
     }
 }

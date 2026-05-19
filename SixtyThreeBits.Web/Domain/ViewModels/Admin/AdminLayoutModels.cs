@@ -17,9 +17,9 @@ namespace SixtyThreeBits.Web.Domain.ViewModels.Admin
         public readonly string TextRelogin = Resources.TextRelogin;
         public readonly string TextLogout = Resources.TextLogout;
 
-        public readonly string SidebarStatusCookieKey = WebConstants.Cookies.IsAdminSideBarCollapsed;
-        public readonly string HeaderSectionName = WebConstants.ViewSections.HeaderSection;
-        public readonly string FooterSectionName = WebConstants.ViewSections.FooterSection;
+        public readonly string SidebarStatusCookieKey = CookieKeys63.IsAdminSideBarCollapsed;
+        public readonly string HeaderSectionName = ViewSections63.HeaderSection;
+        public readonly string FooterSectionName = ViewSections63.FooterSection;
         #endregion
     }    
 }

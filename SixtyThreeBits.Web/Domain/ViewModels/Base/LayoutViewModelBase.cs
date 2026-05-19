@@ -1,7 +1,5 @@
-﻿using SixtyThreeBits.Core.Abstractions.Web;
-using SixtyThreeBits.Core.Properties;
+﻿using SixtyThreeBits.Core.Properties;
 using SixtyThreeBits.Web.Domain.Libraries;
-using SixtyThreeBits.Web.Domain.Utilities;
 using SixtyThreeBits.Web.Domain.ViewModels.Shared;
 using System.Collections.Generic;
 
@@ -11,13 +9,13 @@ namespace SixtyThreeBits.Web.Domain.ViewModels.Base
     {
         #region Properties
         public string ProjectName { get; set; }
-        public IPageTitle PageTitle { get; set; }
+        public PageTitle63 PageTitle { get; set; }
         public SuccessErrorToastPartialViewModel SuccessErrorPartialViewModel { get; set; }
-        public List<ProjectMenuViewItem> Menu { get; set; }
+        public List<Menu63ViewItem> Menu { get; set; }
         public bool HasMenu => Menu?.Count > 0;
-        public Breadcrumbs Breadcrumbs { get; set; }
+        public Breadcrumbs63 Breadcrumbs { get; set; }
         public bool ShowBreadCrumbs { get; set; }
-        public List<ProjectMenuViewItem> Tabs { get; set; }
+        public List<Menu63ViewItem> Tabs { get; set; }
         public bool HasTabs => Tabs?.Count > 0;
         public string UrlLogout { get; set; }
         public PluginsClientViewModel PluginsClient { get; set; }

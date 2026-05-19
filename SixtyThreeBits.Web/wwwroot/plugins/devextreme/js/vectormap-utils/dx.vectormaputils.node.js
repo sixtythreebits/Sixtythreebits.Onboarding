@@ -1,9 +1,9 @@
 /*!
  * DevExtreme (dx.vectormaputils.node.js)
- * Version: 25.1.6
- * Build date: Mon Oct 13 2025
+ * Version: 25.2.7
+ * Build date: Tue May 05 2026
  *
- * Copyright (c) 2012 - 2025 Developer Express Inc. ALL RIGHTS RESERVED
+ * Copyright (c) 2012 - 2026 Developer Express Inc. ALL RIGHTS RESERVED
  * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
  */
 "use strict";
@@ -116,32 +116,32 @@ function createCoordinatesRounder(precision) {
 
 function buildParseArgs(source) {
     source = source || {};
-    return ["shp", "dbf"].map((function(key) {
+    return ["shp", "dbf"].map(function(key) {
         return function(done) {
             if (source.substr) {
                 key = "." + key;
-                sendRequest(source + (source.substr(-key.length).toLowerCase() === key ? "" : key), (function(e, response) {
+                sendRequest(source + (source.substr(-key.length).toLowerCase() === key ? "" : key), function(e, response) {
                     done(e, response)
-                }))
+                })
             } else {
                 done(null, source[key] || null)
             }
         }
-    }))
+    })
 }
 
 function parse(source, parameters, callback) {
     var result;
-    when(buildParseArgs(source), (function(errorArray, dataArray) {
+    when(buildParseArgs(source), function(errorArray, dataArray) {
         callback = isFunction(parameters) && parameters || isFunction(callback) && callback || noop;
         parameters = !isFunction(parameters) && parameters || {};
         var errors = [];
-        errorArray.forEach((function(e) {
+        errorArray.forEach(function(e) {
             e && errors.push(e)
-        }));
+        });
         result = parseCore(dataArray, parameters.precision >= 0 ? createCoordinatesRounder(parameters.precision) : eigen, errors);
         callback(result, errors.length ? errors : null)
-    }));
+    });
     return result
 }
 exports.parse = parse;
@@ -151,14 +151,14 @@ function when(actions, callback) {
     var dataArray = [];
     var counter = 1;
     var lock = true;
-    actions.forEach((function(action, i) {
+    actions.forEach(function(action, i) {
         ++counter;
-        action((function(e, data) {
+        action(function(e, data) {
             errorArray[i] = e;
             dataArray[i] = data;
             massDone()
-        }))
-    }));
+        })
+    });
     lock = false;
     massDone();
 
@@ -672,48 +672,48 @@ function processFile(file, options, callback) {
     options.info("%s: started", name);
     parse(file, {
         precision: options.precision
-    }, (function(shapeData, errors) {
+    }, function(shapeData, errors) {
         var content;
         options.info("%s: finished", name);
-        errors && errors.forEach((function(e) {
+        errors && errors.forEach(function(e) {
             options.error("  " + e)
-        }));
+        });
         if (shapeData) {
             content = JSON.stringify(options.processData(shapeData), null, options.isDebug && 4);
             if (!options.isJSON) {
                 content = options.processFileContent(content, normalizeJsName(name))
             }
-            fs.writeFile(path.resolve(options.output || path.dirname(file), options.processFileName(name + (options.isJSON ? ".json" : ".js"))), content, (function(e) {
+            fs.writeFile(path.resolve(options.output || path.dirname(file), options.processFileName(name + (options.isJSON ? ".json" : ".js"))), content, function(e) {
                 e && options.error("  " + e.message);
                 callback()
-            }))
+            })
         } else {
             callback()
         }
-    }))
+    })
 }
 
 function collectFiles(dir, done) {
     var input = path.resolve(dir || "");
-    fs.stat(input, (function(e, stat) {
+    fs.stat(input, function(e, stat) {
         if (e) {
             done(e, [])
         } else if (stat.isFile()) {
             done(null, checkFile(input) ? [path.resolve(path.dirname(input), normalizeFile(input))] : [])
         } else if (stat.isDirectory()) {
-            fs.readdir(input, (function(e, dirItems) {
+            fs.readdir(input, function(e, dirItems) {
                 var list = [];
-                dirItems.forEach((function(dirItem) {
+                dirItems.forEach(function(dirItem) {
                     if (checkFile(dirItem)) {
                         list.push(path.resolve(input, normalizeFile(dirItem)))
                     }
-                }));
+                });
                 done(null, list)
-            }))
+            })
         } else {
             done(null, [])
         }
-    }));
+    });
 
     function checkFile(name) {
         return ".shp" === path.extname(name).toLowerCase()
@@ -760,20 +760,20 @@ function prepareSettings(source, options) {
 function processFiles(source, options, callback) {
     var settings = prepareSettings(source, options && options.trim ? importFile(options) : options);
     settings.info("Started");
-    collectFiles(settings.input, (function(e, files) {
+    collectFiles(settings.input, function(e, files) {
         e && settings.error(e.message);
-        settings.info(files.map((function(file) {
+        settings.info(files.map(function(file) {
             return "  " + path.basename(file)
-        })).join("\n"));
-        when(files.map((function(file) {
+        }).join("\n"));
+        when(files.map(function(file) {
             return function(done) {
                 processFile(file, settings, done)
             }
-        })), (function() {
+        }), function() {
             settings.info("Finished");
             (isFunction(callback) ? callback : noop)()
-        }))
-    }))
+        })
+    })
 }
 exports.processFiles = processFiles;
 var COMMAND_LINE_ARG_KEYS = [{
@@ -830,15 +830,15 @@ function parseCommandLineArgs() {
         isEmpty: !args.length
     };
     var map = {};
-    args.forEach((function(arg, i) {
+    args.forEach(function(arg, i) {
         map[arg] = args[i + 1] || true
-    }));
-    COMMAND_LINE_ARG_KEYS.forEach((function(info) {
+    });
+    COMMAND_LINE_ARG_KEYS.forEach(function(info) {
         var val = map[info.key];
         if (val) {
             options[info.name] = info.arg ? val : true
         }
-    }));
+    });
     if (options.isHelp || options.isEmpty) {
         options = null;
         printCommandLineHelp()
@@ -849,18 +849,18 @@ function parseCommandLineArgs() {
 function printCommandLineHelp() {
     var parts = ["node ", path.basename(process.argv[1]), " Source "];
     var lines = [];
-    var maxLength = Math.max.apply(null, COMMAND_LINE_ARG_KEYS.map((function(info) {
+    var maxLength = Math.max.apply(null, COMMAND_LINE_ARG_KEYS.map(function(info) {
         return info.key.length
-    }))) + 2;
+    })) + 2;
     var message;
-    COMMAND_LINE_ARG_KEYS.forEach((function(info) {
+    COMMAND_LINE_ARG_KEYS.forEach(function(info) {
         var key = info.key;
         parts.push(key, " ");
         if (info.arg) {
             parts.push("<", key.slice(2), ">", " ")
         }
         lines.push(["  ", key, Array(maxLength - key.length).join(" "), info.desc].join(""))
-    }));
+    });
     message = ["Generates dxVectorMap-compatible files from shapefiles.", "\n", parts.join("")].concat(lines).join("\n");
     console.log(message)
 }

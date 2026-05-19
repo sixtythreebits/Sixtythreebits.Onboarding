@@ -5,11 +5,16 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="63BITS.Libraries.DotNetCore" Version="1.0.92" />
-    <PackageReference Include="DevExtreme.AspNet.Core" Version="25.1.6" />
+    <PackageReference Include="DevExtreme.AspNet.Core" Version="25.2.7" />
     <PackageReference Include="DevExtreme.AspNet.Data" Version="5.1.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SixtyThreeBits.Core\SixtyThreeBits.Core.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Filters\Admin\" />
+    <Folder Include="Filters\Website\" />
+    <Folder Include="Views\Website\Errors\" />
   </ItemGroup>
 </Project>

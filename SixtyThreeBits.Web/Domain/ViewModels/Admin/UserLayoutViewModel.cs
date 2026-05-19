@@ -11,8 +11,8 @@ namespace SixtyThreeBits.Web.Domain.ViewModels.Admin
         public bool UserIsActive { get; set; }
         public string RoleName { get; set; }
 
-        public readonly string HeaderSectionName = WebConstants.ViewSections.HeaderSection;
-        public readonly string FooterSectionName = WebConstants.ViewSections.FooterSection;
+        public readonly string HeaderSectionName = ViewSections63.HeaderSection;
+        public readonly string FooterSectionName = ViewSections63.FooterSection;
         #endregion
     }
 }

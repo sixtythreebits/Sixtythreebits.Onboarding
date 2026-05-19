@@ -1,17 +1,17 @@
 /*!
  * DevExtreme (dx.vectormaputils.debug.js)
- * Version: 25.1.6
- * Build date: Mon Oct 13 2025
+ * Version: 25.2.7
+ * Build date: Tue May 05 2026
  *
- * Copyright (c) 2012 - 2025 Developer Express Inc. ALL RIGHTS RESERVED
+ * Copyright (c) 2012 - 2026 Developer Express Inc. ALL RIGHTS RESERVED
  * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
  */
 "use strict";
 ! function(root, factory) {
     if ("function" === typeof define && define.amd) {
-        define((function(require, exports, module) {
+        define(function(require, exports, module) {
             factory(exports)
-        }))
+        })
     } else if ("object" === typeof module && module.exports) {
         factory(exports)
     } else {
@@ -20,7 +20,7 @@
         exports = exports.vectormaputils = {};
         factory(exports)
     }
-}(this, (function(exports) {
+}(this, function(exports) {
     function noop() {}
 
     function eigen(x) {
@@ -268,27 +268,27 @@
 
     function buildParseArgs(source) {
         source = source || {};
-        return ["shp", "dbf"].map((function(key) {
+        return ["shp", "dbf"].map(function(key) {
             return function(done) {
                 if (source.substr) {
                     key = "." + key;
                     ! function(url, callback) {
                         var request = new XMLHttpRequest;
-                        request.addEventListener("load", (function() {
+                        request.addEventListener("load", function() {
                             callback(this.response ? null : this.statusText, this.response)
-                        }));
+                        });
                         request.open("GET", url);
                         request.responseType = "arraybuffer";
                         request.setRequestHeader("X-Requested-With", "XMLHttpRequest");
                         request.send(null)
-                    }(source + (source.substr(-key.length).toLowerCase() === key ? "" : key), (function(e, response) {
+                    }(source + (source.substr(-key.length).toLowerCase() === key ? "" : key), function(e, response) {
                         done(e, response)
-                    }))
+                    })
                 } else {
                     done(null, source[key] || null)
                 }
             }
-        }))
+        })
     }
     exports.parse = function(source, parameters, callback) {
         var result;
@@ -297,14 +297,14 @@
             var dataArray = [];
             var counter = 1;
             var lock = true;
-            actions.forEach((function(action, i) {
+            actions.forEach(function(action, i) {
                 ++counter;
-                action((function(e, data) {
+                action(function(e, data) {
                     errorArray[i] = e;
                     dataArray[i] = data;
                     massDone()
-                }))
-            }));
+                })
+            });
             lock = false;
             massDone();
 
@@ -314,13 +314,13 @@
                     callback(errorArray, dataArray)
                 }
             }
-        }(buildParseArgs(source), (function(errorArray, dataArray) {
+        }(buildParseArgs(source), function(errorArray, dataArray) {
             callback = isFunction(parameters) && parameters || isFunction(callback) && callback || noop;
             parameters = !isFunction(parameters) && parameters || {};
             var errors = [];
-            errorArray.forEach((function(e) {
+            errorArray.forEach(function(e) {
                 e && errors.push(e)
-            }));
+            });
             result = parseCore(dataArray, parameters.precision >= 0 ? function(precision) {
                 var factor = Number("1E" + precision);
 
@@ -332,7 +332,7 @@
                 }
             }(parameters.precision) : eigen, errors);
             callback(result, errors.length ? errors : null)
-        }));
+        });
         return result
     };
 
@@ -631,4 +631,4 @@
         stream.skip(length);
         return null
     }
-}));
+});

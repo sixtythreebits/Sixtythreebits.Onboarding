@@ -1,24 +1,24 @@
 /*!
 * DevExtreme (dx.messages.de.js)
-* Version: 25.1.6
-* Build date: Mon Oct 13 2025
+* Version: 25.2.7
+* Build date: Tue May 05 2026
 *
-* Copyright (c) 2012 - 2025 Developer Express Inc. ALL RIGHTS RESERVED
+* Copyright (c) 2012 - 2026 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
 */
 "use strict";
 
 ! function(root, factory) {
     if ("function" === typeof define && define.amd) {
-        define((function(require) {
+        define(function(require) {
             factory(require("devextreme/common/core/localization"))
-        }))
+        })
     } else if ("object" === typeof module && module.exports) {
         factory(require("devextreme/common/core/localization"))
     } else {
         factory(DevExpress.localization)
     }
-}(0, (function(localization) {
+}(0, function(localization) {
     localization.loadMessages({
         de: {
             Yes: "Ja",
@@ -100,14 +100,27 @@
             "dxFileUploader-invalidFileExtension": "Unzul\xe4ssiger Dateityp",
             "dxFileUploader-invalidMaxFileSize": "Datei ist zu gro\xdf",
             "dxFileUploader-invalidMinFileSize": "Datei ist zu klein",
+            "dxFileUploader-fileListLabel": "File list",
+            "dxFileUploader-removeFileButtonLabel": "Remove file {0}",
+            "dxFileUploader-uploadFileButtonLabel": "Upload file {0}",
             "dxRangeSlider-ariaFrom": "Von",
             "dxRangeSlider-ariaTill": "Bis",
             "dxSwitch-switchedOnText": "EIN",
             "dxSwitch-switchedOffText": "AUS",
             "dxForm-optionalMark": "optional",
             "dxForm-requiredMessage": "{0} ist ein Pflichtfeld",
+            "dxForm-smartPasteButtonText": "Smart Paste",
+            "dxForm-resetButtonText": "Zur\xfccksetzen",
+            "dxForm-submitButtonText": "Submit",
             "dxNumberBox-invalidValueMessage": "Der Wert muss eine Zahl sein",
             "dxNumberBox-noDataText": "Keine Daten",
+            "dxDataGrid-aiPromptEditorTitle": "AI Prompt Editor",
+            "dxDataGrid-aiPromptEditorPlaceholder": "Prompt AI to generate the column's values",
+            "dxDataGrid-aiPromptEditorApplyButton": "Apply",
+            "dxDataGrid-aiPromptEditorRegenerateButton": "Regenerate Data",
+            "dxDataGrid-aiPromptEditorStopButton": "Stop",
+            "dxDataGrid-aiDropDownAutofill": "Autofill with AI",
+            "dxDataGrid-aiDropDownClear": "Clear Data",
             "dxDataGrid-emptyHeaderWithColumnChooserText": "Verwenden Sie die {0}, um Spalten anzuzeigen",
             "dxDataGrid-emptyHeaderWithGroupPanelText": "Ziehen Sie eine Spalte aus dem Gruppenpanel hierher",
             "dxDataGrid-emptyHeaderWithColumnChooserAndGroupPanelText": "Verwenden Sie die {0} oder ziehen Sie eine Spalte aus dem Gruppenpanel",
@@ -263,11 +276,17 @@
             "dxScheduler-appointmentAriaLabel-group": "Gruppe: {0}",
             "dxScheduler-appointmentAriaLabel-recurring": "Wiederkehrender Termin",
             "dxScheduler-appointmentListAriaLabel": "Terminliste",
+            "dxScheduler-newPopupTitle": "Neuer Termin",
+            "dxScheduler-editPopupTitle": "Termin bearbeiten",
+            "dxScheduler-editPopupSaveButtonText": "Speichern",
             "dxScheduler-editorLabelTitle": "Betreff",
             "dxScheduler-editorLabelStartDate": "Anfangszeit",
+            "dxScheduler-editorAriaLabelStartTime": "Anfangszeit",
             "dxScheduler-editorLabelEndDate": "Endzeit",
+            "dxScheduler-editorAriaLabelEndTime": "Endzeit",
             "dxScheduler-editorLabelDescription": "Beschreibung",
             "dxScheduler-editorLabelRecurrence": "Wiederholen",
+            "dxScheduler-noSubject": "(Kein Betreff)",
             "dxScheduler-navigationToday": "Heute",
             "dxScheduler-navigationPrevious": "Vorherige Seite",
             "dxScheduler-navigationNext": "N\xe4chste Seite",
@@ -360,10 +379,10 @@
             "dxCardView-emptyHeaderPanelColumnChooserText": "Spaltenauswahl",
             "dxAvatar-defaultImageAlt": "Avatar",
             "dxChat-elementAriaLabel": "Chat",
-            "dxChat-cancelEditingButtonAriaLabel": "Abbrechen",
-            "dxChat-editingMessageCaption": "Nachricht bearbeiten",
             "dxChat-textareaPlaceholder": "Geben Sie eine Nachricht ein",
             "dxChat-sendButtonAriaLabel": "Senden",
+            "dxChat-cancelEditingButtonAriaLabel": "Abbrechen",
+            "dxChat-editingMessageCaption": "Nachricht bearbeiten",
             "dxChat-defaultUserName": "Unbekannter Benutzer",
             "dxChat-messageListAriaLabel": "Nachrichtenliste",
             "dxChat-alertListAriaLabel": "Fehlerliste",
@@ -379,6 +398,9 @@
             "dxChat-editingDeleteConfirmText": "Sind Sie sicher, dass Sie diese Nachricht l\xf6schen m\xf6chten?",
             "dxChat-deletedMessageText": "Diese Nachricht wurde gel\xf6scht",
             "dxChat-defaultImageAlt": "Im Chat geteiltes Bild",
+            "dxChat-fileViewLabel": "File list",
+            "dxChat-downloadButtonLabel": "Download file {0}",
+            "dxChat-fileLimitReachedWarning": "You selected too many files. Select no more than {0} files and retry.",
             "dxColorView-ariaRed": "Rot",
             "dxColorView-ariaGreen": "Gr\xfcn",
             "dxColorView-ariaBlue": "Blau",
@@ -532,6 +554,38 @@
             "dxHtmlEditor-aiToolbarItemAriaLabel": "KI-Assistent Symbolleistenelement",
             "dxHtmlEditor-aiResultTextAreaAriaLabel": "KI-Assistent Ergebnis",
             "dxHtmlEditor-aiAskPlaceholder": "KI bitten, Text zu \xe4ndern",
+            "dxHtmlEditor-aiCommandSummarize": "Summarize",
+            "dxHtmlEditor-aiCommandProofread": "Proofread",
+            "dxHtmlEditor-aiCommandExpand": "Expand",
+            "dxHtmlEditor-aiCommandShorten": "Shorten",
+            "dxHtmlEditor-aiCommandChangeStyle": "Change Style",
+            "dxHtmlEditor-aiCommandChangeTone": "Change Tone",
+            "dxHtmlEditor-aiCommandTranslate": "Translate",
+            "dxHtmlEditor-aiCommandAskAI": "Ask AI",
+            "dxHtmlEditor-aiCommandChangeStyleFormal": "Formal",
+            "dxHtmlEditor-aiCommandChangeStyleInformal": "Informal",
+            "dxHtmlEditor-aiCommandChangeStyleTechnical": "Technical",
+            "dxHtmlEditor-aiCommandChangeStyleBusiness": "Business",
+            "dxHtmlEditor-aiCommandChangeStyleCreative": "Creative",
+            "dxHtmlEditor-aiCommandChangeStyleJournalistic": "Journalistic",
+            "dxHtmlEditor-aiCommandChangeStyleAcademic": "Academic",
+            "dxHtmlEditor-aiCommandChangeStylePersuasive": "Persuasive",
+            "dxHtmlEditor-aiCommandChangeStyleNarrative": "Narrative",
+            "dxHtmlEditor-aiCommandChangeStyleExpository": "Expository",
+            "dxHtmlEditor-aiCommandChangeStyleDescriptive": "Descriptive",
+            "dxHtmlEditor-aiCommandChangeStyleConversational": "Conversational",
+            "dxHtmlEditor-aiCommandChangeToneProfessional": "Professional",
+            "dxHtmlEditor-aiCommandChangeToneCasual": "Casual",
+            "dxHtmlEditor-aiCommandChangeToneStraightforward": "Straightforward",
+            "dxHtmlEditor-aiCommandChangeToneConfident": "Confident",
+            "dxHtmlEditor-aiCommandChangeToneFriendly": "Friendly",
+            "dxHtmlEditor-aiCommandTranslateArabic": "Arabic",
+            "dxHtmlEditor-aiCommandTranslateChinese": "Chinese",
+            "dxHtmlEditor-aiCommandTranslateEnglish": "English",
+            "dxHtmlEditor-aiCommandTranslateFrench": "French",
+            "dxHtmlEditor-aiCommandTranslateGerman": "German",
+            "dxHtmlEditor-aiCommandTranslateJapanese": "Japanese",
+            "dxHtmlEditor-aiCommandTranslateSpanish": "Spanish",
             "dxFileManager-newDirectoryName": "Ohne Titel",
             "dxFileManager-rootDirectoryName": "Dateien",
             "dxFileManager-errorNoAccess": "Zugriff verweigert. Die Operation kann nicht durchgef\xfchrt werden.",
@@ -799,7 +853,9 @@
             "dxMultiView-itemAriaLabel": "{0} von {1}",
             "dxSplitter-resizeHandleAriaLabel": "Geteilter Balken",
             "dxSplitter-resizeHandleAriaRoleDescription": "Separator",
-            "dxStepper-optionalMark": "(Optional)"
+            "dxStepper-optionalMark": "(Optional)",
+            "dxSpeechToText-ariaLabelStart": "Press to start voice transcription",
+            "dxSpeechToText-ariaLabelStop": "Press to stop voice transcription"
         }
     })
-}));
+});

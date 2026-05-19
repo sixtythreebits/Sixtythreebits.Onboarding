@@ -1,0 +1,38 @@
+﻿@model RolesPermissionsAdminModel.ViewModel
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col">
+                @if (Model.IsSaveButtonVisible)
+                {
+                    <button class="btn btn-rounded btn-primary js-show-preloader js-save-button" data-url="@Html.Raw(Model.UrlSave)">
+                        <i class="fa-solid fa-floppy-disk"></i> @Html.Raw(Model.TextSave)
+                    </button>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card">
+    <div class="card-body">        
+        <div class="row">            
+            <div class="col-xl-4">
+                <div class="card m-0">
+                    <div class="card-header">@Html.Raw(Model.TextRoles)</div>
+                    <div class="card-body p-0">@Model.RolesGrid.Render(Html)</div>
+                </div>
+            </div>
+            <div class="col-xl-8">
+                <div class="card m-0">
+                    <div class="card-header">@Html.Raw(Model.TextPermissions)</div>
+                    <div class="card-body p-0 js-permission-tree-div">@Model.PermissionsTree.Render(Html)</div>
+                </div>                                
+            </div>
+        </div>
+    </div>
+</div>
+
+@section FooterSection {
+    <input type="hidden" class="js-urlPermissionsGetByRole" value="@Html.Raw(Model.UrlPermissionsGetByRole)" />
+    <script src="~/js/admin/roles/RolesPermissionsAdminView.js"></script>
+}

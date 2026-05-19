@@ -5,13 +5,14 @@ using SixtyThreeBits.Core.Utilities;
 using SixtyThreeBits.Libraries;
 using System.Collections.Generic;
 
-namespace SixtyThreeBits.Web.Domain.Libraries.DevExtreme
+namespace SixtyThreeBits.Web.Domain.Libraries
 {          
     public static class DevExtremeExtensions63
     {
         #region Methods
         public static DataGridColumnBuilder<T> InitCheckboxColumn<T>(this DataGridColumnBuilder<T> column, bool allowNull = false, bool defaultValue = false)
         {
+            column.DataType(GridColumnDataType.Boolean);
             column.TrueText(Resources.TextYes);
             column.FalseText(Resources.TextNo);
             if (!allowNull)
@@ -36,9 +37,12 @@ namespace SixtyThreeBits.Web.Domain.Libraries.DevExtreme
             return column;
         }
 
-        public static DateBoxBuilder InitDateBox(this DateBoxBuilder dateBox, bool formatDateTime = false)
+        public static DateBoxBuilder InitDateBox(this DateBoxBuilder dateBox, DateColumnFormat format = DateColumnFormat.Date)
         {
-            if (formatDateTime)
+            dateBox.ElementAttr("class", "border-0");
+            dateBox.OpenOnFieldClick(true);
+
+            if (format == DateColumnFormat.DateTime)
             {
                 dateBox.DisplayFormat(Constants.Formats.DateTime);
             }
@@ -73,11 +77,11 @@ namespace SixtyThreeBits.Web.Domain.Libraries.DevExtreme
             return column;
         }
 
-        public static DataGridColumnBuilder<T> InitNumberColumn<T>(this DataGridColumnBuilder<T> column, NumberColumnFormatType format = NumberColumnFormatType.Default)
+        public static DataGridColumnBuilder<T> InitNumberColumn<T>(this DataGridColumnBuilder<T> column, NumberColumnFormat format = NumberColumnFormat.Default)
         {
             switch (format)
             {
-                case NumberColumnFormatType.Money:
+                case NumberColumnFormat.Money:
                     {
                         column.Format(options =>
                         {
@@ -86,7 +90,7 @@ namespace SixtyThreeBits.Web.Domain.Libraries.DevExtreme
                         });
                         break;
                     }
-                case NumberColumnFormatType.Quantity:
+                case NumberColumnFormat.Quantity:
                     {
                         column.Format(options =>
                         {
@@ -127,7 +131,7 @@ namespace SixtyThreeBits.Web.Domain.Libraries.DevExtreme
         #endregion
 
         #region Enums
-        public enum NumberColumnFormatType
+        public enum NumberColumnFormat
         {
             Default,
             Money,

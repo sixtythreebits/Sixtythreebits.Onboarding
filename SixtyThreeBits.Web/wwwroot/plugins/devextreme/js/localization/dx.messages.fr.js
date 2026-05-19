@@ -1,24 +1,24 @@
 /*!
 * DevExtreme (dx.messages.fr.js)
-* Version: 25.1.6
-* Build date: Mon Oct 13 2025
+* Version: 25.2.7
+* Build date: Tue May 05 2026
 *
-* Copyright (c) 2012 - 2025 Developer Express Inc. ALL RIGHTS RESERVED
+* Copyright (c) 2012 - 2026 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
 */
 "use strict";
 
 ! function(root, factory) {
     if ("function" === typeof define && define.amd) {
-        define((function(require) {
+        define(function(require) {
             factory(require("devextreme/common/core/localization"))
-        }))
+        })
     } else if ("object" === typeof module && module.exports) {
         factory(require("devextreme/common/core/localization"))
     } else {
         factory(DevExpress.localization)
     }
-}(0, (function(localization) {
+}(0, function(localization) {
     localization.loadMessages({
         fr: {
             Yes: "Oui",
@@ -100,14 +100,27 @@
             "dxFileUploader-invalidFileExtension": "Type de fichier non autoris\xe9",
             "dxFileUploader-invalidMaxFileSize": "Fichier trop volumineux",
             "dxFileUploader-invalidMinFileSize": "Fichier trop petit",
+            "dxFileUploader-fileListLabel": "Liste de fichiers",
+            "dxFileUploader-removeFileButtonLabel": "Retirer le fichier {0}",
+            "dxFileUploader-uploadFileButtonLabel": "T\xe9l\xe9verser le fichier {0}",
             "dxRangeSlider-ariaFrom": "De {0}",
             "dxRangeSlider-ariaTill": "\xe0 {0}",
             "dxSwitch-switchedOnText": "ON",
             "dxSwitch-switchedOffText": "OFF",
             "dxForm-optionalMark": "optionnel",
             "dxForm-requiredMessage": "{0} est obligatoire",
+            "dxForm-smartPasteButtonText": "Smart Paste",
+            "dxForm-resetButtonText": "R\xe9initialiser",
+            "dxForm-submitButtonText": "Submit",
             "dxNumberBox-invalidValueMessage": "La valeur doit \xeatre un nombre",
             "dxNumberBox-noDataText": "Pas de donn\xe9es",
+            "dxDataGrid-aiPromptEditorTitle": "\xc9diteur de prompts IA",
+            "dxDataGrid-aiPromptEditorPlaceholder": "Demander \xe0 l\u2019IA de g\xe9n\xe9rer les valeurs de la colonne",
+            "dxDataGrid-aiPromptEditorApplyButton": "Appliquer",
+            "dxDataGrid-aiPromptEditorRegenerateButton": "Reg\xe9n\xe9rer les donn\xe9es",
+            "dxDataGrid-aiPromptEditorStopButton": "Arr\xeater",
+            "dxDataGrid-aiDropDownAutofill": "Remplir automatiquement avec l\u2019IA",
+            "dxDataGrid-aiDropDownClear": "Effacer les donn\xe9es",
             "dxDataGrid-emptyHeaderWithColumnChooserText": "Utilisez {0} pour voir les colonnes",
             "dxDataGrid-emptyHeaderWithGroupPanelText": "Faites glisser une colonne depuis le panneau de groupe",
             "dxDataGrid-emptyHeaderWithColumnChooserAndGroupPanelText": "Utilisez {0} ou glisser une colonne depuis le panneau de groupe",
@@ -263,11 +276,17 @@
             "dxScheduler-appointmentAriaLabel-group": "Groupe : {0}",
             "dxScheduler-appointmentAriaLabel-recurring": "Rendez-vous r\xe9current",
             "dxScheduler-appointmentListAriaLabel": "Liste des rendez-vous ",
+            "dxScheduler-newPopupTitle": "Nouveau rendez-vous",
+            "dxScheduler-editPopupTitle": "Modifier le rendez-vous",
+            "dxScheduler-editPopupSaveButtonText": "Enregistrer",
             "dxScheduler-editorLabelTitle": "Titre",
             "dxScheduler-editorLabelStartDate": "Date de d\xe9but",
+            "dxScheduler-editorAriaLabelStartTime": "Start time",
             "dxScheduler-editorLabelEndDate": "Date de fin",
+            "dxScheduler-editorAriaLabelEndTime": "End time",
             "dxScheduler-editorLabelDescription": "Description",
             "dxScheduler-editorLabelRecurrence": "R\xe9currence",
+            "dxScheduler-noSubject": "(No subject)",
             "dxScheduler-navigationToday": "Aujourd'hui",
             "dxScheduler-navigationPrevious": "Page pr\xe9c\xe9dente",
             "dxScheduler-navigationNext": "Page suivante",
@@ -379,6 +398,9 @@
             "dxChat-editingDeleteConfirmText": "\xcates-vous s\xfbr de vouloir supprimer ce message ?",
             "dxChat-deletedMessageText": "Le message a \xe9t\xe9 supprim\xe9",
             "dxChat-defaultImageAlt": "Image partag\xe9e dans le chat",
+            "dxChat-fileViewLabel": "Liste des fichiers",
+            "dxChat-downloadButtonLabel": "T\xe9l\xe9charger le fichier {0}",
+            "dxChat-fileLimitReachedWarning": "Vous avez s\xe9lectionn\xe9 trop de fichiers. S\xe9lectionnez au maximum {0} fichiers et r\xe9essayez.",
             "dxColorView-ariaRed": "Rouge",
             "dxColorView-ariaGreen": "Vert",
             "dxColorView-ariaBlue": "Bleu",
@@ -516,10 +538,10 @@
             "dxHtmlEditor-borderStyleSolid": "solide",
             "dxHtmlEditor-borderStyleDouble": "double",
             "dxHtmlEditor-borderStyleGroove": "groove",
-            "dxHtmlEditor-borderStyleRidge": "ridge",
-            "dxHtmlEditor-borderStyleInset": "inset",
-            "dxHtmlEditor-borderStyleOutset": "outset",
-            "dxHtmlEditor-aiDialogTitle": "AI Assistant",
+            "dxHtmlEditor-borderStyleRidge": "relief cr\xe9nel\xe9",
+            "dxHtmlEditor-borderStyleInset": "incrust\xe9",
+            "dxHtmlEditor-borderStyleOutset": "relief",
+            "dxHtmlEditor-aiDialogTitle": "Assistant IA",
             "dxHtmlEditor-aiDialogError": "Une erreur s'est produite. Veuillez r\xe9essayer.",
             "dxHtmlEditor-aiDialogCanceled": "G\xe9n\xe9ration annul\xe9e",
             "dxHtmlEditor-aiReplace": "Remplace",
@@ -530,8 +552,40 @@
             "dxHtmlEditor-aiGenerate": "G\xe9n\xe9rer",
             "dxHtmlEditor-aiCancel": "Annuler",
             "dxHtmlEditor-aiToolbarItemAriaLabel": "\xc9l\xe9ment de la barre d'outils de l'assistant AI",
-            "dxHtmlEditor-aiResultTextAreaAriaLabel": "AI Assistant result",
+            "dxHtmlEditor-aiResultTextAreaAriaLabel": "R\xe9sultat de l'assistant IA",
             "dxHtmlEditor-aiAskPlaceholder": "Demandez \xe0 l'IA de modifier le texte",
+            "dxHtmlEditor-aiCommandSummarize": "R\xe9sumer",
+            "dxHtmlEditor-aiCommandProofread": "Relire",
+            "dxHtmlEditor-aiCommandExpand": "D\xe9velopper",
+            "dxHtmlEditor-aiCommandShorten": "Raccourcir",
+            "dxHtmlEditor-aiCommandChangeStyle": "Changer le style",
+            "dxHtmlEditor-aiCommandChangeTone": "Changer le ton",
+            "dxHtmlEditor-aiCommandTranslate": "Traduire",
+            "dxHtmlEditor-aiCommandAskAI": "Demander \xe0 l\u2019IA",
+            "dxHtmlEditor-aiCommandChangeStyleFormal": "Formel",
+            "dxHtmlEditor-aiCommandChangeStyleInformal": "Informel",
+            "dxHtmlEditor-aiCommandChangeStyleTechnical": "Technique",
+            "dxHtmlEditor-aiCommandChangeStyleBusiness": "Professionnel",
+            "dxHtmlEditor-aiCommandChangeStyleCreative": "Cr\xe9atif",
+            "dxHtmlEditor-aiCommandChangeStyleJournalistic": "Journalistique",
+            "dxHtmlEditor-aiCommandChangeStyleAcademic": "Acad\xe9mique",
+            "dxHtmlEditor-aiCommandChangeStylePersuasive": "Persuasif",
+            "dxHtmlEditor-aiCommandChangeStyleNarrative": "Narratif",
+            "dxHtmlEditor-aiCommandChangeStyleExpository": "Expositif",
+            "dxHtmlEditor-aiCommandChangeStyleDescriptive": "Descriptif",
+            "dxHtmlEditor-aiCommandChangeStyleConversational": "Conversationnel",
+            "dxHtmlEditor-aiCommandChangeToneProfessional": "Professionnel",
+            "dxHtmlEditor-aiCommandChangeToneCasual": "D\xe9contract\xe9",
+            "dxHtmlEditor-aiCommandChangeToneStraightforward": "Direct",
+            "dxHtmlEditor-aiCommandChangeToneConfident": "Confiant",
+            "dxHtmlEditor-aiCommandChangeToneFriendly": "Amical",
+            "dxHtmlEditor-aiCommandTranslateArabic": "Arabe",
+            "dxHtmlEditor-aiCommandTranslateChinese": "Chinois",
+            "dxHtmlEditor-aiCommandTranslateEnglish": "Anglais",
+            "dxHtmlEditor-aiCommandTranslateFrench": "Fran\xe7ais",
+            "dxHtmlEditor-aiCommandTranslateGerman": "Allemand",
+            "dxHtmlEditor-aiCommandTranslateJapanese": "Japonais",
+            "dxHtmlEditor-aiCommandTranslateSpanish": "Espagnol",
             "dxFileManager-newDirectoryName": "R\xe9pertoire sans titre",
             "dxFileManager-rootDirectoryName": "Fichiers",
             "dxFileManager-errorNoAccess": "Acc\xe8s interdit. L'op\xe9ration ne peut se terminer.",
@@ -799,7 +853,9 @@
             "dxMultiView-itemAriaLabel": "{0} de {1}",
             "dxSplitter-resizeHandleAriaLabel": "Barre de s\xe9paration",
             "dxSplitter-resizeHandleAriaRoleDescription": "S\xe9parateur",
-            "dxStepper-optionalMark": "(Optionel)"
+            "dxStepper-optionalMark": "(Optionel)",
+            "dxSpeechToText-ariaLabelStart": "Appuyer pour d\xe9marrer la transcription vocale",
+            "dxSpeechToText-ariaLabelStop": "Appuyer pour arr\xeater la transcription vocale"
         }
     })
-}));
+});

@@ -1,20 +1,20 @@
 /*!
 * DevExtreme (dx.aspnet.mvc.js)
-* Version: 25.1.6
-* Build date: Mon Oct 13 2025
+* Version: 25.2.7
+* Build date: Tue May 05 2026
 *
-* Copyright (c) 2012 - 2025 Developer Express Inc. ALL RIGHTS RESERVED
+* Copyright (c) 2012 - 2026 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
 */
 ! function(factory) {
     if ("function" === typeof define && define.amd) {
-        define((function(require, exports, module) {
+        define(function(require, exports, module) {
             module.exports = factory(require("jquery"), require("./core/templates/template_engine_registry").setTemplateEngine, require("./core/templates/template_base").renderedCallbacks, require("./core/guid"), require("./ui/validation_engine"), require("./core/utils/iterator"), require("./core/utils/dom").extractTemplateMarkup, require("./core/utils/string").encodeHtml, require("./core/utils/ajax"))
-        }))
+        })
     } else {
         DevExpress.aspnet = factory(window.jQuery, DevExpress.setTemplateEngine, DevExpress.templateRendered, DevExpress.data.Guid, DevExpress.validationEngine, DevExpress.utils.iterator, DevExpress.utils.dom.extractTemplateMarkup, DevExpress.utils.string.encodeHtml, DevExpress.utils.ajax)
     }
-}((function($, setTemplateEngine, templateRendered, Guid, validationEngine, iteratorUtils, extractTemplateMarkup, encodeHtml, ajax) {
+}(function($, setTemplateEngine, templateRendered, Guid, validationEngine, iteratorUtils, extractTemplateMarkup, encodeHtml, ajax) {
     var templateCompiler = function() {
         var EXTENDED_OPEN_TAG = /[<[]%/g,
             EXTENDED_CLOSE_TAG = /%[>\]]/g;
@@ -78,7 +78,7 @@
 
     function createComponent(name, options, id, validatorOptions) {
         var selector = "#" + String(id).replace(/[^\w-]/g, "\\$&");
-        pendingCreateComponentRoutines.push((function() {
+        pendingCreateComponentRoutines.push(function() {
             var $element = $(selector);
             if ($element.length) {
                 var $component = $(selector)[name](options);
@@ -88,19 +88,19 @@
                 return true
             }
             return false
-        }))
+        })
     }
-    templateRendered.add((function() {
+    templateRendered.add(function() {
         var snapshot = pendingCreateComponentRoutines.slice();
         var leftover = [];
         pendingCreateComponentRoutines = [];
-        snapshot.forEach((function(func) {
+        snapshot.forEach(function(func) {
             if (!func()) {
                 leftover.push(func)
             }
-        }));
+        });
         pendingCreateComponentRoutines = pendingCreateComponentRoutines.concat(leftover)
-    }));
+    });
     return {
         createComponent: createComponent,
         renderComponent: function(name, options, id, validatorOptions) {
@@ -146,13 +146,13 @@
         createValidationSummaryItems: function(validationGroup, editorNames) {
             var groupConfig, items, summary = function(validationGroup) {
                 var result;
-                $(".dx-validationsummary").each((function(_, element) {
+                $(".dx-validationsummary").each(function(_, element) {
                     var summary = $(element).data("dxValidationSummary");
                     if (summary && summary.option("validationGroup") === validationGroup) {
                         result = summary;
                         return false
                     }
-                }));
+                });
                 return result
             }(validationGroup);
             if (summary) {
@@ -160,7 +160,7 @@
                 if (groupConfig) {
                     items = function(validators, editorNames) {
                         var items = [];
-                        iteratorUtils.each(validators, (function(_, validator) {
+                        iteratorUtils.each(validators, function(_, validator) {
                             var widget = validator.$element().data("dx-validation-target");
                             if (widget && $.inArray(widget.option("name"), editorNames) > -1) {
                                 items.push({
@@ -168,7 +168,7 @@
                                     validator: validator
                                 })
                             }
-                        }));
+                        });
                         return items
                     }(groupConfig.validators, editorNames);
                     items.length && summary.option("items", items)
@@ -180,16 +180,16 @@
             var data = {};
             data[propertyName] = params.value;
             if (additionalFields.length && params.data) {
-                additionalFields.forEach((function(field) {
+                additionalFields.forEach(function(field) {
                     data[field] = params.data[field]
-                }))
+                })
             }
             ajax.sendRequest({
                 url: url,
                 dataType: "json",
                 method: method || "GET",
                 data: data
-            }).then((function(response) {
+            }).then(function(response) {
                 if ("string" === typeof response) {
                     d.resolve({
                         isValid: false,
@@ -198,13 +198,13 @@
                 } else {
                     d.resolve(response)
                 }
-            }), (function(xhr) {
+            }, function(xhr) {
                 d.reject({
                     isValid: false,
                     message: xhr.responseText
                 })
-            }));
+            });
             return d.promise()
         }
     }
-}));
+});
