@@ -15,6 +15,5 @@
   <ItemGroup>
     <Folder Include="Filters\Admin\" />
     <Folder Include="Filters\Website\" />
-    <Folder Include="Views\Website\Errors\" />
   </ItemGroup>
 </Project>
