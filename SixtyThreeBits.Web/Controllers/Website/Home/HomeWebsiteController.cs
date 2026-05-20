@@ -14,7 +14,7 @@ namespace SixtyThreeBits.Web.Controllers.Website
         public IActionResult Index()
         {
             return View(_viewName);
-        }         
+        }
         #endregion
     }
 }
