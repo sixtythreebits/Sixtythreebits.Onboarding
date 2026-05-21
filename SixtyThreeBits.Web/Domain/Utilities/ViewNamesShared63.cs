@@ -23,7 +23,7 @@
         {
             #region Properties
             public const string Layout = "~/Views/Website/Shared/_Layout.cshtml";
-            public const string NotFoundView = "~/Views/Website/Shared/NotFoundView.cshtml";
+            public const string NotFoundView = "~/Views/Website/Shared/NotWebsiteFound.cshtml";
             #endregion
         }
         #endregion
