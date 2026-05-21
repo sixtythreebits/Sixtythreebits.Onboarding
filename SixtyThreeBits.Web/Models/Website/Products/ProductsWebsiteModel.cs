@@ -1,4 +1,6 @@
 ﻿using SixtyThreeBits.Core.Libraries.Extensions;
+using SixtyThreeBits.Web.Controllers.Website;
+using SixtyThreeBits.Web.Domain.Utilities;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,7 +21,11 @@ namespace SixtyThreeBits.Web.Models.Website
                 ProductName = item.ProductName,
                 ProductCoverImageHttpPath = FileStorage.GetUploadedFileHttpPath(item.ProductCoverImageFilename),
                 ProductPrice = Utilities.FormatPrice(price: item.ProductPrice, currencySign: "$"),
-                UrlProductDetails = "#"
+                UrlProductDetails = UrlFactory.CreateUrl(
+                    controllerName: nameof(ProductWebsiteController), 
+                    actionName: nameof(ProductWebsiteController.Product),
+                    routeValues: new Dictionary<string, object> { { RouteKeys63.ProductID, item.ProductID }  }
+                )
             }).ToList();
 
             PageTitle.Set("Products");

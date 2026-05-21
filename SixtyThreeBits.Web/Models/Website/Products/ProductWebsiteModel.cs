@@ -1,5 +1,4 @@
 ﻿using SixtyThreeBits.Core.Infrastructure.Repositories;
-using System.Threading.Tasks;
 
 namespace SixtyThreeBits.Web.Models.Website
 {
@@ -10,7 +9,7 @@ namespace SixtyThreeBits.Web.Models.Website
         #endregion
 
         #region Methods
-        public async Task<ViewModel> GetViewModel()
+        public ViewModel GetViewModel()
         {
             var viewModel = new ViewModel();
             viewModel.PageTitle = Product.ProductName;
