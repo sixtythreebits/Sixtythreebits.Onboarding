@@ -5,6 +5,7 @@ using SixtyThreeBits.Core.Infrastructure.Repositories;
 using SixtyThreeBits.Core.Utilities;
 using SixtyThreeBits.Libraries;
 using SixtyThreeBits.Libraries.Extensions;
+using SixtyThreeBits.Web.Controllers.Admin;
 using SixtyThreeBits.Web.Domain.Libraries;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,31 @@ namespace SixtyThreeBits.Web.Models.Admin
     public class ProductsAdminModel : AdminModelBase
     {
         #region Methods
+        public async Task<ViewModel> GetViewModel()
+        {
+            var viewModel = new ViewModel();
+
+            var repository = RepositoryFactory.CreateProductsRepository();
+            var categories = (await repository.CategoriesList())?
+            .Select(item => new KeyValueTuple<int?, string>
+            {
+                Key = item.CategoryID,
+                Value = item.CategoryName
+            }).ToList();
+
+            viewModel.Grid = new ViewModel.GridModel(categories);
+            viewModel.Grid.UrlLoad = UrlFactory.CreateUrl(controllerName: nameof(ProductsAdminController), actionName: nameof(ProductsAdminController.Grid));
+            viewModel.Grid.UrlAddNew = UrlFactory.CreateUrl(controllerName: nameof(ProductsAdminController), actionName: nameof(ProductsAdminController.GridAdd));
+            viewModel.Grid.UrlUpdate = UrlFactory.CreateUrl(controllerName: nameof(ProductsAdminController), actionName: nameof(ProductsAdminController.GridUpdate));
+            viewModel.Grid.UrlDelete = UrlFactory.CreateUrl(controllerName: nameof(ProductsAdminController), actionName: nameof(ProductsAdminController.GridDelete));
+
+            viewModel.IsAddNewButtonVisible = User.HasPermission(viewModel.Grid.UrlAddNew);
+            viewModel.Grid.IsEditButtonVisible = User.HasPermission(viewModel.Grid.UrlUpdate);
+            viewModel.Grid.IsDeleteButtonVisible = User.HasPermission(viewModel.Grid.UrlDelete);
+
+            return viewModel;
+        }
+
         public async Task<AjaxResponse> Grid()
         {
             var viewModel = new AjaxResponse();
@@ -96,7 +122,7 @@ namespace SixtyThreeBits.Web.Models.Admin
 
             var repository = RepositoryFactory.CreateProductsRepository();
             await repository.ProductsIUD(
-                databaseAction: Enums.DatabaseActions.UPDATE,
+                databaseAction: Enums.DatabaseActions.DELETE,
                 productID: productID,
                 product: null
             );
