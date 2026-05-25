@@ -7,6 +7,7 @@ using SixtyThreeBits.Libraries;
 using SixtyThreeBits.Libraries.Extensions;
 using SixtyThreeBits.Web.Controllers.Admin;
 using SixtyThreeBits.Web.Domain.Libraries;
+using SixtyThreeBits.Web.Domain.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -60,7 +61,11 @@ namespace SixtyThreeBits.Web.Models.Admin
                     ProductPrice = item.ProductPrice,
                     ProductIsPublished = item.ProductIsPublished,
                     ProductDateCreated = item.ProductDateCreated,
-                    UrlProperties = "#"
+                    UrlProperties = UrlFactory.CreateUrl(
+                        controllerName: nameof(ProductPropertiesAdminController),
+                        actionName: nameof(ProductPropertiesAdminController.Properties),
+                        routeValues: new Dictionary<string, object> { {RouteKeys63.ProductID, item.ProductID }  }
+                    )
                 }).ToList();            
 
             return viewModel;

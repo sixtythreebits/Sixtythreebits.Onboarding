@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace SixtyThreeBits.Web.Domain.ViewModels.Base
 {
-    public class FormViewModelBase
+    public class FormViewModelBase63
     {
         #region Properties        
         readonly ValidationResult63 _formErrors = new ValidationResult63();
