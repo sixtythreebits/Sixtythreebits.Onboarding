@@ -4,7 +4,7 @@ using SixtyThreeBits.Web.Models.Website;
 
 namespace SixtyThreeBits.Web.Controllers.Website
 {    
-    public class LogoutController : ControllerBase<LogoutModel>
+    public class LogoutController : ControllerBase63<LogoutModel>
     {
         #region Actions
         [Route("logout", Name = $"{nameof(LogoutController)}{nameof(Logout)}")]

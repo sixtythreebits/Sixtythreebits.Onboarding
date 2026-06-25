@@ -9,7 +9,7 @@ namespace SixtyThreeBits.Web.Controllers.Admin
     public class PermissionsAdminController : AdminControllerBase<PermissionsAdminModel>
     {
         #region Properties
-        const string _viewName = "~/Views/Admin/Permissions/PermissionsView.cshtml";
+        const string _viewName = "~/Views/Admin/Permissions/PermissionsAdminView.cshtml";
         #endregion
 
         #region Actions

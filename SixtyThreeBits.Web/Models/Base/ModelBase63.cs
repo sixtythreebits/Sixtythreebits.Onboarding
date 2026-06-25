@@ -16,7 +16,7 @@ using System.Collections.Generic;
 
 namespace SixtyThreeBits.Web.Models.Base
 {
-    public class ModelBase
+    public class ModelBase63
     {
         #region Properties        
         public string ControllerName { get; set; }

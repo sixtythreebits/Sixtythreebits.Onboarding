@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace SixtyThreeBits.Web.Controllers.Website
 {
-    public class ReloginController : ControllerBase<ReloginModel>
+    public class ReloginController : ControllerBase63<ReloginModel>
     {
         #region Actions
         [Route("relogin", Name = $"{nameof(ReloginController)}{nameof(Relogin)}")]

@@ -1,11 +1,9 @@
-﻿using Microsoft.AspNetCore.Localization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
 using SixtyThreeBits.Core.Factories;
 using SixtyThreeBits.Core.Infrastructure.Repositories;
-using SixtyThreeBits.Core.Libraries;
 using SixtyThreeBits.Core.Libraries.FileStorages;
 using SixtyThreeBits.Core.Utilities;
 using SixtyThreeBits.Libraries.Extensions;
@@ -17,14 +15,14 @@ using System.Threading.Tasks;
 
 namespace SixtyThreeBits.Web.Controllers.Base
 {
-    public class ControllerBase<T> : Controller where T : ModelBase, new()
+    public class ControllerBase63<T> : Controller where T : ModelBase63, new()
     {
         #region Properties
         public T Model { get; private set; }
         #endregion        
 
         #region Constructors
-        public ControllerBase()
+        public ControllerBase63()
         {
             Model = new T();            
         }

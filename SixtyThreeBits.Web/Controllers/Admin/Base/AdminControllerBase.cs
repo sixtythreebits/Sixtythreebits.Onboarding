@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace SixtyThreeBits.Web.Controllers.Admin
 {
-    public class AdminControllerBase<T> : ControllerBase<T> where T : AdminModelBase, new()
+    public class AdminControllerBase<T> : ControllerBase63<T> where T : AdminModelBase, new()
     {
         #region Properties
         AdminModelBase _model;

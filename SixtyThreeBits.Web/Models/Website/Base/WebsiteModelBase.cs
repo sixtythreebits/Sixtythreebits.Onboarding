@@ -9,7 +9,7 @@ using SixtyThreeBits.Web.Models.Base;
 
 namespace SixtyThreeBits.Web.Models.Website
 {
-    public class WebsiteModelBase : ModelBase
+    public class WebsiteModelBase : ModelBase63
     {
         #region Properties
         public WebsiteLayoutViewModel LayoutViewModel { get; set; }
