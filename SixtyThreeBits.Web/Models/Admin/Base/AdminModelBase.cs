@@ -8,7 +8,7 @@ using SixtyThreeBits.Web.Models.Base;
 
 namespace SixtyThreeBits.Web.Models.Admin
 {
-    public class AdminModelBase : ModelBase
+    public class AdminModelBase : ModelBase63
     {
         #region Methods
         public IActionResult GetNotFoundAdminViewResult()

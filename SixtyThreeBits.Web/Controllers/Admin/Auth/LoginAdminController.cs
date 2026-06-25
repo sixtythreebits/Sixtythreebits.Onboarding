@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace SixtyThreeBits.Web.Controllers.Admin
 {
     [Route("admin")]
-    public class LoginAdminController : ControllerBase<LoginAdminModel>
+    public class LoginAdminController : ControllerBase63<LoginAdminModel>
     {
         #region Properties
         const string _viewName = "~/Views/Admin/Auth/LoginAdminView.cshtml";

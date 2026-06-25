@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SixtyThreeBits.Web.Controllers.Website
 {
-    public class WebsiteControllerBase<T> : ControllerBase<T> where T : WebsiteModelBase, new()
+    public class WebsiteControllerBase<T> : ControllerBase63<T> where T : WebsiteModelBase, new()
     {
         #region Properties
         WebsiteModelBase _model;
