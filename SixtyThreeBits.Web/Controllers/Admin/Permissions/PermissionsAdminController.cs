@@ -25,7 +25,7 @@ namespace SixtyThreeBits.Web.Controllers.Admin
         [Route("tree", Name = $"{nameof(PermissionsAdminController)}{nameof(Tree)}")]
         public async Task<IActionResult> Tree()
         {
-            var viewModel = await Model.GetTreeItems();
+            var viewModel = await Model.Tree();
             return DevExtremeGridResult(viewModel);
         }
 
@@ -33,7 +33,7 @@ namespace SixtyThreeBits.Web.Controllers.Admin
         [Route("tree/add", Name = $"{nameof(PermissionsAdminController)}{nameof(TreeAdd)}")]
         public async Task<IActionResult> TreeAdd(DevExtremeSubmitModelKeyValues63 submitModel)
         {
-            var viewModel = await Model.Add(submitModel);
+            var viewModel = await Model.TreeAdd(submitModel);
             return DevExtremeGridActionResult(viewModel);
         }
 
@@ -41,7 +41,7 @@ namespace SixtyThreeBits.Web.Controllers.Admin
         [Route("tree/update", Name = $"{nameof(PermissionsAdminController)}{nameof(TreeUpdate)}")]
         public async Task<IActionResult> TreeUpdate(DevExtremeSubmitModelKeyValues63 submitModel)
         {
-            var viewModel = await Model.Update(submitModel);
+            var viewModel = await Model.TreeUpdate(submitModel);
             return DevExtremeGridActionResult(viewModel);
         }
 
@@ -49,7 +49,7 @@ namespace SixtyThreeBits.Web.Controllers.Admin
         [Route("tree/delete", Name = $"{nameof(PermissionsAdminController)}{nameof(TreeDelete)}")]
         public async Task<IActionResult> TreeDelete(DevExtremeSubmitModelKeyValues63 submitModel)
         {
-            var viewModel = await Model.Delete(submitModel);
+            var viewModel = await Model.TreeDelete(submitModel);
             return DevExtremeGridActionResult(viewModel);
         }
         #endregion

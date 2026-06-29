@@ -1,6 +1,6 @@
-﻿using SixtyThreeBits.Core.Properties;
+﻿using SixtyThreeBits.Core.Libraries.Extensions;
+using SixtyThreeBits.Core.Properties;
 using SixtyThreeBits.Core.Utilities;
-using SixtyThreeBits.Libraries.Extensions;
 using System;
 using System.Linq;
 using System.Text.RegularExpressions;

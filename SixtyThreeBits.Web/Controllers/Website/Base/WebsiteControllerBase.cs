@@ -13,7 +13,7 @@ namespace SixtyThreeBits.Web.Controllers.Website
     {
         #region Properties
         WebsiteModelBase _model;
-        WebsiteLayoutViewModel _viewModel;
+        LayoutWebsiteViewModel _viewModel;
         #endregion
 
         #region Methods
@@ -33,7 +33,7 @@ namespace SixtyThreeBits.Web.Controllers.Website
                     initViewModel();
                     initClientPlugins();
                     initPageTitle();
-                    _model.ViewData[ViewDataKeys63.LayoutViewModel] = _viewModel;
+                    _model.ViewData[nameof(LayoutWebsiteViewModel)] = _viewModel;
 
                     return await next();
                 }
@@ -41,7 +41,7 @@ namespace SixtyThreeBits.Web.Controllers.Website
         }
         void initViewModel()
         {
-            _model.LayoutViewModel = _viewModel = new WebsiteLayoutViewModel();
+            _model.LayoutViewModel = _viewModel = new LayoutWebsiteViewModel();
             _viewModel.ProjectName = _model.SystemProperties.ProjectName;
         }
         void initClientPlugins()

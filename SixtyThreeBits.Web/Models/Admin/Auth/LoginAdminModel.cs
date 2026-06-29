@@ -1,6 +1,6 @@
 ﻿using SixtyThreeBits.Core.Infrastructure.Repositories;
+using SixtyThreeBits.Core.Libraries.Extensions;
 using SixtyThreeBits.Core.Properties;
-using SixtyThreeBits.Libraries.Extensions;
 using SixtyThreeBits.Web.Domain.Utilities;
 using SixtyThreeBits.Web.Domain.ViewModels.Shared;
 using System;

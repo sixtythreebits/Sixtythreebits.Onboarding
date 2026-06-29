@@ -25,7 +25,7 @@ namespace SixtyThreeBits.Web.Controllers.Admin
         [Route("grid", Name = $"{nameof(UsersAdminController)}{nameof(Grid)}")]
         public async Task<IActionResult> Grid()
         {
-            var viewModel = await Model.GetGridItems();
+            var viewModel = await Model.Grid();
             return DevExtremeGridResult(viewModel);
         }
 
@@ -33,7 +33,7 @@ namespace SixtyThreeBits.Web.Controllers.Admin
         [Route("grid/add", Name = $"{nameof(UsersAdminController)}{nameof(GridAdd)}")]
         public async Task<IActionResult> GridAdd(DevExtremeSubmitModelKeyValues63 submitModel)
         {
-            var viewModel = await Model.Add(submitModel);
+            var viewModel = await Model.GridAdd(submitModel);
             return DevExtremeGridActionResult(viewModel);
         }
 
@@ -41,7 +41,7 @@ namespace SixtyThreeBits.Web.Controllers.Admin
         [Route("grid/update", Name = $"{nameof(UsersAdminController)}{nameof(GridUpdate)}")]
         public async Task<IActionResult> GridUpdate(DevExtremeSubmitModelKeyValues63 submitModel)
         {
-            var viewModel = await Model.Update(submitModel);
+            var viewModel = await Model.GridUpdate(submitModel);
             return DevExtremeGridActionResult(viewModel);
         }
 
@@ -49,7 +49,7 @@ namespace SixtyThreeBits.Web.Controllers.Admin
         [Route("grid/delete", Name = $"{nameof(UsersAdminController)}{nameof(GridDelete)}")]
         public async Task<IActionResult> GridDelete(DevExtremeSubmitModelKeyValues63 submitModel)
         {
-            var viewModel = await Model.Delete(submitModel);
+            var viewModel = await Model.GridDelete(submitModel);
             return DevExtremeGridActionResult(viewModel);
         }
         #endregion

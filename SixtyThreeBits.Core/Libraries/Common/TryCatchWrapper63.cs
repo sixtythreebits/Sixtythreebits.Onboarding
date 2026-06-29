@@ -1,13 +1,13 @@
-﻿using Microsoft.Extensions.Logging;
-using SixtyThreeBits.Core.Libraries.Loggers.DTO;
-using SixtyThreeBits.Libraries.Extensions;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Runtime.CompilerServices;
+using System.Text;
 using System.Threading.Tasks;
 
-namespace SixtyThreeBits.Core.Libraries
+namespace SixtyThreeBits.Core.Libraries.Common
 {
-    public class SixtyThreeBitsDataObjectBase
+    public class TryCatchWrapper63
     {
         #region Properties
         readonly ILogger _logger;
@@ -18,7 +18,7 @@ namespace SixtyThreeBits.Core.Libraries
         #endregion
 
         #region Constructors
-        public SixtyThreeBitsDataObjectBase(ILogger logger)
+        public TryCatchWrapper63(ILogger logger)
         {
             _logger = logger;
         }
@@ -30,6 +30,7 @@ namespace SixtyThreeBits.Core.Libraries
             try
             {
                 IsError = false;
+                ErrorMessage = null;
                 actionToTry();
             }
             catch (Exception ex)
@@ -56,6 +57,7 @@ namespace SixtyThreeBits.Core.Libraries
             try
             {
                 IsError = false;
+                ErrorMessage = null;
                 await asyncFuncToTry();
             }
             catch (Exception ex)
@@ -86,6 +88,7 @@ namespace SixtyThreeBits.Core.Libraries
             try
             {
                 IsError = false;
+                ErrorMessage = null;
                 result = funcToTry();
             }
             catch (Exception ex)
@@ -114,6 +117,7 @@ namespace SixtyThreeBits.Core.Libraries
             try
             {
                 IsError = false;
+                ErrorMessage = null;
                 result = await asyncFuncToTry();
             }
             catch (Exception ex)
@@ -145,15 +149,37 @@ namespace SixtyThreeBits.Core.Libraries
         {
             if (_logger != null)
             {
-                _logger.LogError(
-                    exception: exception,
-                    message: new LogStateDTO
+                var errorMessageBuilder = new StringBuilder();
+                if (exception is SqlException)
+                {
+                    var ex = exception as SqlException;
+                    for (int i = 0; i < ex.Errors.Count; i++)
                     {
-                        LogString = logString,
-                        CallerFilePath = callerFilePath,
-                        CallerLineNumber = callerLineNumber
-                    }.ToJson()
-                );
+                        if (ex.Errors[i].Number > 50000)
+                        {
+                            errorMessageBuilder.Append(ex.Message);
+                        }
+                        else
+                        {
+                            errorMessageBuilder.Append(ex.Errors[i].Message).Append(Environment.NewLine);
+                        }
+                    }
+                }
+                else
+                {
+                    if (exception.InnerException == null)
+                    {
+                        errorMessageBuilder.Append($"{exception.Message}{Environment.NewLine}");
+                    }
+                    else
+                    {
+                        errorMessageBuilder.Append($"Exception: {exception.Message}{Environment.NewLine}InnerException: {exception.InnerException.Message}{Environment.NewLine}");
+                    }
+                    errorMessageBuilder.Append($"{Environment.NewLine}StackTrace:{Environment.NewLine}{exception.StackTrace}{Environment.NewLine}");
+                }
+
+                var message = string.Format("Source File - {0}{4}Line Number - {1}{4}{2} --- {3}", callerFilePath, callerLineNumber, logString, errorMessageBuilder.ToString(), Environment.NewLine);
+                _logger.LogError(exception: exception, message: message);
             }
             IsError = true;
             Exception = exception;

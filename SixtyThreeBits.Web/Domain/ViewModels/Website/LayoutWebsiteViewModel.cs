@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace SixtyThreeBits.Web.Domain.ViewModels.Website
 {
-    public class WebsiteLayoutViewModel : LayoutViewModelBase
+    public class LayoutWebsiteViewModel : LayoutViewModelBase
     {
         #region Properties           
         public string UrlKa { get; set; }

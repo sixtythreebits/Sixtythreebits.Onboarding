@@ -1,15 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using SixtyThreeBits.Core.Libraries;
-using SixtyThreeBits.Libraries;
-using SixtyThreeBits.Libraries.Extensions;
 using SixtyThreeBits.Web.Controllers.Base;
 using SixtyThreeBits.Web.Domain.Libraries;
 using SixtyThreeBits.Web.Domain.Utilities;
 using SixtyThreeBits.Web.Domain.ViewModels.Admin;
 using SixtyThreeBits.Web.Domain.ViewModels.Shared;
 using SixtyThreeBits.Web.Models.Admin;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -19,7 +15,7 @@ namespace SixtyThreeBits.Web.Controllers.Admin
     {
         #region Properties
         AdminModelBase _model;
-        AdminLayoutViewModel _viewModel;
+        LayoutAdminViewModel _viewModel;
         #endregion
 
         #region Methods
@@ -27,7 +23,7 @@ namespace SixtyThreeBits.Web.Controllers.Admin
         {
             await base.OnActionExecutionAsync(context, async () =>
             {
-                _viewModel = new AdminLayoutViewModel();
+                _viewModel = new LayoutAdminViewModel();
                 _model = WebUtilities.GetModelFromController<AdminModelBase>(context.Controller);
 
                 var isAuhenticated = isUserAuhenticated();
@@ -45,8 +41,7 @@ namespace SixtyThreeBits.Web.Controllers.Admin
                             initTabs();
                             initPageTitle();
                             initSuccessErrorToast();
-                            initSidebar();
-                            _model.ViewData[ViewDataKeys63.LayoutViewModel] = _viewModel;
+                            _model.ViewData[nameof(LayoutAdminViewModel)] = _viewModel;
                         }
                         return await next();
                     }
@@ -158,12 +153,7 @@ namespace SixtyThreeBits.Web.Controllers.Admin
             {
                 _model.PageTitle.Set(p.PermissionName);
             }
-        }
-        void initSidebar()
-        {
-            _viewModel.IsSidebarCollapsed = _model.IsSidebarCollapsed = new ValueWrapper<bool>();
-            _model.IsSidebarCollapsed.Value = _model.CookieAssistance.Get(key: CookieKeys63.IsAdminSideBarCollapsed).ToBooleanValue();
-        }
+        }        
         void initSuccessErrorToast()
         {
             _model.InitSuccessErrorToastNotificationPartialViewModel();

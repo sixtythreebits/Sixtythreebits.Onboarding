@@ -5,10 +5,8 @@ using Microsoft.AspNetCore.Routing;
 using SixtyThreeBits.Core.Abstractions;
 using SixtyThreeBits.Core.Factories;
 using SixtyThreeBits.Core.Infrastructure.Repositories;
-using SixtyThreeBits.Core.Libraries;
 using SixtyThreeBits.Core.Properties;
 using SixtyThreeBits.Core.Utilities;
-using SixtyThreeBits.Libraries.Extensions;
 using SixtyThreeBits.Web.Domain.Libraries;
 using SixtyThreeBits.Web.Domain.Utilities;
 using SixtyThreeBits.Web.Domain.ViewModels.Shared;
@@ -50,7 +48,6 @@ namespace SixtyThreeBits.Web.Models.Base
         public PluginsClientViewModel PluginsClient { get; set; }
         public UserDTO User { get; set; }
         public bool IsLoggedIn => User != null;
-        public ValueWrapper<bool> IsSidebarCollapsed { get; set; }
         
         public SystemPropertiesDTO SystemProperties { get; set; }
         
@@ -58,11 +55,6 @@ namespace SixtyThreeBits.Web.Models.Base
         #endregion
 
         #region Methods
-        public string GetFilenameFromUploadedFile(IFormFile postedFile)
-        {
-            return postedFile?.FileName.ToAZ09Dash(guidInlcuded: true);
-        }
-                        
         #region Success/Error Toast
         public void InitSuccessErrorToastNotificationPartialViewModel()
         {            
@@ -112,7 +104,6 @@ namespace SixtyThreeBits.Web.Models.Base
             }
         }
         #endregion
-
         #endregion
     }
 }

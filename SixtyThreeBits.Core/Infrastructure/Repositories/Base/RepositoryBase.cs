@@ -1,11 +1,10 @@
 ﻿using Microsoft.Extensions.Logging;
 using SixtyThreeBits.Core.Factories;
-using SixtyThreeBits.Core.Libraries;
-using System.Threading.Tasks;
+using SixtyThreeBits.Core.Libraries.Common;
 
 namespace SixtyThreeBits.Core.Infrastructure.Repositories
 {
-    public class RepositoryBase : SixtyThreeBitsDataObjectBase
+    public class RepositoryBase : TryCatchWrapper63
     {
         #region Properties
         protected readonly DbContextFactory _dbContextFactory;
@@ -16,6 +15,6 @@ namespace SixtyThreeBits.Core.Infrastructure.Repositories
         {
             _dbContextFactory = dbContextFactory;
         }
-        #endregion        
+        #endregion
     }
 }

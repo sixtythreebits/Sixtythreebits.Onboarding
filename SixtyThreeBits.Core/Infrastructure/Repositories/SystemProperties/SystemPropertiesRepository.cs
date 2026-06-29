@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using SixtyThreeBits.Core.Factories;
 using SixtyThreeBits.Core.Libraries.Database;
-using SixtyThreeBits.Libraries.Extensions;
+using SixtyThreeBits.Core.Libraries.Extensions;
 using System.Threading.Tasks;
 
 namespace SixtyThreeBits.Core.Infrastructure.Repositories

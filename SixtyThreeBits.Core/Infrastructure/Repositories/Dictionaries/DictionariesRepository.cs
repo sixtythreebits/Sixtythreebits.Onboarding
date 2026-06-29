@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using SixtyThreeBits.Core.Factories;
+using SixtyThreeBits.Core.Libraries.Common;
 using SixtyThreeBits.Core.Libraries.Database;
+using SixtyThreeBits.Core.Libraries.Extensions;
 using SixtyThreeBits.Core.Utilities;
-using SixtyThreeBits.Libraries;
-using SixtyThreeBits.Libraries.Extensions;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;

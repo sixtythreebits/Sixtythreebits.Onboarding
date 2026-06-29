@@ -2,7 +2,6 @@
 using DevExtreme.AspNet.Mvc.Builders;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SixtyThreeBits.Core.Properties;
-using SixtyThreeBits.Libraries;
 using SixtyThreeBits.Web.Controllers.Admin;
 using SixtyThreeBits.Web.Domain.Libraries;
 using System.Collections.Generic;
@@ -42,7 +41,7 @@ namespace SixtyThreeBits.Web.Models.Admin
             return viewModel;
         }
 
-        public async Task<AjaxResponse> GetRolesGridItems()
+        public async Task<AjaxResponse> RolesGrid()
         {
             var viewModel = new AjaxResponse();
             var repository = RepositoryFactory.CreateRolesRepository();
@@ -59,7 +58,7 @@ namespace SixtyThreeBits.Web.Models.Admin
             return viewModel;
         }
 
-        public async Task<AjaxResponse> GetPermissionsTreeItems()
+        public async Task<AjaxResponse> PermissionsTree()
         {
             var viewModel = new AjaxResponse();
             var repository = RepositoryFactory.CreatePermissionsRepository();

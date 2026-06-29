@@ -4,7 +4,6 @@
     <UserSecretsId>920b1ae2-b527-45b0-b2d9-ed8ff53e6aae</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="63BITS.Libraries.DotNetCore" Version="1.0.92" />
     <PackageReference Include="DevExtreme.AspNet.Core" Version="25.2.7" />
     <PackageReference Include="DevExtreme.AspNet.Data" Version="5.1.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
