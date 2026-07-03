@@ -1,7 +1,7 @@
 /*!
  * DevExtreme (dx.ai-integration.debug.js)
- * Version: 25.2.7
- * Build date: Tue May 05 2026
+ * Version: 26.1.3
+ * Build date: Wed Jun 10 2026
  *
  * Copyright (c) 2012 - 2026 Developer Express Inc. ALL RIGHTS RESERVED
  * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
@@ -22,7 +22,8 @@
                 execute(params, callbacks) {
                     const templateName = this.getTemplateName();
                     const data = this.buildPromptData(params);
-                    const prompt = this.promptManager.buildPrompt(templateName, data);
+                    const options = this.getBuildPromptOptions();
+                    const prompt = this.promptManager.buildPrompt(templateName, data, options);
                     const requestManagerCallbacks = {
                         onChunk: chunk => {
                             var _callbacks$onChunk;
@@ -40,6 +41,11 @@
                     };
                     const abort = this.requestManager.sendRequest(prompt, requestManagerCallbacks, params);
                     return abort
+                }
+                getBuildPromptOptions() {
+                    return {
+                        applyMetaTemplates: true
+                    }
                 }
             }
         },
@@ -117,6 +123,41 @@
                 }
             }
             exports.ExecuteCommand = ExecuteCommand
+        },
+        714(__unused_webpack_module, exports, __webpack_require__) {
+            Object.defineProperty(exports, "__esModule", {
+                value: true
+            });
+            exports.ExecuteGridAssistantCommand = void 0;
+            var _base = __webpack_require__( /*! ../../../core/ai_integration/commands/base */ 55390);
+            class ExecuteGridAssistantCommand extends _base.BaseCommand {
+                getTemplateName() {
+                    return "executeGridAssistant"
+                }
+                buildPromptData(params) {
+                    return {
+                        user: {
+                            text: params.text,
+                            context: JSON.stringify(params.context)
+                        }
+                    }
+                }
+                parseResult(response) {
+                    if ("string" === typeof response) {
+                        if ("" === response) {
+                            return {
+                                actions: []
+                            }
+                        }
+                        return JSON.parse(response)
+                    }
+                    const actions = "string" === typeof response.actions ? JSON.parse(response.actions) : response.actions;
+                    return {
+                        actions: actions
+                    }
+                }
+            }
+            exports.ExecuteGridAssistantCommand = ExecuteGridAssistantCommand
         },
         37887(__unused_webpack_module, exports, __webpack_require__) {
             Object.defineProperty(exports, "__esModule", {
@@ -211,6 +252,12 @@
                     return _execute.ExecuteCommand
                 }
             });
+            Object.defineProperty(exports, "ExecuteGridAssistantCommand", {
+                enumerable: true,
+                get: function() {
+                    return _executeGridAssistant.ExecuteGridAssistantCommand
+                }
+            });
             Object.defineProperty(exports, "ExpandCommand", {
                 enumerable: true,
                 get: function() {
@@ -256,7 +303,8 @@
             var _shorten = __webpack_require__( /*! ../../../core/ai_integration/commands/shorten */ 36050);
             var _smartPaste = __webpack_require__( /*! ../../../core/ai_integration/commands/smartPaste */ 32067);
             var _summarize = __webpack_require__( /*! ../../../core/ai_integration/commands/summarize */ 15162);
-            var _translate = __webpack_require__( /*! ../../../core/ai_integration/commands/translate */ 37025)
+            var _translate = __webpack_require__( /*! ../../../core/ai_integration/commands/translate */ 37025);
+            var _executeGridAssistant = __webpack_require__( /*! ./executeGridAssistant */ 714)
         },
         11121(__unused_webpack_module, exports, __webpack_require__) {
             Object.defineProperty(exports, "__esModule", {
@@ -454,6 +502,11 @@
                 getTemplateName() {
                     return "translate"
                 }
+                getBuildPromptOptions() {
+                    return {
+                        applyMetaTemplates: false
+                    }
+                }
                 buildPromptData(params) {
                     return {
                         system: {
@@ -478,6 +531,7 @@
             var _index = __webpack_require__( /*! ../../../core/ai_integration/commands/index */ 39171);
             var _prompt_manager = __webpack_require__( /*! ../../../core/ai_integration/core/prompt_manager */ 76542);
             var _request_manager = __webpack_require__( /*! ../../../core/ai_integration/core/request_manager */ 17083);
+            var _executeGridAssistant = __webpack_require__( /*! ../commands/executeGridAssistant */ 714);
             var _generateGridColumn = __webpack_require__( /*! ../commands/generateGridColumn */ 88890);
             var CommandNames;
             ! function(CommandNames) {
@@ -490,7 +544,8 @@
                 CommandNames.Summarize = "summarize";
                 CommandNames.Translate = "translate";
                 CommandNames.SmartPaste = "smartPaste";
-                CommandNames.GenerateGridColumn = "generateGridColumn"
+                CommandNames.GenerateGridColumn = "generateGridColumn";
+                CommandNames.ExecuteGridAssistant = "executeGridAssistant"
             }(CommandNames || (exports.CommandNames = CommandNames = {}));
             const COMMANDS = exports.COMMANDS = {
                 [CommandNames.ChangeStyle]: _index.ChangeStyleCommand,
@@ -502,11 +557,14 @@
                 [CommandNames.Summarize]: _index.SummarizeCommand,
                 [CommandNames.Translate]: _index.TranslateCommand,
                 [CommandNames.SmartPaste]: _index.SmartPasteCommand,
-                [CommandNames.GenerateGridColumn]: _generateGridColumn.GenerateGridColumnCommand
+                [CommandNames.GenerateGridColumn]: _generateGridColumn.GenerateGridColumnCommand,
+                [CommandNames.ExecuteGridAssistant]: _executeGridAssistant.ExecuteGridAssistantCommand
             };
             exports.AIIntegration = class {
-                constructor(provider) {
-                    this.promptManager = new _prompt_manager.PromptManager;
+                constructor(provider, options) {
+                    this.promptManager = new _prompt_manager.PromptManager({
+                        lang: null === options || void 0 === options ? void 0 : options.lang
+                    });
                     this.requestManager = new _request_manager.RequestManager(provider);
                     this.commands = new Map
                 }
@@ -549,27 +607,38 @@
                 generateGridColumn(params, callbacks) {
                     return this.executeCommand(CommandNames.GenerateGridColumn, params, callbacks)
                 }
+                executeGridAssistant(params, callbacks) {
+                    return this.executeCommand(CommandNames.ExecuteGridAssistant, params, callbacks)
+                }
             }
         },
         76542(__unused_webpack_module, exports, __webpack_require__) {
             Object.defineProperty(exports, "__esModule", {
                 value: true
             });
-            exports.PromptManager = exports.ERROR_MESSAGES = void 0;
+            exports.PromptManager = exports.LANG_TEMPLATE_NAME = exports.ERROR_MESSAGES = void 0;
             var _index = __webpack_require__( /*! ../../../core/ai_integration/templates/index */ 31764);
             const ERROR_MESSAGES = exports.ERROR_MESSAGES = {
                 TEMPLATE_NOT_FOUND: "Template not found"
             };
+            const LANG_TEMPLATE_NAME = exports.LANG_TEMPLATE_NAME = "addLanguage";
             exports.PromptManager = class {
-                constructor() {
-                    this.templates = new Map(Object.entries(_index.templates))
+                constructor(options) {
+                    this.templates = new Map(Object.entries(_index.templates));
+                    this.metaTemplates = new Map(Object.entries(_index.metaTemplates));
+                    this.lang = null === options || void 0 === options ? void 0 : options.lang
                 }
-                buildPrompt(templateName, data) {
+                buildPrompt(templateName, data, options) {
                     const template = this.templates.get(templateName);
+                    const langTemplate = this.metaTemplates.get(LANG_TEMPLATE_NAME);
                     if (!template) {
                         throw new Error(ERROR_MESSAGES.TEMPLATE_NOT_FOUND)
                     }
-                    const system = this.generateMessage(template.system, data.system);
+                    const baseSystem = this.generateMessage(template.system, data.system);
+                    const system = options.applyMetaTemplates && this.lang && langTemplate ? this.generateMessage(langTemplate.system, {
+                        message: baseSystem ?? "",
+                        lang: this.lang
+                    }) : baseSystem;
                     const user = this.generateMessage(template.user, data.user);
                     const prompt = {
                         system: system,
@@ -656,7 +725,12 @@
             Object.defineProperty(exports, "__esModule", {
                 value: true
             });
-            exports.templates = void 0;
+            exports.templates = exports.metaTemplates = void 0;
+            exports.metaTemplates = {
+                addLanguage: {
+                    system: "{{message}} Provide an answer in {{lang}} language."
+                }
+            };
             exports.templates = {
                 changeStyle: {
                     system: "Rewrite the text provided to match the {{writingStyle}} writing style. Ensure the rewritten text follows the grammatical rules and stylistic conventions of the specified style. Preserve the original meaning and context. Use complete sentences and a professional tone. Return answer with no markdown formatting."
@@ -689,6 +763,10 @@
                 generateGridColumn: {
                     system: 'You are a helpful AI assistant that generates values for a new column in a dataset, based on a given user instruction and existing row data. Input: A user prompt that describes what should be generated. A dataset in the format: { "rowKey1": {column1: value1, column2: value2, ...}, "rowKey2": {...}, ... }. Task: Generate a single value for each row that satisfies the user\'s prompt, using the provided row data as context. Instructions: Output your result strictly in this format: { "rowKey1": "generatedValue1", "rowKey2": "generatedValue2", ... }. The output must be a valid JSON string, directly parsable by JSON.parse. Do not include any explanation, markdown, or formatting \u2014 only the raw JSON object. If a value cannot be generated for a specific row, assign an empty string ("") for that row. Example Output: { "rowKey1": "valueA", "rowKey2": "" }. You must follow this output format exactly. Any deviation will result in a parsing error.',
                     user: "User prompt text: {{text}}. Dataset: {{data}}."
+                },
+                executeGridAssistant: {
+                    system: 'You are a helpful AI assistant for a data grid component. The user sends a natural language request describing an operation on the grid (e.g., sorting, filtering, grouping). You receive the user\'s message, a context object describing the current grid state, and a JSON schema describing the available commands and their arguments. Your task is to interpret the user\'s request and return a JSON object with one field: "actions" \u2014 an array of command objects, each with "name" (the command name) and "args" (an object of arguments matching the schema). Output must be a valid JSON string, directly parsable by JSON.parse. Do not include any markdown, formatting, or extra text \u2014 only the raw JSON object.\n\nCRITICAL RULE FOR OPTIONAL ARGUMENTS: If an optional argument is not used, the field MUST be ENTIRELY ABSENT from the JSON object \u2014 the key must not appear at all. NEVER emit an optional field with value null, empty string "", empty array [], or any placeholder. This rule overrides any instinct to "complete" the object \u2014 omitted IS the value.\n\nCRITICAL RULE FOR UNRECOGNIZED REQUESTS: If the user\'s request text is unclear, meaningless, or not related to any grid operation, you MUST return {"actions": []}. Do NOT guess, infer, or invent actions. Numbers, random characters, greetings, or off-topic text are NOT grid commands. Only produce actions when the request explicitly and clearly maps to one or more supported grid commands.\n\nExamples of meaningless user requests that MUST return {"actions": []}:\n- "User request: 1." \u2192 {"actions": []}\n- "User request: 123." \u2192 {"actions": []}\n- "User request: hello." \u2192 {"actions": []}',
+                    user: "User request: {{text}}. Grid context: {{context}}."
                 }
             }
         },
@@ -755,9 +833,7 @@
                 W0019: "DevExtreme: Unable to Locate a Valid License Key.\n\nDetailed license/registration related information and instructions: https://js.devexpress.com/Documentation/Licensing/.\n\nIf you are using a 30-day trial version of DevExtreme, you must uninstall all copies of DevExtreme once your 30-day trial period expires. For terms and conditions that govern use of DevExtreme UI components/libraries, please refer to the DevExtreme End User License Agreement: https://js.devexpress.com/EULAs/DevExtremeComplete.\n\nTo use DevExtreme in a commercial project, you must purchase a license. For pricing/licensing options, please visit: https://js.devexpress.com/Buy.\n\nIf you have licensing-related questions or need help with a purchase, please email clientservices@devexpress.com.\n\n",
                 W0020: "DevExtreme: License Key Has Expired.\n\nDetailed license/registration related information and instructions: https://js.devexpress.com/Documentation/Licensing/.\n\nA mismatch exists between the license key used and the DevExtreme version referenced in this project.\n\nTo proceed, you can:\n\u2022 use a version of DevExtreme linked to your license key: https://www.devexpress.com/ClientCenter/DownloadManager\n\u2022 renew your DevExpress Subscription: https://www.devexpress.com/buy/renew (once you renew your subscription, you will be entitled to product updates and support service as defined in the DevExtreme End User License Agreement)\n\nIf you have licensing-related questions or need help with a renewal, please email clientservices@devexpress.com.\n\n",
                 W0021: "DevExtreme: License Key Verification Has Failed.\n\nDetailed license/registration related information and instructions: https://js.devexpress.com/Documentation/Licensing/.\n\nTo verify your DevExtreme license, make certain to specify a correct key in the GlobalConfig. If you continue to encounter this error, please visit https://www.devexpress.com/ClientCenter/DownloadManager to obtain a valid license key.\n\nIf you have a valid license and this problem persists, please submit a support ticket via the DevExpress Support Center. We will be happy to follow-up: https://supportcenter.devexpress.com/ticket/create.\n\n",
-                W0022: "DevExtreme: Pre-release software. Not suitable for commercial use.\n\nDetailed license/registration related information and instructions: https://js.devexpress.com/Documentation/Licensing/.\n\nPre-release software may contain deficiencies and as such, should not be considered for use or integrated in any mission critical application.\n\n",
-                W0023: "DevExtreme: the following 'devextreme' package version does not match versions of other DevExpress products used in this application:\n\n{0}\n\nInteroperability between different versions of the products listed herein cannot be guaranteed.\n\n",
-                W0024: "DevExtreme: Use Your DevExtreme License Key - Not Your DevExpress .NET License Key\n\nInvalid/incorrect license key. You used your DevExpress .NET license key instead of your DevExtreme (React, Angular, Vue, JS) license key. Please copy your DevExtreme license key and try again. \n\nGo to https://www.devexpress.com/ClientCenter/DownloadManager (navigate to the DevExtreme Subscription section) to obtain a valid DevExtreme license key. To validate your license, specify the correct key within GlobalConfig.\n\nFor detailed license/registration information, visit https://js.devexpress.com/Documentation/Licensing/.\n\nIf you have a valid license and the issue persists, submit a support ticket via the DevExpress Support Center. We will be happy to follow-up: https://supportcenter.devexpress.com/ticket/create.\n\n"
+                W0023: "DevExtreme: the following 'devextreme' package version does not match versions of other DevExpress products used in this application:\n\n{0}\n\nInteroperability between different versions of the products listed herein cannot be guaranteed.\n\n"
             })
         },
         55594(__unused_webpack_module, exports) {
@@ -1557,7 +1633,7 @@
             function isIntegerBetweenMinAndMax(number, min, max) {
                 min = min || 0;
                 max = max || 255;
-                if (number % 1 !== 0 || number < min || number > max || "number" !== typeof number || isNaN(number)) {
+                if ("number" !== typeof number || number % 1 !== 0 || number < min || number > max || isNaN(number)) {
                     return false
                 }
                 return true
@@ -1810,8 +1886,8 @@
         },
         1956(__unused_webpack_module, exports) {
             exports.version = exports.fullVersion = void 0;
-            exports.version = "25.2.7";
-            exports.fullVersion = "25.2.7"
+            exports.version = "26.1.3";
+            exports.fullVersion = "26.1.3"
         },
         35185(module, exports, __webpack_require__) {
             exports.default = void 0;
@@ -1877,6 +1953,7 @@
                 E1065: "The browser does not support Web Speech API (SpeechRecognition)",
                 E1066: "All AI columns must have names.",
                 E1067: "'aiIntegration' is not configured in the {0} column.",
+                E1068: "'aiIntegration' is not configured for the AI Assistant.",
                 W1001: 'The "key" option cannot be modified after initialization',
                 W1002: "An item with the key '{0}' does not exist",
                 W1003: "A group with the key '{0}' in which you are trying to select items does not exist",
@@ -1902,7 +1979,8 @@
                 W1025: "'scrolling.mode' is set to 'virtual' or 'infinite'. Specify the height of the component.",
                 W1026: "The 'ai' toolbar item is defined, but aiIntegration is missing.",
                 W1027: "A prompt should be specified for a custom command.",
-                W1028: "Nested/banded columns do not support the following properties: {0}."
+                W1028: "Nested/banded columns do not support the following properties: {0}.",
+                W1029: "'hiddenWeekDays' must leave at least one weekday visible."
             });
             module.exports = exports.default;
             module.exports.default = exports.default

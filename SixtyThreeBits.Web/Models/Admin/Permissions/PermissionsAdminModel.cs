@@ -2,10 +2,9 @@
 using DevExtreme.AspNet.Mvc.Builders;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SixtyThreeBits.Core.Infrastructure.Repositories;
+using SixtyThreeBits.Core.Libraries.Extensions;
 using SixtyThreeBits.Core.Properties;
 using SixtyThreeBits.Core.Utilities;
-using SixtyThreeBits.Libraries;
-using SixtyThreeBits.Libraries.Extensions;
 using SixtyThreeBits.Web.Controllers.Admin;
 using SixtyThreeBits.Web.Domain.Libraries;
 using System.Linq;
@@ -34,7 +33,7 @@ namespace SixtyThreeBits.Web.Models.Admin
             return viewModel;
         }
 
-        public async Task<AjaxResponse> GetTreeItems()
+        public async Task<AjaxResponse> Tree()
         {
             var viewModel = new AjaxResponse();
             var repository = RepositoryFactory.CreatePermissionsRepository();
@@ -58,7 +57,7 @@ namespace SixtyThreeBits.Web.Models.Admin
             return viewModel;
         }
 
-        public async Task<AjaxResponse> Add(DevExtremeSubmitModelKeyValues63 submitModel)
+        public async Task<AjaxResponse> TreeAdd(DevExtremeSubmitModelKeyValues63 submitModel)
         {
             var viewModel = new AjaxResponse();
             var submitModelValues = submitModel.Values.DeserializeJsonTo<ViewModel.TreeModel.TreeItem>();
@@ -86,7 +85,7 @@ namespace SixtyThreeBits.Web.Models.Admin
             return viewModel;
         }
 
-        public async Task<AjaxResponse> Update(DevExtremeSubmitModelKeyValues63 submitModel)
+        public async Task<AjaxResponse> TreeUpdate(DevExtremeSubmitModelKeyValues63 submitModel)
         {
             var viewModel = new AjaxResponse();
             var permissionID = submitModel.Key.ToInt();
@@ -115,7 +114,7 @@ namespace SixtyThreeBits.Web.Models.Admin
             return viewModel;
         }
 
-        public async Task<AjaxResponse> Delete(DevExtremeSubmitModelKeyValues63 submitModel)
+        public async Task<AjaxResponse> TreeDelete(DevExtremeSubmitModelKeyValues63 submitModel)
         {
             var viewModel = new AjaxResponse();
             var permissionID = submitModel.Key.ToInt();

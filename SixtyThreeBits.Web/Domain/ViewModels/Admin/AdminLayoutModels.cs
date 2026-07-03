@@ -1,16 +1,14 @@
-﻿using SixtyThreeBits.Core.Libraries;
-using SixtyThreeBits.Core.Properties;
+﻿using SixtyThreeBits.Core.Properties;
 using SixtyThreeBits.Web.Domain.Utilities;
 using SixtyThreeBits.Web.Domain.ViewModels.Base;
 
 namespace SixtyThreeBits.Web.Domain.ViewModels.Admin
 {
-    public class AdminLayoutViewModel : LayoutViewModelBase
+    public class LayoutAdminViewModel : LayoutViewModelBase
     {
         #region Properties                        
         public string UserFullname { get; set; }
         public string UserEmail { get; set; }
-        public ValueWrapper<bool> IsSidebarCollapsed { get; set; }
         public string UrlRelogin { get; set; }
 
         public readonly string TextBackToWebsite = Resources.TextBackToWebsite;

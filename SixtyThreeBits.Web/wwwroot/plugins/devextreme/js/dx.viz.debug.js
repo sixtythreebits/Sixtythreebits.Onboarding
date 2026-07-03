@@ -1,7 +1,7 @@
 /*!
  * DevExtreme (dx.viz.debug.js)
- * Version: 25.2.7
- * Build date: Tue May 05 2026
+ * Version: 26.1.3
+ * Build date: Wed Jun 10 2026
  *
  * Copyright (c) 2012 - 2026 Developer Express Inc. ALL RIGHTS RESERVED
  * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
@@ -4341,7 +4341,7 @@
             exports.RTM_MIN_PATCH_VERSION = 3;
             exports.KEY_SPLITTER = ".";
             exports.BUY_NOW_LINK = "https://go.devexpress.com/Licensing_Installer_Watermark_DevExtremeJQuery.aspx";
-            exports.LICENSING_DOC_LINK = "https://go.devexpress.com/Licensing_Documentation_DevExtremeJQuery.aspx";
+            exports.LICENSING_DOC_LINK = "https://www.devexpress.com/go/Licensing_Documentation_DevExpress_JQuery.aspx";
             exports.LICENSE_KEY_PLACEHOLDER = "/* ___$$$$$___devextreme___lcp___placeholder____$$$$$ */";
             const NBSP = exports.NBSP = "\xa0";
             exports.SUBSCRIPTION_NAMES = `Universal, DXperience, ASP.NET${NBSP}and${NBSP}Blazor, DevExtreme${NBSP}Complete`
@@ -4350,12 +4350,11 @@
             Object.defineProperty(exports, "__esModule", {
                 value: true
             });
-            exports.PUBLIC_KEY = exports.INTERNAL_USAGE_ID = void 0;
+            exports.PUBLIC_KEY = void 0;
             exports.PUBLIC_KEY = {
                 e: 65537,
                 n: new Uint8Array([200, 219, 153, 203, 140, 7, 228, 253, 193, 243, 62, 137, 139, 60, 68, 242, 48, 142, 113, 88, 185, 235, 253, 105, 80, 74, 32, 170, 96, 74, 111, 250, 7, 205, 154, 3, 146, 115, 153, 53, 45, 132, 123, 56, 61, 208, 184, 201, 63, 24, 109, 223, 0, 179, 169, 102, 139, 224, 73, 233, 45, 173, 138, 66, 98, 88, 69, 76, 177, 111, 113, 218, 192, 33, 101, 152, 25, 134, 34, 173, 32, 82, 230, 44, 247, 200, 253, 170, 192, 246, 30, 12, 96, 205, 100, 249, 181, 93, 0, 231])
-            };
-            exports.INTERNAL_USAGE_ID = "Z1vs8j7zEaLzQ0kO4zM2Kz"
+            }
         },
         61395(__unused_webpack_module, exports) {
             Object.defineProperty(exports, "__esModule", {
@@ -4419,14 +4418,6 @@
                     const maxVersionAllowed = (0, _license_info.findLatestDevExtremeVersion)({
                         products: products
                     });
-                    if (!maxVersionAllowed) {
-                        const maxExpiration = (0, _license_info.getMaxExpiration)({
-                            products: products
-                        });
-                        if (maxExpiration !== 1 / 0 && maxExpiration < Date.now()) {
-                            return _types.TRIAL_EXPIRED_ERROR
-                        }
-                    }
                     if (!maxVersionAllowed) {
                         return _types.PRODUCT_KIND_ERROR
                     }
@@ -4510,7 +4501,7 @@
             exports.ProductKind = void 0;
             var _utils = __webpack_require__( /*! ./utils */ 80993);
             const productKind = {
-                Default: 0n,
+                Default: BigInt(0),
                 DXperienceWin: (0, _utils.bit)(0),
                 XtraReports: (0, _utils.bit)(4),
                 XPO: (0, _utils.bit)(15),
@@ -4542,10 +4533,10 @@
             exports.bit = void 0;
             exports.dotNetTicksToMs = function(ticksStr) {
                 const ticks = BigInt(ticksStr);
-                if (ticks >= 3155378975999999999n) {
+                if (ticks >= DOT_NET_MAX_VALUE_TICKS) {
                     return 1 / 0
                 }
-                return Number((ticks - 621355968000000000n) / 10000n)
+                return Number((ticks - DOT_NET_TICKS_EPOCH_OFFSET) / DOT_NET_TICKS_PER_MS)
             };
             exports.verifyHash = exports.shiftText = exports.shiftDecodeText = exports.parseRsaXml = exports.encodeString = void 0;
             var _byte_utils = __webpack_require__( /*! ../byte_utils */ 22692);
@@ -4553,7 +4544,7 @@
             var _rsa_bigint = __webpack_require__( /*! ../rsa_bigint */ 42752);
             var _sha = __webpack_require__( /*! ../sha1 */ 94281);
             var _const = __webpack_require__( /*! ./const */ 61395);
-            exports.bit = shift => 1n << BigInt(shift);
+            exports.bit = shift => BigInt(1) << BigInt(shift);
             const parseRsaXml = xml => {
                 const modulusMatch = /<Modulus>([^<]+)<\/Modulus>/.exec(xml);
                 const exponentMatch = /<Exponent>([^<]+)<\/Exponent>/.exec(xml);
@@ -4584,6 +4575,9 @@
             };
             exports.shiftText = shiftText;
             exports.shiftDecodeText = text => shiftText(text, _const.DECODE_MAP);
+            const DOT_NET_TICKS_EPOCH_OFFSET = BigInt("621355968000000000");
+            const DOT_NET_TICKS_PER_MS = BigInt(1e4);
+            const DOT_NET_MAX_VALUE_TICKS = BigInt("3155378975999999999");
             exports.verifyHash = (xmlKey, data, signature) => {
                 const {
                     modulus: modulus,
@@ -4606,16 +4600,6 @@
                 value: true
             });
             exports.default = void 0;
-            exports.isUnsupportedKeyFormat = function(licenseKey) {
-                if (!licenseKey) {
-                    return false
-                }
-                if (hasLicensePrefix(licenseKey, "LCXv1")) {
-                    _errors.default.log("W0000", "config", "licenseKey", "LCXv1 is specified in the license key");
-                    return true
-                }
-                return false
-            };
             exports.parseLicenseKey = parseLicenseKey;
             exports.peekValidationPerformed = function() {
                 return validationPerformed
@@ -4626,17 +4610,11 @@
             var _errors = _interopRequireDefault(__webpack_require__( /*! ../../../core/errors */ 87129));
             var _version = __webpack_require__( /*! ../../../core/version */ 1956);
             var _version2 = __webpack_require__( /*! ../../utils/version */ 20258);
-            var _byte_utils = __webpack_require__( /*! ./byte_utils */ 22692);
             var _const = __webpack_require__( /*! ./const */ 32153);
-            var _key = __webpack_require__( /*! ./key */ 78157);
             var _lcp_key_validator = __webpack_require__( /*! ./lcp_key_validation/lcp_key_validator */ 82670);
             var _license_warnings = __webpack_require__( /*! ./license_warnings */ 97865);
-            var _pkcs = __webpack_require__( /*! ./pkcs1 */ 1012);
-            var _rsa_bigint = __webpack_require__( /*! ./rsa_bigint */ 42752);
-            var _sha = __webpack_require__( /*! ./sha1 */ 94281);
             var _trial_panel = __webpack_require__( /*! ./trial_panel */ 99671);
             var _types = __webpack_require__( /*! ./types */ 13407);
-            const _excluded = ["customerId", "maxVersionAllowed", "format", "internalUsageId"];
 
             function _interopRequireDefault(e) {
                 return e && e.__esModule ? e : {
@@ -4652,95 +4630,25 @@
                 if ((0, _lcp_key_validator.isProductOnlyLicense)(encodedKey)) {
                     return (0, _lcp_key_validator.parseDevExpressProductKey)(encodedKey)
                 }
-                const parts = encodedKey.split(_const.KEY_SPLITTER);
-                if (2 !== parts.length || 0 === parts[0].length || 0 === parts[1].length) {
-                    return _types.GENERAL_ERROR
-                }
-                if (! function(_ref) {
-                        let {
-                            text: text,
-                            signature: encodedSignature
-                        } = _ref;
-                        return (0, _rsa_bigint.compareSignatures)({
-                            key: _key.PUBLIC_KEY,
-                            signature: (0, _byte_utils.base64ToBytes)(encodedSignature),
-                            actual: (0, _pkcs.pad)((0, _sha.sha1)(text))
-                        })
-                    }({
-                        text: parts[0],
-                        signature: parts[1]
-                    })) {
-                    return _types.VERIFICATION_ERROR
-                }
-                let decodedPayload = "";
-                try {
-                    decodedPayload = atob(parts[0])
-                } catch {
-                    return _types.DECODING_ERROR
-                }
-                let payload = {};
-                try {
-                    payload = JSON.parse(decodedPayload)
-                } catch {
-                    return _types.DESERIALIZATION_ERROR
-                }
-                const {
-                    customerId: customerId,
-                    maxVersionAllowed: maxVersionAllowed,
-                    format: format,
-                    internalUsageId: internalUsageId
-                } = payload, rest = function(r, e) {
-                    if (null == r) {
-                        return {}
-                    }
-                    var t = {};
-                    for (var n in r) {
-                        if ({}.hasOwnProperty.call(r, n)) {
-                            if (-1 !== e.indexOf(n)) {
-                                continue
-                            }
-                            t[n] = r[n]
-                        }
-                    }
-                    return t
-                }(payload, _excluded);
-                if (void 0 !== internalUsageId) {
-                    return {
-                        kind: _types.TokenKind.internal,
-                        internalUsageId: internalUsageId
-                    }
-                }
-                if (void 0 === customerId || void 0 === maxVersionAllowed || void 0 === format) {
-                    return _types.PAYLOAD_ERROR
-                }
-                if (format !== _const.FORMAT) {
-                    return _types.VERSION_ERROR
-                }
-                return {
-                    kind: _types.TokenKind.verified,
-                    payload: Object.assign({
-                        customerId: customerId,
-                        maxVersionAllowed: maxVersionAllowed
-                    }, rest)
-                }
+                return _types.GENERAL_ERROR
             }
 
             function hasLicensePrefix(licenseKey, prefix) {
                 return licenseKey.trim().startsWith(prefix)
             }
 
-            function getLicenseCheckParams(_ref2) {
+            function getLicenseCheckParams(_ref) {
                 let {
                     licenseKey: licenseKey,
                     version: version
-                } = _ref2;
+                } = _ref;
                 let preview = false;
                 try {
                     preview = (patch = version.patch, isNaN(patch) || patch < _const.RTM_MIN_PATCH_VERSION);
                     const {
                         major: major,
                         minor: minor
-                    } = preview ? (0, _version2.getPreviousMajorVersion)(version) : version;
+                    } = version;
                     if (!licenseKey || licenseKey === _const.LICENSE_KEY_PLACEHOLDER) {
                         return {
                             preview: preview,
@@ -4755,6 +4663,13 @@
                             warningType: "lcx-used"
                         }
                     }
+                    if (hasLicensePrefix(licenseKey, "ewog")) {
+                        return {
+                            preview: preview,
+                            error: "W0021",
+                            warningType: "old-devextreme-key"
+                        }
+                    }
                     const license = parseLicenseKey(licenseKey);
                     if (license.kind === _types.TokenKind.corrupted) {
                         if ("product-kind" === license.error) {
@@ -4764,24 +4679,17 @@
                                 warningType: "no-devextreme-license"
                             }
                         }
-                        if ("trial-expired" === license.error) {
-                            return {
-                                preview: preview,
-                                error: "W0020",
-                                warningType: "trial-expired"
-                            }
-                        }
                         return {
                             preview: preview,
                             error: "W0021",
                             warningType: "invalid-key"
                         }
                     }
-                    if (license.kind === _types.TokenKind.internal) {
+                    if (license.kind !== _types.TokenKind.verified) {
                         return {
                             preview: preview,
-                            internal: true,
-                            error: license.internalUsageId === _key.INTERNAL_USAGE_ID ? void 0 : "W0020"
+                            error: "W0021",
+                            warningType: "invalid-key"
                         }
                     }
                     if (!(major && minor)) {
@@ -4820,9 +4728,8 @@
                 }
                 validationPerformed = true;
                 const version = (0, _version2.parseVersion)(versionStr);
-                const versionsCompatible = (0, _version2.assertedVersionsCompatible)(version);
+                (0, _version2.assertedVersionsCompatible)(version);
                 const {
-                    internal: internal,
                     error: error,
                     warningType: warningType,
                     maxVersionAllowed: maxVersionAllowed
@@ -4830,10 +4737,7 @@
                     licenseKey: licenseKey,
                     version: version
                 });
-                if (!versionsCompatible && internal) {
-                    return
-                }
-                if (error && !internal) {
+                if (error) {
                     ! function() {
                         const buyNowLink = (0, _config.default)().buyNowLink ?? _const.BUY_NOW_LINK;
                         const licensingDocLink = (0, _config.default)().licensingDocLink ?? _const.LICENSING_DOC_LINK;
@@ -4868,32 +4772,39 @@
                 const warnings = [
                     [purchaseLine]
                 ];
+                const pushToLastGroup = function() {
+                    const lastGroup = warnings[warnings.length - 1];
+                    for (var _len = arguments.length, items = new Array(_len), _key = 0; _key < _len; _key++) {
+                        items[_key] = arguments[_key]
+                    }
+                    const notEmptyItems = items.filter(item => !!item);
+                    if (1 === lastGroup.length) {
+                        lastGroup.push("", ...notEmptyItems)
+                    } else {
+                        lastGroup.push(...notEmptyItems)
+                    }
+                };
                 switch (warningType) {
                     case "no-key":
-                        warnings[warnings.length - 1].push(T.keyNotFound);
+                        pushToLastGroup(T.keyNotFound);
                         warnings.push([installLine]);
                         break;
                     case "invalid-key":
-                        warnings[warnings.length - 1].push(T.keyVerificationFailed());
+                        pushToLastGroup(T.keyVerificationFailed());
                         warnings.push([installLine]);
                         break;
                     case "lcx-used":
-                        warnings[warnings.length - 1].push(T.keyVerificationFailed(), T.lcxUsedInsteadOfLcp);
+                        pushToLastGroup(T.keyVerificationFailed(), T.lcxUsedInsteadOfLcp);
                         warnings.push([installLine]);
                         break;
                     case "old-devextreme-key":
-                        warnings[warnings.length - 1].push(T.keyVerificationFailed(), T.oldDevExtremeKey);
+                        pushToLastGroup(T.keyVerificationFailed(), T.oldDevExtremeKey);
                         warnings.push([installLine]);
                         break;
                     case "version-mismatch": {
                         const incompatibleLine = `${T.warningPrefix("W0020")} ${T.keyVerificationFailed("incompatibleVersion",null===versionInfo||void 0===versionInfo?void 0:versionInfo.keyVersion,null===versionInfo||void 0===versionInfo?void 0:versionInfo.requiredVersion)}`;
-                        warnings[warnings.length - 1].push(T.keyVerificationFailed());
+                        pushToLastGroup(T.keyVerificationFailed());
                         warnings.push([incompatibleLine]);
-                        break
-                    }
-                    case "trial-expired": {
-                        const expiredLine = `${T.warningPrefix("W0020")} ${T.keyVerificationFailed("trialExpired")}`;
-                        warnings.push([expiredLine]);
                         break
                     }
                 }
@@ -4906,7 +4817,7 @@
                     let warningDescription = "";
                     switch (code) {
                         case "W0019":
-                            warningDescription = "DevExtreme: You are using a trial (evaluation) version of DevExtreme.";
+                            warningDescription = "DevExtreme: You are using a trial (evaluation) version.";
                             break;
                         case "W0020":
                             warningDescription = "DevExtreme: License Key Has Expired.";
@@ -4933,13 +4844,10 @@
                     }
                 },
                 keyVerificationFailed: (type, keyVersion, requiredVersion) => {
-                    switch (type) {
-                        case "incompatibleVersion":
-                            return `Incompatible DevExpress license key version (v${keyVersion}). Download and register an updated DevExpress license key (v${requiredVersion}+). Clear npm/IDE/NuGet cache and rebuild your project (https://devexpress.com/DX1002).`;
-                        case "trialExpired":
-                            return "Your DevExpress trial period has expired. Purchase a license to continue using DevExpress product libraries.";
-                        default:
-                            return "License key verification has failed."
+                    if ("incompatibleVersion" === type) {
+                        return `Incompatible DevExpress license key version (v${keyVersion}). Download and register an updated DevExpress license key (v${requiredVersion}+). Clear npm/IDE/NuGet cache and rebuild your project (https://devexpress.com/DX1002).`
+                    } else {
+                        return ""
                     }
                 },
                 purchaseLicense: "Please register an existing license (https://devexpress.com/DX1000) or purchase a new license (https://devexpress.com/Buy/) to continue use of the following DevExpress product libraries: DevExtreme - Included in Subscriptions: Universal, DXperience, ASP.NET and Blazor, DevExtreme Complete.",
@@ -5321,12 +5229,11 @@
             Object.defineProperty(exports, "__esModule", {
                 value: true
             });
-            exports.VERSION_ERROR = exports.VERIFICATION_ERROR = exports.TokenKind = exports.TRIAL_EXPIRED_ERROR = exports.PRODUCT_KIND_ERROR = exports.PAYLOAD_ERROR = exports.GENERAL_ERROR = exports.DESERIALIZATION_ERROR = exports.DECODING_ERROR = void 0;
+            exports.VERSION_ERROR = exports.VERIFICATION_ERROR = exports.TokenKind = exports.PRODUCT_KIND_ERROR = exports.PAYLOAD_ERROR = exports.GENERAL_ERROR = exports.DESERIALIZATION_ERROR = exports.DECODING_ERROR = void 0;
             var TokenKind;
             ! function(TokenKind) {
                 TokenKind.corrupted = "corrupted";
-                TokenKind.verified = "verified";
-                TokenKind.internal = "internal"
+                TokenKind.verified = "verified"
             }(TokenKind || (exports.TokenKind = TokenKind = {}));
             exports.GENERAL_ERROR = {
                 kind: TokenKind.corrupted,
@@ -5355,10 +5262,6 @@
             exports.PRODUCT_KIND_ERROR = {
                 kind: TokenKind.corrupted,
                 error: "product-kind"
-            };
-            exports.TRIAL_EXPIRED_ERROR = {
-                kind: TokenKind.corrupted,
-                error: "trial-expired"
             }
         },
         85601(__unused_webpack_module, exports, __webpack_require__) {
@@ -14251,6 +14154,7 @@
             var _date4 = __webpack_require__( /*! ../../core/localization/ldml/date.parser */ 86743);
             var _number = _interopRequireDefault(__webpack_require__( /*! ../../core/localization/number */ 60605));
             var _m_errors = _interopRequireDefault(__webpack_require__( /*! ../../core/m_errors */ 5583));
+            var _m_global_format_config = __webpack_require__( /*! ../../core/m_global_format_config */ 95214);
             var _m_dependency_injector = __webpack_require__( /*! ../../core/utils/m_dependency_injector */ 62142);
             var _m_iterator = __webpack_require__( /*! ../../core/utils/m_iterator */ 26044);
             var _m_type = __webpack_require__( /*! ../../core/utils/m_type */ 39918);
@@ -14297,6 +14201,20 @@
                 _getPatternByFormat: format => FORMATS_TO_PATTERN_MAP[format.toLowerCase()],
                 _expandPattern(pattern) {
                     return this._getPatternByFormat(pattern) || pattern
+                },
+                _resolveStringFormat(format, date) {
+                    const presetOverride = (0, _m_global_format_config.resolvePresetOverride)(format);
+                    if (void 0 === presetOverride) {
+                        return
+                    }
+                    if ("function" === typeof presetOverride) {
+                        return presetOverride(date)
+                    }
+                    if ((0, _m_type.isString)(presetOverride)) {
+                        const pattern = FORMATS_TO_PATTERN_MAP[presetOverride.toLowerCase()] || presetOverride;
+                        return _number.default.convertDigits((0, _date3.getFormatter)(pattern, this)(date))
+                    }
+                    return
                 },
                 formatUsesMonthName(format) {
                     return -1 !== this._expandPattern(format).indexOf("MMMM")
@@ -14348,6 +14266,10 @@
                     } else {
                         format = format.type ?? format;
                         if ((0, _m_type.isString)(format)) {
+                            const resolvedFormat = this._resolveStringFormat(format, date);
+                            if (void 0 !== resolvedFormat) {
+                                return resolvedFormat
+                            }
                             format = FORMATS_TO_PATTERN_MAP[format.toLowerCase()] || format;
                             return _number.default.convertDigits((0, _date3.getFormatter)(format, this)(date))
                         }
@@ -14528,6 +14450,23 @@
                     "dxForm-submitButtonText": "Submit",
                     "dxNumberBox-invalidValueMessage": "Value must be a number",
                     "dxNumberBox-noDataText": "No data",
+                    "dxDataGrid-aiAssistantTitle": "AI Assistant",
+                    "dxDataGrid-aiAssistantProcessingMessageHeader": "Request in progress",
+                    "dxDataGrid-aiAssistantProcessingMessage": "Processing...",
+                    "dxDataGrid-aiAssistantErrorMessageHeader": "Failed to process request",
+                    "dxDataGrid-aiAssistantAbortMessage": "Request stopped.",
+                    "dxDataGrid-aiAssistantSuccessMessage": "Success",
+                    "dxDataGrid-aiAssistantErrorMessage": "Error",
+                    "dxDataGrid-aiAssistantExecutionAbortMessage": "Execution Interrupted",
+                    "dxDataGrid-aiAssistantExecutionInProgressMessage": "Execution already in progress. Please wait.",
+                    "dxDataGrid-aiAssistantRequestInProgressMessage": "Request already in progress. Please wait.",
+                    "dxDataGrid-aiAssistantUnexpectedErrorMessage": "An unexpected error occurred. Please try again.",
+                    "dxDataGrid-aiAssistantInvalidResponseMessage": "Invalid response from the AI service. Please try again.",
+                    "dxDataGrid-aiAssistantClearButtonText": "Clear",
+                    "dxDataGrid-aiAssistantRegenerateButtonText": "Regenerate",
+                    "dxDataGrid-aiAssistantAbortConfirmText": "Closing the AI Assistant chat aborts requests in progress. Would you like to close the chat?",
+                    "dxDataGrid-aiAChatEmptyViewMessage": "Chat is Empty",
+                    "dxDataGrid-aiChatEmptyViewPrompt": "AI Assistant is ready to answer your questions.",
                     "dxDataGrid-aiPromptEditorTitle": "AI Prompt Editor",
                     "dxDataGrid-aiPromptEditorPlaceholder": "Prompt AI to generate column values...",
                     "dxDataGrid-aiPromptEditorApplyButton": "Apply",
@@ -14687,8 +14626,10 @@
                     "dxScheduler-ariaLabel": "Scheduler. {0} view: {1} with {2} appointments",
                     "dxScheduler-ariaLabel-currentIndicator-present": "The current time indicator is visible in the view",
                     "dxScheduler-ariaLabel-currentIndicator-not-present": "The current time indicator is not visible on the screen",
-                    "dxScheduler-appointmentAriaLabel-group": "Group: {0}",
+                    "dxScheduler-appointmentAriaDescription-group": "Group: {0}",
                     "dxScheduler-appointmentAriaLabel-recurring": "Recurring appointment",
+                    "dxScheduler-hotkeysAriaDescription-delete": "Press Delete to delete this appointment",
+                    "dxScheduler-hotkeysAriaDescription-homeEnd": "Press Home or End to quickly navigate to the first or last appointment",
                     "dxScheduler-appointmentListAriaLabel": "Appointment list",
                     "dxScheduler-newPopupTitle": "New Appointment",
                     "dxScheduler-editPopupTitle": "Edit Appointment",
@@ -15389,6 +15330,7 @@
             __webpack_require__( /*! ../../../core/localization/globalize/number */ 19377);
             __webpack_require__( /*! globalize/date */ 87626);
             var _date2 = _interopRequireDefault(__webpack_require__( /*! ../../../core/localization/date */ 45508));
+            var _m_global_format_config = __webpack_require__( /*! ../../../core/m_global_format_config */ 95214);
             var iteratorUtils = function(e, t) {
                 if ("function" == typeof WeakMap) {
                     var r = new WeakMap,
@@ -15547,6 +15489,18 @@
                         }
                         format = format.type ?? format;
                         if ("string" === typeof format) {
+                            const presetOverride = (0, _m_global_format_config.resolvePresetOverride)(format);
+                            if (void 0 !== presetOverride) {
+                                if ("function" === typeof presetOverride) {
+                                    return presetOverride(date)
+                                }
+                                if ("string" === typeof presetOverride) {
+                                    format = presetOverride
+                                } else if ((0, _m_type.isObject)(presetOverride) && this._isAcceptableFormat(presetOverride)) {
+                                    formatter = _globalize.default.dateFormatter(presetOverride);
+                                    return this.removeRtlMarks(formatter(date))
+                                }
+                            }
                             formatCacheKey = `${_globalize.default.locale().locale}:${format}`;
                             formatter = formattersCache[formatCacheKey];
                             if (!formatter) {
@@ -15787,6 +15741,7 @@
                 default: e
             });
             var e;
+            var _m_global_format_config = __webpack_require__( /*! ../../../core/m_global_format_config */ 95214);
             var _m_extend = __webpack_require__( /*! ../../../core/utils/m_extend */ 96298);
             const SYMBOLS_TO_REMOVE_REGEX = /[\u200E\u200F]/g;
             const NARROW_NO_BREAK_SPACE_REGEX = /[\u202F]/g;
@@ -15982,6 +15937,15 @@
                     if ("function" !== typeof format && !format.formatter) {
                         format = format.type ?? format
                     }
+                    if ("string" === typeof format) {
+                        const presetOverride = (0, _m_global_format_config.resolvePresetOverride)(format);
+                        if (void 0 !== presetOverride) {
+                            if ("function" === typeof presetOverride) {
+                                return presetOverride(date)
+                            }
+                            format = presetOverride
+                        }
+                    }
                     const intlFormat = (format => "string" === typeof format && intlFormats[format.toLowerCase()])(format);
                     if (intlFormat) {
                         return getIntlFormatter(intlFormat)(date)
@@ -16100,6 +16064,7 @@
             var _accounting_formats = _interopRequireDefault(__webpack_require__( /*! ../../../core/localization/cldr-data/accounting_formats */ 35227));
             var _core = _interopRequireDefault(__webpack_require__( /*! ../../../core/localization/core */ 55407));
             var _open_xml_currency_format = _interopRequireDefault(__webpack_require__( /*! ../../../core/localization/open_xml_currency_format */ 69170));
+            var _m_global_format_config = __webpack_require__( /*! ../../../core/m_global_format_config */ 95214);
 
             function _interopRequireDefault(e) {
                 return e && e.__esModule ? e : {
@@ -16165,6 +16130,10 @@
                 format(value, format) {
                     if ("number" !== typeof value) {
                         return value
+                    }
+                    const globalNumberFormat = (0, _m_global_format_config.getGlobalFormatByDataType)("number");
+                    if (!format && globalNumberFormat) {
+                        format = globalNumberFormat
                     }
                     format = this._normalizeFormat(format);
                     if ("default" === format.currency) {
@@ -17471,6 +17440,7 @@
             var _number = _interopRequireDefault(__webpack_require__( /*! ../../core/localization/intl/number */ 40791));
             var _number2 = __webpack_require__( /*! ../../core/localization/ldml/number */ 63249);
             var _utils = __webpack_require__( /*! ../../core/localization/utils */ 82475);
+            var _m_global_format_config = __webpack_require__( /*! ../../core/m_global_format_config */ 95214);
             var _m_common = __webpack_require__( /*! ../../core/utils/m_common */ 39315);
             var _m_dependency_injector = __webpack_require__( /*! ../../core/utils/m_dependency_injector */ 62142);
             var _m_iterator = __webpack_require__( /*! ../../core/utils/m_iterator */ 26044);
@@ -17685,6 +17655,10 @@
                     }
                     if ("number" === typeof format) {
                         return value
+                    }
+                    const globalNumberFormat = (0, _m_global_format_config.getGlobalFormatByDataType)("number");
+                    if (!format && globalNumberFormat) {
+                        format = globalNumberFormat
                     }
                     format = (null === (_format = format) || void 0 === _format ? void 0 : _format.formatter) || format;
                     if ("function" === typeof format) {
@@ -18209,6 +18183,11 @@
                 useLegacyVisibleIndex: false,
                 versionAssertions: [],
                 copyStylesToShadowDom: true,
+                dateFormat: void 0,
+                timeFormat: void 0,
+                dateTimeFormat: void 0,
+                numberFormat: void 0,
+                dateTimeFormatPresets: void 0,
                 licenseKey: "/* ___$$$$$___devextreme___lcp___placeholder____$$$$$ */",
                 floatingActionButtonConfig: {
                     icon: "add",
@@ -18901,9 +18880,7 @@
                 W0019: "DevExtreme: Unable to Locate a Valid License Key.\n\nDetailed license/registration related information and instructions: https://js.devexpress.com/Documentation/Licensing/.\n\nIf you are using a 30-day trial version of DevExtreme, you must uninstall all copies of DevExtreme once your 30-day trial period expires. For terms and conditions that govern use of DevExtreme UI components/libraries, please refer to the DevExtreme End User License Agreement: https://js.devexpress.com/EULAs/DevExtremeComplete.\n\nTo use DevExtreme in a commercial project, you must purchase a license. For pricing/licensing options, please visit: https://js.devexpress.com/Buy.\n\nIf you have licensing-related questions or need help with a purchase, please email clientservices@devexpress.com.\n\n",
                 W0020: "DevExtreme: License Key Has Expired.\n\nDetailed license/registration related information and instructions: https://js.devexpress.com/Documentation/Licensing/.\n\nA mismatch exists between the license key used and the DevExtreme version referenced in this project.\n\nTo proceed, you can:\n\u2022 use a version of DevExtreme linked to your license key: https://www.devexpress.com/ClientCenter/DownloadManager\n\u2022 renew your DevExpress Subscription: https://www.devexpress.com/buy/renew (once you renew your subscription, you will be entitled to product updates and support service as defined in the DevExtreme End User License Agreement)\n\nIf you have licensing-related questions or need help with a renewal, please email clientservices@devexpress.com.\n\n",
                 W0021: "DevExtreme: License Key Verification Has Failed.\n\nDetailed license/registration related information and instructions: https://js.devexpress.com/Documentation/Licensing/.\n\nTo verify your DevExtreme license, make certain to specify a correct key in the GlobalConfig. If you continue to encounter this error, please visit https://www.devexpress.com/ClientCenter/DownloadManager to obtain a valid license key.\n\nIf you have a valid license and this problem persists, please submit a support ticket via the DevExpress Support Center. We will be happy to follow-up: https://supportcenter.devexpress.com/ticket/create.\n\n",
-                W0022: "DevExtreme: Pre-release software. Not suitable for commercial use.\n\nDetailed license/registration related information and instructions: https://js.devexpress.com/Documentation/Licensing/.\n\nPre-release software may contain deficiencies and as such, should not be considered for use or integrated in any mission critical application.\n\n",
-                W0023: "DevExtreme: the following 'devextreme' package version does not match versions of other DevExpress products used in this application:\n\n{0}\n\nInteroperability between different versions of the products listed herein cannot be guaranteed.\n\n",
-                W0024: "DevExtreme: Use Your DevExtreme License Key - Not Your DevExpress .NET License Key\n\nInvalid/incorrect license key. You used your DevExpress .NET license key instead of your DevExtreme (React, Angular, Vue, JS) license key. Please copy your DevExtreme license key and try again. \n\nGo to https://www.devexpress.com/ClientCenter/DownloadManager (navigate to the DevExtreme Subscription section) to obtain a valid DevExtreme license key. To validate your license, specify the correct key within GlobalConfig.\n\nFor detailed license/registration information, visit https://js.devexpress.com/Documentation/Licensing/.\n\nIf you have a valid license and the issue persists, submit a support ticket via the DevExpress Support Center. We will be happy to follow-up: https://supportcenter.devexpress.com/ticket/create.\n\n"
+                W0023: "DevExtreme: the following 'devextreme' package version does not match versions of other DevExpress products used in this application:\n\n{0}\n\nInteroperability between different versions of the products listed herein cannot be guaranteed.\n\n"
             })
         },
         14201(__unused_webpack_module, exports, __webpack_require__) {
@@ -18976,6 +18953,86 @@
                 }
             }
             exports.EventsStrategy = EventsStrategy
+        },
+        95214(__unused_webpack_module, exports, __webpack_require__) {
+            Object.defineProperty(exports, "__esModule", {
+                value: true
+            });
+            exports.resolvePresetOverride = exports.getGlobalFormatByDataType = exports.default = void 0;
+            var _config = _interopRequireDefault(__webpack_require__( /*! ../../core/config */ 66636));
+            var _core = _interopRequireDefault(__webpack_require__( /*! ../../common/core/localization/core */ 84109));
+            var _parent_locales = _interopRequireDefault(__webpack_require__( /*! ../core/localization/cldr-data/parent_locales */ 63377));
+            var _parentLocale = _interopRequireDefault(__webpack_require__( /*! ../core/localization/parentLocale */ 32286));
+            var _type = __webpack_require__( /*! ../../core/utils/type */ 11528);
+
+            function _interopRequireDefault(e) {
+                return e && e.__esModule ? e : {
+                    default: e
+                }
+            }
+            const hasOwn = Object.prototype.hasOwnProperty;
+            const resolveConfigValue = value => {
+                if (void 0 === value) {
+                    return
+                }
+                if ((0, _type.isString)(value) || (0, _type.isFunction)(value)) {
+                    return value
+                }
+                if ((0, _type.isPlainObject)(value)) {
+                    return (localeMap => {
+                        let currentLocale = _core.default.locale();
+                        while (currentLocale) {
+                            if (hasOwn.call(localeMap, currentLocale) && void 0 !== localeMap[currentLocale]) {
+                                return localeMap[currentLocale]
+                            }
+                            currentLocale = (0, _parentLocale.default)(_parent_locales.default, currentLocale)
+                        }
+                        if (hasOwn.call(localeMap, "default")) {
+                            return localeMap.default
+                        }
+                        return
+                    })(value)
+                }
+                return
+            };
+            const resolveGlobalFormat = optionName => {
+                const optionValue = (0, _config.default)()[optionName];
+                return resolveConfigValue(optionValue)
+            };
+            const getGlobalFormatByDataType = dataType => {
+                switch (dataType) {
+                    case "date":
+                        return resolveGlobalFormat("dateFormat");
+                    case "datetime":
+                        return resolveGlobalFormat("dateTimeFormat");
+                    case "time":
+                        return resolveGlobalFormat("timeFormat");
+                    case "number":
+                        return resolveGlobalFormat("numberFormat");
+                    default:
+                        return
+                }
+            };
+            exports.getGlobalFormatByDataType = getGlobalFormatByDataType;
+            const resolvePresetOverride = presetName => {
+                const presets = (0, _config.default)().dateTimeFormatPresets;
+                if (!presets || !(0, _type.isPlainObject)(presets)) {
+                    return
+                }
+                const lowerName = presetName.toLowerCase();
+                const keys = Object.keys(presets);
+                for (let i = 0; i < keys.length; i++) {
+                    if (keys[i].toLowerCase() === lowerName) {
+                        return resolveConfigValue(presets[keys[i]])
+                    }
+                }
+                return
+            };
+            exports.resolvePresetOverride = resolvePresetOverride;
+            exports.default = {
+                getGlobalFormatByDataType: getGlobalFormatByDataType,
+                resolvePresetOverride: resolvePresetOverride
+            }
         },
         7201(__unused_webpack_module, exports, __webpack_require__) {
             Object.defineProperty(exports, "__esModule", {
@@ -24968,6 +25025,10 @@
                 let prevValue;
                 let newValue;
                 const assignFunc = useNewAssign ? newAssign : legacyAssign;
+                if (value = changes, "undefined" !== typeof Blob && value instanceof Blob) {
+                    return changes
+                }
+                var value;
                 for (const name in changes) {
                     prevValue = target[name];
                     newValue = changes[name];
@@ -30886,7 +30947,7 @@
                     notcontains: createStringFuncFormatter("not contains")
                 });
                 const compileBinary = criteria => {
-                    var _fieldTypes;
+                    var _fieldTypes, _fieldTypes2;
                     criteria = (0, _m_utils.normalizeBinaryCriterion)(criteria);
                     const op = criteria[1];
                     const fieldName = criteria[0];
@@ -30904,7 +30965,7 @@
                     if (null !== (_fieldTypes = fieldTypes) && void 0 !== _fieldTypes && _fieldTypes[fieldName]) {
                         value = (0, _m_utils2.convertPrimitiveValue)(fieldTypes[fieldName], value)
                     }
-                    return formatter((0, _m_utils2.serializePropName)(fieldName), (0, _m_utils2.serializeValue)(value, protocolVersion))
+                    return formatter((0, _m_utils2.serializePropName)(fieldName), (0, _m_utils2.serializeValue)(value, protocolVersion, null === (_fieldTypes2 = fieldTypes) || void 0 === _fieldTypes2 ? void 0 : _fieldTypes2[fieldName]))
                 };
                 const compileGroup = criteria => {
                     const bag = [];
@@ -31028,7 +31089,7 @@
                         jsonp: queryOptions.jsonp,
                         withCredentials: queryOptions.withCredentials,
                         countOnly: _countQuery,
-                        deserializeDates: queryOptions.deserializeDates,
+                        processDatesAsUtc: queryOptions.processDatesAsUtc,
                         fieldTypes: queryOptions.fieldTypes,
                         isPaged: isFinite(_take)
                     }),
@@ -31105,7 +31166,7 @@
                     this._jsonp = options.jsonp;
                     this._version = options.version || 4;
                     this._withCredentials = options.withCredentials;
-                    this._deserializeDates = options.deserializeDates;
+                    this._processDatesAsUtc = options.processDatesAsUtc ?? options.deserializeDates ?? false;
                     this._filterToLower = options.filterToLower
                 }
                 sendRequest(url, method, params, payload) {
@@ -31118,7 +31179,7 @@
                         beforeSend: this._beforeSend,
                         jsonp: this._jsonp,
                         withCredentials: this._withCredentials,
-                        deserializeDates: this._deserializeDates
+                        processDatesAsUtc: this._processDatesAsUtc
                     })
                 }
                 get version() {
@@ -31224,7 +31285,7 @@
                         withCredentials: this._requestDispatcher._withCredentials,
                         expand: null === loadOptions || void 0 === loadOptions ? void 0 : loadOptions.expand,
                         requireTotalCount: null === loadOptions || void 0 === loadOptions ? void 0 : loadOptions.requireTotalCount,
-                        deserializeDates: this._requestDispatcher._deserializeDates,
+                        processDatesAsUtc: this._requestDispatcher._processDatesAsUtc,
                         fieldTypes: this._fieldTypes
                     };
                     url = (null === loadOptions || void 0 === loadOptions ? void 0 : loadOptions.urlOverride) ?? this._requestDispatcher.url;
@@ -31345,7 +31406,7 @@
             };
             const sendRequest = (protocolVersion, request, options) => {
                 const {
-                    deserializeDates: deserializeDates,
+                    processDatesAsUtc: processDatesAsUtc,
                     fieldTypes: fieldTypes,
                     countOnly: countOnly,
                     isPaged: isPaged
@@ -31431,7 +31492,7 @@
                 }(protocolVersion, request, options);
                 _ajax.default.sendRequest(ajaxOptions).always((obj, textStatus) => {
                     const transformOptions = {
-                        deserializeDates: deserializeDates,
+                        processDatesAsUtc: processDatesAsUtc,
                         fieldTypes: fieldTypes
                     };
                     const tuple = interpretJsonFormat(obj, textStatus, transformOptions, ajaxOptions);
@@ -31601,13 +31662,13 @@
                     } else if ("string" === typeof value) {
                         const {
                             fieldTypes: fieldTypes,
-                            deserializeDates: deserializeDates
+                            processDatesAsUtc: processDatesAsUtc
                         } = options;
                         const canBeGuid = !fieldTypes || "String" !== fieldTypes[key];
                         if (canBeGuid && GUID_REGEX.test(value)) {
                             obj[key] = new _guid.default(value)
                         }
-                        if (false !== deserializeDates) {
+                        if (false !== processDatesAsUtc) {
                             if (VERBOSE_DATE_REGEX.exec(value)) {
                                 const date = new Date(Number(RegExp.$1) + 60 * RegExp.$2 * 1e3);
                                 obj[key] = new Date(date.valueOf() + 60 * date.getTimezoneOffset() * 1e3)
@@ -31637,7 +31698,7 @@
             };
             const serializePropName = propName => propName instanceof EdmLiteral ? propName.valueOf() : propName.replace(/\./g, "/");
             exports.serializePropName = serializePropName;
-            const serializeValueV4 = value => {
+            const serializeValueV4 = (value, fieldType) => {
                 if (value instanceof Date) {
                     return formatISO8601(value, false, false)
                 }
@@ -31645,11 +31706,11 @@
                     return value.valueOf()
                 }
                 if (Array.isArray(value)) {
-                    return `[${value.map(item=>serializeValueV4(item)).join(",")}]`
+                    return `[${value.map(item=>serializeValueV4(item,fieldType)).join(",")}]`
                 }
-                return serializeValueV2(value)
+                return serializeValueV2(value, fieldType)
             };
-            const serializeValueV2 = value => {
+            const serializeValueV2 = (value, fieldType) => {
                 if (value instanceof Date) {
                     return date = value, `datetime'${formatISO8601(date,true,true)}'`
                 }
@@ -31660,18 +31721,21 @@
                 if (value instanceof EdmLiteral) {
                     return value.valueOf()
                 }
+                if (fieldType && ["Date", "DateTimeOffset"].includes(fieldType)) {
+                    return value
+                }
                 if ("string" === typeof value) {
                     return (value => `'${value.replace(/'/g,"''")}'`)(value)
                 }
                 return String(value)
             };
-            const serializeValue = (value, protocolVersion) => {
+            const serializeValue = (value, protocolVersion, fieldType) => {
                 switch (protocolVersion) {
                     case 2:
                     case 3:
-                        return serializeValueV2(value);
+                        return serializeValueV2(value, fieldType);
                     case 4:
-                        return serializeValueV4(value);
+                        return serializeValueV4(value, fieldType);
                     default:
                         throw _errors.errors.Error("E4002")
                 }
@@ -31692,7 +31756,9 @@
                 Guid: value => value instanceof _guid.default ? value : new _guid.default(value),
                 Boolean: value => !!value,
                 Single: value => value instanceof EdmLiteral ? value : new EdmLiteral(`${value}f`),
-                Decimal: value => value instanceof EdmLiteral ? value : new EdmLiteral(`${value}m`)
+                Decimal: value => value instanceof EdmLiteral ? value : new EdmLiteral(`${value}m`),
+                DateTimeOffset: value => value,
+                Date: value => value
             };
             exports.convertPrimitiveValue = (type, value) => {
                 if (null === value) {
@@ -32977,7 +33043,8 @@
                     this._handler = void 0
                 },
                 process(e) {
-                    this._handler(createKeyDownOptions(e))
+                    var _this$_handler;
+                    null === (_this$_handler = this._handler) || void 0 === _this$_handler || _this$_handler.call(this, createKeyDownOptions(e))
                 },
                 toggleProcessing(_ref) {
                     let {
@@ -40031,7 +40098,9 @@
                 value: true
             });
             exports.default = void 0;
+            exports.isDateType = isDateType;
             var _events_engine = _interopRequireDefault(__webpack_require__( /*! ../../../common/core/events/core/events_engine */ 92774));
+            var _date = _interopRequireDefault(__webpack_require__( /*! ../../../common/core/localization/date */ 38662));
             var _data_source = _interopRequireDefault(__webpack_require__( /*! ../../../common/data/data_source */ 14479));
             var _utils = __webpack_require__( /*! ../../../common/data/data_source/utils */ 97169);
             var _utils2 = __webpack_require__( /*! ../../../common/data/utils */ 89358);
@@ -40050,6 +40119,7 @@
             var _format_helper = _interopRequireDefault(__webpack_require__( /*! ../../../format_helper */ 2082));
             var _load_panel = _interopRequireDefault(__webpack_require__( /*! ../../../ui/load_panel */ 31876));
             var _filtering = _interopRequireDefault(__webpack_require__( /*! ../../../ui/shared/filtering */ 56417));
+            var _m_global_format_config = __webpack_require__( /*! ../../core/m_global_format_config */ 95214);
             var _m_type = __webpack_require__( /*! ../../core/utils/m_type */ 39918);
             var _const = __webpack_require__( /*! ./ai_column/const */ 92806);
             var _index = __webpack_require__( /*! ./utils/index */ 76097);
@@ -40068,6 +40138,10 @@
                 minute: value => value && value.getMinutes(),
                 second: value => value && value.getSeconds()
             };
+
+            function isDateType(dataType) {
+                return "date" === dataType || "datetime" === dataType
+            }
             const getIntervalSelector = function() {
                 const data = arguments[1];
                 const value = this.calculateCellValue(data);
@@ -40083,10 +40157,16 @@
                     return Math.floor(Number(value) / groupInterval) * groupInterval
                 }
             };
-
-            function isDateType(dataType) {
-                return "date" === dataType || "datetime" === dataType
-            }
+            const getGlobalFormat = dataType => {
+                const globalFormat = (0, _m_global_format_config.getGlobalFormatByDataType)(dataType);
+                if (!globalFormat) {
+                    return
+                }
+                return (0, _type.isString)(globalFormat) ? value => {
+                    const dateValue = value instanceof Date ? value : new Date(value);
+                    return isNaN(dateValue.getTime()) ? "" : _date.default.format(dateValue, globalFormat)
+                } : globalFormat
+            };
             const setEmptyText = function($container) {
                 $container.get(0).textContent = "\xa0"
             };
@@ -40122,9 +40202,9 @@
                 })
             };
             const getWidgetInstance = function($element) {
-                const editorData = $element.data && $element.data();
-                const dxComponents = editorData && editorData.dxComponents;
-                const widgetName = dxComponents && dxComponents[0];
+                const editorData = null === $element || void 0 === $element ? void 0 : $element.data();
+                const dxComponents = null === editorData || void 0 === editorData ? void 0 : editorData.dxComponents;
+                const widgetName = null === dxComponents || void 0 === dxComponents ? void 0 : dxComponents[0];
                 return widgetName && editorData[widgetName]
             };
             const equalFilterParameters = function(filter1, filter2, langParams) {
@@ -40310,9 +40390,9 @@
                 getFormatByDataType(dataType) {
                     switch (dataType) {
                         case "date":
-                            return "shortDate";
+                            return getGlobalFormat("date") || "shortDate";
                         case "datetime":
-                            return "shortDateShortTime";
+                            return getGlobalFormat("datetime") || "shortDateShortTime";
                         default:
                             return
                     }
@@ -42162,7 +42242,7 @@
             function isIntegerBetweenMinAndMax(number, min, max) {
                 min = min || 0;
                 max = max || 255;
-                if (number % 1 !== 0 || number < min || number > max || "number" !== typeof number || isNaN(number)) {
+                if ("number" !== typeof number || number % 1 !== 0 || number < min || number > max || isNaN(number)) {
                     return false
                 }
                 return true
@@ -42538,7 +42618,8 @@
                     }
                 }
                 _stopAnimator() {
-                    this._scrollAnimator.stop()
+                    var _this$_scrollAnimator;
+                    null === (_this$_scrollAnimator = this._scrollAnimator) || void 0 === _this$_scrollAnimator || _this$_scrollAnimator.stop()
                 }
                 _addWidgetPrefix(className) {
                     const componentName = this.NAME;
@@ -43805,10 +43886,13 @@
                     }
                     return validationErrors
                 }
+                _toggleAriaDescribedBy(value) {
+                    this.setAria("describedby", value)
+                }
                 _disposeValidationMessage() {
                     if (this._$validationMessage) {
                         this._$validationMessage.remove();
-                        this.setAria("describedby", null);
+                        this._toggleAriaDescribedBy(null);
                         this._$validationMessage = void 0;
                         this._validationMessage = void 0
                     }
@@ -43839,7 +43923,7 @@
                         } = this.option();
                         this._$validationMessage = (0, _renderer.default)("<div>").appendTo($element);
                         const validationMessageContentId = `dx-${new _guid.default}`;
-                        this.setAria("describedby", validationMessageContentId);
+                        this._toggleAriaDescribedBy(validationMessageContentId);
                         this._validationMessage = new _validation_message.default(this._$validationMessage, (0, _extend.extend)({
                             validationErrors: validationErrors,
                             rtlEnabled: rtlEnabled,
@@ -45608,7 +45692,7 @@
                         ignoreChildEvents: true,
                         _checkParentVisibility: true,
                         _fixWrapperPosition: false,
-                        _loopFocus: false,
+                        tabFocusLoopEnabled: false,
                         _ignorePreventScrollEventsDeprecation: false,
                         hideTopOverlayHandler: () => {
                             this.hide()
@@ -46116,10 +46200,10 @@
                 }
                 _toggleTabTerminator(enabled) {
                     const {
-                        _loopFocus: _loopFocus
+                        tabFocusLoopEnabled: tabFocusLoopEnabled
                     } = this.option();
                     const eventName = (0, _utils.addNamespace)("keydown", this.NAME);
-                    if (_loopFocus || enabled) {
+                    if (tabFocusLoopEnabled || enabled) {
                         _events_engine.default.on(_dom_adapter.default.getDocument(), eventName, this._proxiedTabTerminatorHandler)
                     } else {
                         this._destroyTabTerminator()
@@ -46570,7 +46654,7 @@
                         case "hideOnOutsideClick":
                         case "propagateOutsideClick":
                             break;
-                        case "_loopFocus":
+                        case "tabFocusLoopEnabled":
                         case "shading":
                             this._toggleShading(this._isVisible());
                             this._toggleSafariScrolling();
@@ -46715,8 +46799,8 @@
             var _renderer = _interopRequireDefault(__webpack_require__( /*! ../../../core/renderer */ 64553));
             var _extend = __webpack_require__( /*! ../../../core/utils/extend */ 52576);
             var _type = __webpack_require__( /*! ../../../core/utils/type */ 11528);
-            var _swatch_container = _interopRequireDefault(__webpack_require__( /*! ../../core/utils/swatch_container */ 40954));
             var _m_window = _interopRequireDefault(__webpack_require__( /*! ../../core/utils/m_window */ 14470));
+            var _swatch_container = _interopRequireDefault(__webpack_require__( /*! ../../core/utils/swatch_container */ 40954));
 
             function _interopRequireDefault(e) {
                 return e && e.__esModule ? e : {
@@ -48866,6 +48950,7 @@
             var _size = __webpack_require__( /*! ../../../core/utils/size */ 57653);
             var _type = __webpack_require__( /*! ../../../core/utils/type */ 11528);
             var _window = __webpack_require__( /*! ../../../core/utils/window */ 3104);
+            var _m_console = __webpack_require__( /*! ../../core/utils/m_console */ 35005);
             var _animator = _interopRequireDefault(__webpack_require__( /*! ../../ui/scroll_view/animator */ 68634));
             var _scrollbar = _interopRequireDefault(__webpack_require__( /*! ../../ui/scroll_view/scrollbar */ 73485));
             var _get_adjusted_base_container_size = __webpack_require__( /*! ../../ui/scroll_view/utils/get_adjusted_base_container_size */ 32230);
@@ -49573,10 +49658,14 @@
                     var _this = this;
                     const actionHandler = this._createActionByOption(optionName);
                     return function() {
-                        for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-                            args[_key] = arguments[_key]
+                        try {
+                            for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+                                args[_key] = arguments[_key]
+                            }
+                            actionHandler((0, _extend.extend)(_this._createActionArgs(), args))
+                        } catch (e) {
+                            _m_console.logger.error(e)
                         }
-                        actionHandler((0, _extend.extend)(_this._createActionArgs(), args))
                     }
                 }
                 _createActionArgs() {
@@ -50977,7 +51066,7 @@
                     return f
                 }(e, t)
             }(__webpack_require__( /*! ../../viz/axes/polar_axes */ 3664));
-            var _smart_formatter = __webpack_require__( /*! ../../viz/axes/smart_formatter */ 97154);
+            var _smart_formatter = __webpack_require__( /*! ../../viz/axes/smart_formatter */ 74773);
             var _strip = _interopRequireDefault(__webpack_require__( /*! ../../viz/axes/strip */ 33528));
             var _tick = __webpack_require__( /*! ../../viz/axes/tick */ 33565);
             var _tick_generator = __webpack_require__( /*! ../../viz/axes/tick_generator */ 17323);
@@ -54192,7 +54281,7 @@
                 }
             })
         },
-        97154(__unused_webpack_module, exports, __webpack_require__) {
+        74773(__unused_webpack_module, exports, __webpack_require__) {
             Object.defineProperty(exports, "__esModule", {
                 value: true
             });
@@ -54285,6 +54374,7 @@
             var _math = __webpack_require__( /*! ../../../core/utils/math */ 50254);
             var _type = __webpack_require__( /*! ../../../core/utils/type */ 11528);
             var _format_helper = _interopRequireDefault(__webpack_require__( /*! ../../../format_helper */ 2082));
+            var _m_global_format_config = __webpack_require__( /*! ../../core/m_global_format_config */ 95214);
             var _utils = __webpack_require__( /*! ../../viz/core/utils */ 98013);
 
             function _interopRequireDefault(e) {
@@ -54420,11 +54510,15 @@
                     ticks: ticks
                 } = options;
                 const isLogarithmic = "logarithmic" === options.type;
+                const globalFormatDataType = "datetime" === options.dataType ? "datetime" : "number";
                 if (1 === ticks.length && 0 === ticks.indexOf(tick) && !(0, _type.isDefined)(tickInterval)) {
                     tickInterval = abs(tick) >= 1 ? 1 : (0, _math.adjust)(1 - abs(tick), tick)
                 }
                 if (Object.is(tick, -0)) {
                     tick = 0
+                }
+                if (!(0, _type.isDefined)(format)) {
+                    format = (0, _m_global_format_config.getGlobalFormatByDataType)(globalFormatDataType)
                 }
                 if (!(0, _type.isDefined)(format) && "discrete" !== options.type && tick && (10 === options.logarithmBase || !isLogarithmic)) {
                     if ("datetime" !== options.dataType && (0, _type.isDefined)(tickInterval)) {
@@ -69164,16 +69258,17 @@
                 }
             }
         },
-        12638(__unused_webpack_module, exports) {
+        12638(__unused_webpack_module, exports, __webpack_require__) {
             Object.defineProperty(exports, "__esModule", {
                 value: true
             });
             exports.default = void 0;
-            exports.default = [{
+            var _accent_color_scheme = __webpack_require__( /*! ../../../../viz/core/themes/shared/accent_color_scheme */ 93197);
+            const themes = [{
                 baseThemeName: "material.blue.light",
-                theme: {
+                theme: Object.assign({
                     name: "fluent.blue.light"
-                }
+                }, (0, _accent_color_scheme.getAccentColorScheme)("#0F6CBD"))
             }, {
                 baseThemeName: "fluent.blue.light",
                 theme: {
@@ -69181,9 +69276,9 @@
                 }
             }, {
                 baseThemeName: "fluent.blue.light",
-                theme: {
+                theme: Object.assign({
                     name: "fluent.saas.light"
-                }
+                }, (0, _accent_color_scheme.getAccentColorScheme)("#5486ff"))
             }, {
                 baseThemeName: "fluent.saas.light",
                 theme: {
@@ -69191,9 +69286,9 @@
                 }
             }, {
                 baseThemeName: "material.blue.dark",
-                theme: {
+                theme: Object.assign({
                     name: "fluent.blue.dark"
-                }
+                }, (0, _accent_color_scheme.getAccentColorScheme)("#479EF5"))
             }, {
                 baseThemeName: "fluent.blue.dark",
                 theme: {
@@ -69201,15 +69296,16 @@
                 }
             }, {
                 baseThemeName: "fluent.blue.dark",
-                theme: {
+                theme: Object.assign({
                     name: "fluent.saas.dark"
-                }
+                }, (0, _accent_color_scheme.getAccentColorScheme)("#5492F6"))
             }, {
                 baseThemeName: "fluent.saas.dark",
                 theme: {
                     name: "fluent.saas.dark.compact"
                 }
-            }]
+            }];
+            exports.default = themes
         },
         58208(__unused_webpack_module, exports) {
             Object.defineProperty(exports, "__esModule", {
@@ -72489,11 +72585,12 @@
                 }
             }]
         },
-        55073(__unused_webpack_module, exports) {
+        55073(__unused_webpack_module, exports, __webpack_require__) {
             Object.defineProperty(exports, "__esModule", {
                 value: true
             });
             exports.default = void 0;
+            var _accent_color_scheme = __webpack_require__( /*! ../../../../viz/core/themes/shared/accent_color_scheme */ 93197);
             const FONT_FAMILY = "roboto, 'roboto fallback', helvetica, arial, sans-serif";
             const WHITE = "#ffffff";
             const themes = [{
@@ -72881,55 +72978,40 @@
 
             function getMaterialColorScheme(accentName, themeName, accentColor) {
                 return {
-                    theme: {
-                        name: `material.${accentName}.${themeName}`,
-                        rangeSelector: {
-                            selectedRangeColor: accentColor,
-                            sliderMarker: {
-                                color: accentColor
-                            },
-                            sliderHandle: {
-                                color: accentColor
-                            }
-                        },
-                        map: {
-                            "layer:marker:dot": {
-                                color: accentColor
-                            },
-                            "layer:marker:bubble": {
-                                color: accentColor
-                            },
-                            legend: {
-                                markerColor: accentColor
-                            }
-                        },
-                        bullet: {
-                            color: accentColor
-                        },
-                        gauge: {
-                            valueIndicators: {
-                                rangebar: {
-                                    color: accentColor
-                                },
-                                textcloud: {
-                                    color: accentColor
-                                }
-                            }
-                        }
-                    },
+                    theme: Object.assign({
+                        name: `material.${accentName}.${themeName}`
+                    }, (0, _accent_color_scheme.getAccentColorScheme)(accentColor)),
                     baseThemeName: `material.${themeName}`
                 }
             }
             const materialAccents = {
-                blue: "#03a9f4",
-                lime: "#cddc39",
-                orange: "#ff5722",
-                purple: "#9c27b0",
-                teal: "#009688"
+                blue: {
+                    light: "#1564C0",
+                    dark: "#90CAF9"
+                },
+                lime: {
+                    light: "#cddc39",
+                    dark: "#cddc39"
+                },
+                orange: {
+                    light: "#ff5722",
+                    dark: "#ff5722"
+                },
+                purple: {
+                    light: "#9c27b0",
+                    dark: "#9c27b0"
+                },
+                teal: {
+                    light: "#009688",
+                    dark: "#009688"
+                }
             };
             Object.keys(materialAccents).forEach(accent => {
-                const color = materialAccents[accent];
-                themes.push(getMaterialColorScheme(accent, "light", color), getMaterialColorScheme(accent, "dark", color), {
+                const {
+                    light: light,
+                    dark: dark
+                } = materialAccents[accent];
+                themes.push(getMaterialColorScheme(accent, "light", light), getMaterialColorScheme(accent, "dark", dark), {
                     theme: {
                         name: `material.${accent}.light.compact`
                     },
@@ -72942,6 +73024,48 @@
                 })
             });
             exports.default = themes
+        },
+        93197(__unused_webpack_module, exports) {
+            Object.defineProperty(exports, "__esModule", {
+                value: true
+            });
+            exports.getAccentColorScheme = function(accentColor) {
+                return {
+                    rangeSelector: {
+                        selectedRangeColor: accentColor,
+                        sliderMarker: {
+                            color: accentColor
+                        },
+                        sliderHandle: {
+                            color: accentColor
+                        }
+                    },
+                    map: {
+                        "layer:marker:dot": {
+                            color: accentColor
+                        },
+                        "layer:marker:bubble": {
+                            color: accentColor
+                        },
+                        legend: {
+                            markerColor: accentColor
+                        }
+                    },
+                    bullet: {
+                        color: accentColor
+                    },
+                    gauge: {
+                        valueIndicators: {
+                            rangebar: {
+                                color: accentColor
+                            },
+                            textcloud: {
+                                color: accentColor
+                            }
+                        }
+                    }
+                }
+            }
         },
         69638(__unused_webpack_module, exports, __webpack_require__) {
             Object.defineProperty(exports, "__esModule", {
@@ -81973,7 +82097,7 @@
             var _devices = _interopRequireDefault(__webpack_require__( /*! ../../../core/devices */ 65951));
             var _browser = _interopRequireDefault(__webpack_require__( /*! ../../../core/utils/browser */ 48314));
             var _type = __webpack_require__( /*! ../../../core/utils/type */ 11528);
-            var _smart_formatter = __webpack_require__( /*! ../../viz/axes/smart_formatter */ 97154);
+            var _smart_formatter = __webpack_require__( /*! ../../viz/axes/smart_formatter */ 74773);
 
             function _interopRequireDefault(e) {
                 return e && e.__esModule ? e : {
@@ -93327,7 +93451,8 @@
             const _disposeTooltip = BaseSparkline.prototype._disposeTooltip;
             BaseSparkline.prototype._disposeTooltip = function() {
                 if (this._tooltip) {
-                    _disposeTooltip.apply(this, arguments)
+                    _disposeTooltip.apply(this, arguments);
+                    this._tooltipShown = false
                 }
             };
             BaseSparkline.prototype._setTooltipRendererOptions = function() {
@@ -97224,7 +97349,7 @@
             exports.default = dxTreeMap;
             dxTreeMap.addPlugin(_data_source.plugin)
         },
-        11197(__unused_webpack_module, exports, __webpack_require__) {
+        33578(__unused_webpack_module, exports, __webpack_require__) {
             Object.defineProperty(exports, "__esModule", {
                 value: true
             });
@@ -98727,23 +98852,32 @@
                 },
                 getDefaultColor: (ctx, palette) => ctx.params.themeManager.getAccentColor(palette)
             };
-            strategiesByGeometry.area = function(sample) {
+
+            function projectAreaByGeometry(projection, coordinates) {
+                return coordinates[0] && coordinates[0][0] && coordinates[0][0][0] && "number" === typeof coordinates[0][0][0][0] ? function(projection, coordinates) {
+                    const output = [];
+                    let i;
+                    const ii = output.length = coordinates.length;
+                    for (i = 0; i < ii; ++i) {
+                        output[i] = projectPolygon(projection, coordinates[i])
+                    }
+                    return _concat.apply([], output)
+                }(projection, coordinates) : projectPolygon(projection, coordinates)
+            }
+            strategiesByGeometry.area = function() {
                 return {
-                    project: (projection, coordinates) => coordinates[0] && coordinates[0][0] && coordinates[0][0][0] && "number" === typeof coordinates[0][0][0][0] ? function(projection, coordinates) {
-                        const output = [];
-                        let i;
-                        const ii = output.length = coordinates.length;
-                        for (i = 0; i < ii; ++i) {
-                            output[i] = projectPolygon(projection, coordinates[i])
-                        }
-                        return _concat.apply([], output)
-                    }(projection, coordinates) : projectPolygon(projection, coordinates)
+                    project: projectAreaByGeometry
                 }
             };
-            strategiesByGeometry.line = function(sample) {
-                const coordinates = sample.coordinates;
+
+            function projectLineByGeometry(projection, coordinates) {
+                return coordinates[0] && coordinates[0][0] && "number" === typeof coordinates[0][0][0] ? projectPolygon(projection, coordinates) : function(projection, coordinates) {
+                    return [projectPointList(projection, coordinates)]
+                }(projection, coordinates)
+            }
+            strategiesByGeometry.line = function() {
                 return {
-                    project: coordinates[0] && coordinates[0][0] && "number" === typeof coordinates[0][0][0] ? projectPolygon : projectLineString
+                    project: projectLineByGeometry
                 }
             };
             strategiesByElementType.marker = {
@@ -99025,10 +99159,6 @@
                     output[i] = projection.project(coordinates[i])
                 }
                 return output
-            }
-
-            function projectLineString(projection, coordinates) {
-                return [projectPointList(projection, coordinates)]
             }
 
             function projectPolygon(projection, coordinates) {
@@ -102576,6 +102706,16 @@
             });
             var _localization = __webpack_require__( /*! ../../__internal/core/localization */ 85601)
         },
+        84109(module, exports, __webpack_require__) {
+            exports.default = void 0;
+            var _core = (e = __webpack_require__( /*! ../../../__internal/core/localization/core */ 55407), e && e.__esModule ? e : {
+                default: e
+            });
+            var e;
+            exports.default = _core.default;
+            module.exports = exports.default;
+            module.exports.default = exports.default
+        },
         17333(module, exports, __webpack_require__) {
             exports.default = void 0;
             var _currency = (e = __webpack_require__( /*! ../../../__internal/core/localization/currency */ 87631), e && e.__esModule ? e : {
@@ -104881,8 +105021,8 @@
         },
         1956(__unused_webpack_module, exports) {
             exports.version = exports.fullVersion = void 0;
-            exports.version = "25.2.7";
-            exports.fullVersion = "25.2.7"
+            exports.version = "26.1.3";
+            exports.fullVersion = "26.1.3"
         },
         48367(__unused_webpack_module, exports, __webpack_require__) {
             Object.defineProperty(exports, "c", {
@@ -105273,6 +105413,7 @@
             var _date = _interopRequireDefault(__webpack_require__( /*! ./core/utils/date */ 41380));
             var _number = _interopRequireDefault(__webpack_require__( /*! ./common/core/localization/number */ 52771));
             var _date2 = _interopRequireDefault(__webpack_require__( /*! ./common/core/localization/date */ 38662));
+            var _m_global_format_config = __webpack_require__( /*! ./__internal/core/m_global_format_config */ 95214);
             var _dependency_injector = _interopRequireDefault(__webpack_require__( /*! ./core/utils/dependency_injector */ 89656));
             __webpack_require__( /*! ./common/core/localization/currency */ 17333);
 
@@ -105285,7 +105426,16 @@
                 format: function(value, format) {
                     const formatIsValid = (0, _type.isString)(format) && "" !== format || (0, _type.isPlainObject)(format) || (0, _type.isFunction)(format);
                     const valueIsValid = (0, _type.isNumeric)(value) || (0, _type.isDate)(value) && !isNaN(value.getTime());
-                    if (!formatIsValid || !valueIsValid) {
+                    if (!valueIsValid) {
+                        return (0, _type.isDefined)(value) ? value.toString() : ""
+                    }
+                    if (!formatIsValid && (0, _type.isNumeric)(value)) {
+                        const globalNumberFormat = (0, _m_global_format_config.getGlobalFormatByDataType)("number");
+                        if (globalNumberFormat) {
+                            return _number.default.format(value, globalNumberFormat)
+                        }
+                    }
+                    if (!formatIsValid) {
                         return (0, _type.isDefined)(value) ? value.toString() : ""
                     }
                     if ((0, _type.isFunction)(format)) {
@@ -105751,6 +105901,7 @@
                 E1065: "The browser does not support Web Speech API (SpeechRecognition)",
                 E1066: "All AI columns must have names.",
                 E1067: "'aiIntegration' is not configured in the {0} column.",
+                E1068: "'aiIntegration' is not configured for the AI Assistant.",
                 W1001: 'The "key" option cannot be modified after initialization',
                 W1002: "An item with the key '{0}' does not exist",
                 W1003: "A group with the key '{0}' in which you are trying to select items does not exist",
@@ -105776,7 +105927,8 @@
                 W1025: "'scrolling.mode' is set to 'virtual' or 'infinite'. Specify the height of the component.",
                 W1026: "The 'ai' toolbar item is defined, but aiIntegration is missing.",
                 W1027: "A prompt should be specified for a custom command.",
-                W1028: "Nested/banded columns do not support the following properties: {0}."
+                W1028: "Nested/banded columns do not support the following properties: {0}.",
+                W1029: "'hiddenWeekDays' must leave at least one weekday visible."
             });
             module.exports = exports.default;
             module.exports.default = exports.default
@@ -106138,7 +106290,7 @@
         },
         61015(module, exports, __webpack_require__) {
             exports.default = void 0;
-            var _tree_map = (e = __webpack_require__( /*! ../__internal/viz/tree_map/tree_map */ 11197), e && e.__esModule ? e : {
+            var _tree_map = (e = __webpack_require__( /*! ../__internal/viz/tree_map/tree_map */ 33578), e && e.__esModule ? e : {
                 default: e
             });
             var e;

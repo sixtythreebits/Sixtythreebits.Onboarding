@@ -1,6 +1,5 @@
-﻿using SixtyThreeBits.Core.Infrastructure.Repositories;
+﻿using SixtyThreeBits.Core.Libraries.Extensions;
 using SixtyThreeBits.Core.Properties;
-using SixtyThreeBits.Libraries.Extensions;
 using SixtyThreeBits.Web.Domain.Utilities;
 using SixtyThreeBits.Web.Domain.ViewModels.Shared;
 using System;
@@ -20,13 +19,7 @@ namespace SixtyThreeBits.Web.Models.Admin
             viewModel.PluginsClient = PluginsClient;
             viewModel.ProjectName = SystemProperties.ProjectName;
             return viewModel;
-        }
-
-        public bool IsUserLoggedIn()
-        {
-            var isLoggedIn = SessionAssistance.GetUser<UserDTO>() != null;
-            return isLoggedIn;
-        }
+        }        
 
         public async Task<bool> AuthenticateUser(ViewModel viewModel) 
         {

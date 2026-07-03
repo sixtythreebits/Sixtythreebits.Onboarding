@@ -25,7 +25,7 @@ namespace SixtyThreeBits.Web.Controllers.Admin
         [Route("roles/grid", Name = $"{nameof(RolesPermissionsAdminController)}{nameof(RolesGrid)}")]
         public async Task<IActionResult> RolesGrid()
         {
-            var viewModel = await Model.GetRolesGridItems();
+            var viewModel = await Model.RolesGrid();
             return DevExtremeGridResult(viewModel);
         }
 
@@ -33,7 +33,7 @@ namespace SixtyThreeBits.Web.Controllers.Admin
         [Route("permissions/tree", Name = $"{nameof(RolesPermissionsAdminController)}{nameof(PermissionsTree)}")]
         public async Task<IActionResult> PermissionsTree()
         {
-            var viewModel = await Model.GetPermissionsTreeItems();
+            var viewModel = await Model.PermissionsTree();
             return DevExtremeGridResult(viewModel);
         }
 

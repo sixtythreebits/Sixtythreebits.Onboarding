@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 using SixtyThreeBits.Core.Libraries.Extensions;
-using SixtyThreeBits.Libraries.Extensions;
 using System.Linq;
 
 namespace SixtyThreeBits.Web.Domain.Libraries

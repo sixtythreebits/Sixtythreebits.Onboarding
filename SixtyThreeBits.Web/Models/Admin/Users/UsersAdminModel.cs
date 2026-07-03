@@ -3,14 +3,13 @@ using DevExtreme.AspNet.Mvc.Builders;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SixtyThreeBits.Core.Factories;
 using SixtyThreeBits.Core.Infrastructure.Repositories;
+using SixtyThreeBits.Core.Libraries.Common;
+using SixtyThreeBits.Core.Libraries.Extensions;
 using SixtyThreeBits.Core.Libraries.Validation;
 using SixtyThreeBits.Core.Properties;
 using SixtyThreeBits.Core.Utilities;
-using SixtyThreeBits.Libraries;
-using SixtyThreeBits.Libraries.Extensions;
 using SixtyThreeBits.Web.Controllers.Admin;
 using SixtyThreeBits.Web.Domain.Libraries;
-using SixtyThreeBits.Web.Domain.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,7 +38,7 @@ namespace SixtyThreeBits.Web.Models.Admin
             return viewModel;
         }
 
-        public async Task<AjaxResponse> GetGridItems()
+        public async Task<AjaxResponse> Grid()
         {
             var viewModel = new AjaxResponse();
             var repository = RepositoryFactory.CreateUsersRepository();
@@ -60,7 +59,7 @@ namespace SixtyThreeBits.Web.Models.Admin
             return viewModel;
         }
 
-        public async Task<AjaxResponse> Add(DevExtremeSubmitModelKeyValues63 submitModel)
+        public async Task<AjaxResponse> GridAdd(DevExtremeSubmitModelKeyValues63 submitModel)
         {
             var viewModel = new AjaxResponse();
             var submitModelValues = submitModel.Values.DeserializeJsonTo<ViewModel.GridModel.GridItem>();
@@ -96,7 +95,7 @@ namespace SixtyThreeBits.Web.Models.Admin
             return viewModel;
         }
 
-        public async Task<AjaxResponse> Update(DevExtremeSubmitModelKeyValues63 submitModel)
+        public async Task<AjaxResponse> GridUpdate(DevExtremeSubmitModelKeyValues63 submitModel)
         {
             var viewModel = new AjaxResponse();
             var userID = submitModel.Key.ToInt();
@@ -133,7 +132,7 @@ namespace SixtyThreeBits.Web.Models.Admin
             return viewModel;
         }
 
-        public async Task<AjaxResponse> Delete(DevExtremeSubmitModelKeyValues63 submitModel)
+        public async Task<AjaxResponse> GridDelete(DevExtremeSubmitModelKeyValues63 submitModel)
         {
             var viewModel = new AjaxResponse();
             var userID = submitModel.Key.ToInt();

@@ -1,5 +1,5 @@
 ﻿@{
-    var Model = ViewData[ViewDataKeys63.LayoutViewModel] as AdminLayoutViewModel;
+    var Model = ViewData[nameof(LayoutAdminViewModel)] as LayoutAdminViewModel;
 }
 <!DOCTYPE html>
 <html lang="en" class="csstransforms3d">
@@ -13,7 +13,7 @@
     <link href="/css/admin/style.css" rel="stylesheet" />
     @RenderSection("HeaderSection", false)
 </head>
-<body class="@(Model.IsSidebarCollapsed.Value ? "sidebar-enable" : null)" data-sidebar="dark" data-sidebar-size="@(Model.IsSidebarCollapsed.Value ? "sm" : "lg")">
+<body  data-sidebar="dark" data-sidebar-size="lg">
     <div id="layout-wrapper">            
         <header id="page-topbar" class="isvertical-topbar">
             <div class="navbar-header">

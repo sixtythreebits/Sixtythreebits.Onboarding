@@ -12,7 +12,7 @@ namespace SixtyThreeBits.Web.Models.Website
     public class WebsiteModelBase : ModelBase63
     {
         #region Properties
-        public WebsiteLayoutViewModel LayoutViewModel { get; set; }
+        public LayoutWebsiteViewModel LayoutViewModel { get; set; }
         #endregion
 
         #region Methods

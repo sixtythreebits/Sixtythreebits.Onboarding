@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using SixtyThreeBits.Core.Utilities;
 using SixtyThreeBits.Web.Domain.Utilities;
+using SixtyThreeBits.Web.Domain.ViewModels.Admin;
 using SixtyThreeBits.Web.Domain.ViewModels.Shared;
 using SixtyThreeBits.Web.Models.Base;
 
@@ -10,6 +11,10 @@ namespace SixtyThreeBits.Web.Models.Admin
 {
     public class AdminModelBase : ModelBase63
     {
+        #region Properties
+        public readonly LayoutAdminViewModel LayoutViewModel = new();
+        #endregion
+
         #region Methods
         public IActionResult GetNotFoundAdminViewResult()
         {

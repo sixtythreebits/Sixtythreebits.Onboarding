@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using SixtyThreeBits.Core.Factories;
+using SixtyThreeBits.Core.Libraries.Common;
 using SixtyThreeBits.Core.Libraries.Database;
+using SixtyThreeBits.Core.Libraries.Extensions;
 using SixtyThreeBits.Core.Utilities;
-using SixtyThreeBits.Libraries;
-using SixtyThreeBits.Libraries.Extensions;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -84,18 +84,6 @@ namespace SixtyThreeBits.Core.Infrastructure.Repositories
                     Value = item.RoleName
                 }).ToList();            
             return result;
-        }
-
-        public async Task<List<KeyValueSelectedTuple<int?, string>>> RolesListAsKeyValueSelectedTuple(int? SelectedValue, bool IsRoleCodeAsKey = false)
-        {
-            var result = (await RolesList())
-                ?.Select(item => new KeyValueSelectedTuple<int?, string>
-                {
-                    Key = IsRoleCodeAsKey ? item.RoleCode : item.RoleID,
-                    Value = item.RoleName,
-                    IsSelected = (IsRoleCodeAsKey ? (item.RoleCode == SelectedValue) : (item.RoleID == SelectedValue))
-                }).ToList();
-            return result;                      
         }
 
         public async Task RolesPermissionsUpdate(int? roleID, List<int?> permissionIDs)

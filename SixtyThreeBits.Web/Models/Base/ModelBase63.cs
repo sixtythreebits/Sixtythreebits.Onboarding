@@ -5,12 +5,8 @@ using Microsoft.AspNetCore.Routing;
 using SixtyThreeBits.Core.Abstractions;
 using SixtyThreeBits.Core.Factories;
 using SixtyThreeBits.Core.Infrastructure.Repositories;
-using SixtyThreeBits.Core.Libraries;
-using SixtyThreeBits.Core.Properties;
 using SixtyThreeBits.Core.Utilities;
-using SixtyThreeBits.Libraries.Extensions;
 using SixtyThreeBits.Web.Domain.Libraries;
-using SixtyThreeBits.Web.Domain.Utilities;
 using SixtyThreeBits.Web.Domain.ViewModels.Shared;
 using System.Collections.Generic;
 
@@ -49,70 +45,11 @@ namespace SixtyThreeBits.Web.Models.Base
 
         public PluginsClientViewModel PluginsClient { get; set; }
         public UserDTO User { get; set; }
-        public bool IsLoggedIn => User != null;
-        public ValueWrapper<bool> IsSidebarCollapsed { get; set; }
+        public bool IsUserLoggedIn => User != null;
         
         public SystemPropertiesDTO SystemProperties { get; set; }
-        
-        public readonly SuccessErrorToastPartialViewModel SuccessErrorPartialViewModel = new();
-        #endregion
 
-        #region Methods
-        public string GetFilenameFromUploadedFile(IFormFile postedFile)
-        {
-            return postedFile?.FileName.ToAZ09Dash(guidInlcuded: true);
-        }
-                        
-        #region Success/Error Toast
-        public void InitSuccessErrorToastNotificationPartialViewModel()
-        {            
-            var errorMessage = SessionAssistance.Get<string>(SessionKeys63.SuccessErrorToastError);
-            if (errorMessage != null)
-            {
-                SuccessErrorPartialViewModel.ShowError = true;
-                SuccessErrorPartialViewModel.Message = errorMessage;
-                SessionAssistance.Remove(SessionKeys63.SuccessErrorToastError);
-            }
-            else
-            {
-                var successMessage = SessionAssistance.Get<string>(SessionKeys63.SuccessErrorToastSuccess);
-                if (successMessage != null)
-                {
-                    SuccessErrorPartialViewModel.ShowSuccess = true;
-                    SuccessErrorPartialViewModel.Message = successMessage;
-                    SessionAssistance.Remove(SessionKeys63.SuccessErrorToastSuccess);
-                }
-            }
-        }
-
-        public void ShowSuccessToastNotification(string message = null)
-        {
-            if (string.IsNullOrWhiteSpace(message))
-            {
-                message = Resources.TextSuccess;
-            }
-            SessionAssistance.Set(SessionKeys63.SuccessErrorToastSuccess, message);
-        }
-
-        public void ShowErrorToastNotification(string message = null, bool shouldDisplayAfterPageReload = false)
-        {
-            if (string.IsNullOrWhiteSpace(message))
-            {
-                message = Resources.TextError;
-            }
-
-            if (shouldDisplayAfterPageReload)
-            {
-                SessionAssistance.Set(SessionKeys63.SuccessErrorToastError, message);
-            }
-            else
-            {
-                SuccessErrorPartialViewModel.ShowError = true;
-                SuccessErrorPartialViewModel.Message = message;
-            }
-        }
-        #endregion
-
+        public ToastNotificationManager63 ToastNotificationManager { get; set; }        
         #endregion
     }
 }
