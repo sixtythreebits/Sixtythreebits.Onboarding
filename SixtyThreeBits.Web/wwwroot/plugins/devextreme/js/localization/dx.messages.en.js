@@ -1,40 +1,40 @@
 /*!
 * DevExtreme (dx.messages.en.js)
-* Version: 25.2.7
-* Build date: Tue May 05 2026
+* Version: 26.1.3
+* Build date: Wed Jun 10 2026
 *
 * Copyright (c) 2012 - 2026 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
 */
 "use strict";
 
-! function(root, factory) {
-    if ("function" === typeof define && define.amd) {
+(function(root, factory) {
+    if(typeof define === 'function' && define.amd) {
         define(function(require) {
-            factory(require("devextreme/common/core/localization"))
-        })
-    } else if ("object" === typeof module && module.exports) {
-        factory(require("devextreme/common/core/localization"))
+            factory(require("devextreme/common/core/localization"));
+        });
+    } else if(typeof module === "object" && module.exports) {
+        factory(require("devextreme/common/core/localization"));
     } else {
-        factory(DevExpress.localization)
+        factory(DevExpress.localization);
     }
-}(0, function(localization) {
+}(this, function(localization) {
     localization.loadMessages({
-        en: {
-            Yes: "Yes",
-            No: "No",
-            Cancel: "Cancel",
-            CheckState: "Check state",
-            Close: "Close",
-            Clear: "Clear",
-            Done: "Done",
-            Loading: "Loading...",
-            Select: "Select...",
-            Search: "Search",
-            Back: "Back",
-            OK: "OK",
-            Today: "Today",
-            Yesterday: "Yesterday",
+        "en": {
+            "Yes": "Yes",
+            "No": "No",
+            "Cancel": "Cancel",
+            "CheckState": "Check state",
+            "Close": "Close",
+            "Clear": "Clear",
+            "Done": "Done",
+            "Loading": "Loading...",
+            "Select": "Select...",
+            "Search": "Search",
+            "Back": "Back",
+            "OK": "OK",
+            "Today": "Today",
+            "Yesterday": "Yesterday",
             "dxCollectionWidget-noDataText": "No data to display",
             "dxDropDownEditor-selectLabel": "Select",
             "validation-required": "Required",
@@ -114,6 +114,23 @@
             "dxForm-submitButtonText": "Submit",
             "dxNumberBox-invalidValueMessage": "Value must be a number",
             "dxNumberBox-noDataText": "No data",
+            "dxDataGrid-aiAssistantTitle": "AI Assistant",
+            "dxDataGrid-aiAssistantProcessingMessageHeader": "Request in progress",
+            "dxDataGrid-aiAssistantProcessingMessage": "Processing...",
+            "dxDataGrid-aiAssistantErrorMessageHeader": "Failed to process request",
+            "dxDataGrid-aiAssistantAbortMessage": "Request stopped.",
+            "dxDataGrid-aiAssistantSuccessMessage": "Success",
+            "dxDataGrid-aiAssistantErrorMessage": "Error",
+            "dxDataGrid-aiAssistantExecutionAbortMessage": "Execution Interrupted",
+            "dxDataGrid-aiAssistantExecutionInProgressMessage": "Execution already in progress. Please wait.",
+            "dxDataGrid-aiAssistantRequestInProgressMessage": "Request already in progress. Please wait.",
+            "dxDataGrid-aiAssistantUnexpectedErrorMessage": "An unexpected error occurred. Please try again.",
+            "dxDataGrid-aiAssistantInvalidResponseMessage": "Invalid response from the AI service. Please try again.",
+            "dxDataGrid-aiAssistantClearButtonText": "Clear",
+            "dxDataGrid-aiAssistantRegenerateButtonText": "Regenerate",
+            "dxDataGrid-aiAssistantAbortConfirmText": "Closing the AI Assistant chat aborts requests in progress. Would you like to close the chat?",
+            "dxDataGrid-aiAChatEmptyViewMessage": "Chat is Empty",
+            "dxDataGrid-aiChatEmptyViewPrompt": "AI Assistant is ready to answer your questions.",
             "dxDataGrid-aiPromptEditorTitle": "AI Prompt Editor",
             "dxDataGrid-aiPromptEditorPlaceholder": "Prompt AI to generate column values...",
             "dxDataGrid-aiPromptEditorApplyButton": "Apply",
@@ -256,8 +273,8 @@
             "dxPivotGrid-showFieldChooser": "Show Field Chooser",
             "dxPivotGrid-expandAll": "Expand All",
             "dxPivotGrid-collapseAll": "Collapse All",
-            "dxPivotGrid-sortColumnBySummary": 'Sort "{0}" by This Column',
-            "dxPivotGrid-sortRowBySummary": 'Sort "{0}" by This Row',
+            "dxPivotGrid-sortColumnBySummary": "Sort \"{0}\" by This Column",
+            "dxPivotGrid-sortRowBySummary": "Sort \"{0}\" by This Row",
             "dxPivotGrid-removeAllSorting": "Remove All Sorting",
             "dxPivotGrid-dataNotAvailable": "N/A",
             "dxPivotGrid-rowFields": "Row Fields",
@@ -273,8 +290,10 @@
             "dxScheduler-ariaLabel": "Scheduler. {0} view: {1} with {2} appointments",
             "dxScheduler-ariaLabel-currentIndicator-present": "The current time indicator is visible in the view",
             "dxScheduler-ariaLabel-currentIndicator-not-present": "The current time indicator is not visible on the screen",
-            "dxScheduler-appointmentAriaLabel-group": "Group: {0}",
+            "dxScheduler-appointmentAriaDescription-group": "Group: {0}",
             "dxScheduler-appointmentAriaLabel-recurring": "Recurring appointment",
+            "dxScheduler-hotkeysAriaDescription-delete": "Press Delete to delete this appointment",
+            "dxScheduler-hotkeysAriaDescription-homeEnd": "Press Home or End to quickly navigate to the first or last appointment",
             "dxScheduler-appointmentListAriaLabel": "Appointment list",
             "dxScheduler-newPopupTitle": "New Appointment",
             "dxScheduler-editPopupTitle": "Edit Appointment",
@@ -857,5 +876,5 @@
             "dxSpeechToText-ariaLabelStart": "Press to start voice transcription",
             "dxSpeechToText-ariaLabelStop": "Press to stop voice transcription"
         }
-    })
-});
+    });
+}));

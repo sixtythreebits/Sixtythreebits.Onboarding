@@ -1,7 +1,7 @@
 /*!
  * DevExtreme (dx.vectormaputils.debug.js)
- * Version: 25.2.7
- * Build date: Tue May 05 2026
+ * Version: 26.1.3
+ * Build date: Wed Jun 10 2026
  *
  * Copyright (c) 2012 - 2026 Developer Express Inc. ALL RIGHTS RESERVED
  * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
@@ -15,10 +15,10 @@
     } else if ("object" === typeof module && module.exports) {
         factory(exports)
     } else {
-        var exports = root.DevExpress = root.DevExpress || {};
-        exports = exports.viz = exports.viz || {};
-        exports = exports.vectormaputils = {};
-        factory(exports)
+        var browserExports = root.DevExpress = root.DevExpress || {};
+        browserExports = browserExports.viz = browserExports.viz || {};
+        browserExports = browserExports.vectormaputils = {};
+        factory(browserExports)
     }
 }(this, function(exports) {
     function noop() {}

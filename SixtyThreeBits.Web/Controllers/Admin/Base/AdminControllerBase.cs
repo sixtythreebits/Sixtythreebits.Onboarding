@@ -13,26 +13,17 @@ namespace SixtyThreeBits.Web.Controllers.Admin
 {
     public class AdminControllerBase<T> : ControllerBase63<T> where T : AdminModelBase, new()
     {
-        #region Properties
-        AdminModelBase _model;
-        LayoutAdminViewModel _viewModel;
-        #endregion
-
         #region Methods
         public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
             await base.OnActionExecutionAsync(context, async () =>
-            {
-                _viewModel = new LayoutAdminViewModel();
-                _model = WebUtilities.GetModelFromController<AdminModelBase>(context.Controller);
-
-                var isAuhenticated = isUserAuhenticated();
-                if (isAuhenticated)
+            {                                
+                if (Model.IsUserLoggedIn)
                 {
                     var hasPermission = hasUserPermission();
                     if (hasPermission)
                     {
-                        if (!_model.IsAjaxRequest)
+                        if (!Model.IsAjaxRequest)
                         {
                             setInitialProperties();
                             initClientPlugins();
@@ -41,42 +32,38 @@ namespace SixtyThreeBits.Web.Controllers.Admin
                             initTabs();
                             initPageTitle();
                             initSuccessErrorToast();
-                            _model.ViewData[nameof(LayoutAdminViewModel)] = _viewModel;
+                            Model.ViewData[nameof(LayoutAdminViewModel)] = Model.LayoutViewModel;
                         }
                         return await next();
                     }
                     else
                     {
-                        context.Result = _model.GetNotFoundAdminViewResult();
+                        context.Result = Model.GetNotFoundAdminViewResult();
                         return new ActionExecutedContext(context, context.Filters, context.Controller) { Result = context.Result, Canceled = true };
                     }
                 }
                 else
                 {
-                    var urlLogin = _model.UrlFactory.Admin.CreateUrlLogin();
+                    var urlLogin = Model.UrlFactory.Admin.CreateUrlLogin();
                     context.Result = new RedirectResult(urlLogin);
                     return new ActionExecutedContext(context, context.Filters, context.Controller) { Result = context.Result, Canceled = true };
                 }
             });
-        }
-        bool isUserAuhenticated()
-        {
-            return _model.User != null;
-        }
+        }        
         bool hasUserPermission()
         {
-            var hasPermission = _model.User.HasPermission(_model.UrlCurrentPageWithoutDomain);
+            var hasPermission = Model.User.HasPermission(Model.UrlCurrentPageWithoutDomain);
             return hasPermission;
         }
         void setInitialProperties()
         {
-            _viewModel.ProjectName = _model.SystemProperties.ProjectName;
-            _viewModel.UserFullname = _model.User.UserFullname;
-            _viewModel.UserEmail = _model.User.UserEmail;
+            Model.LayoutViewModel.ProjectName = Model.SystemProperties.ProjectName;
+            Model.LayoutViewModel.UserFullname = Model.User.UserFullname;
+            Model.LayoutViewModel.UserEmail = Model.User.UserEmail;
         }
         void initClientPlugins()
         {
-            _model.PluginsClient
+            Model.PluginsClient
             .EnableGoogleFonts(true)
             .Enable63BitsFonts(true)
             .EnableFontAwesome(true)
@@ -89,30 +76,30 @@ namespace SixtyThreeBits.Web.Controllers.Admin
             .EnableMetisMenu(true)
             .EnableUtils(true);
 
-            _viewModel.PluginsClient = _model.PluginsClient;
+            Model.LayoutViewModel.PluginsClient = Model.PluginsClient;
         }
         void initMenu()
         {
-            if (_model.User.Permissions?.Count > 0)
+            if (Model.User.Permissions?.Count > 0)
             {
-                _viewModel.Menu = _model.User.Permissions
+                Model.LayoutViewModel.Menu = Model.User.Permissions
                 .Where(item => item.PermissionIsMenuItem && item.PermissionParentID == null)
                 .Select(item => new Menu63ViewItem
                 {
                     Title = item.PermissionMenuTitleOrCaption,
                     NavigateUrl = string.IsNullOrWhiteSpace(item.PermissionPagePath) ? item.PermissionGuid : item.PermissionPagePath,
                     Icon = item.PermissionMenuIcon,
-                    IsSelected = item.PermissionPagePath == _model.UrlCurrentPageWithoutDomain,
-                    Children = _model.User.Permissions.Where(subItem => subItem.PermissionIsMenuItem && subItem.PermissionParentID == item.PermissionID).Select(subItem => new Menu63ViewItem
+                    IsSelected = item.PermissionPagePath == Model.UrlCurrentPageWithoutDomain,
+                    Children = Model.User.Permissions.Where(subItem => subItem.PermissionIsMenuItem && subItem.PermissionParentID == item.PermissionID).Select(subItem => new Menu63ViewItem
                     {
                         Title = subItem.PermissionMenuTitleOrCaption,
                         NavigateUrl = subItem.PermissionPagePath,
                         Icon = subItem.PermissionMenuIcon,
-                        IsSelected = subItem.PermissionPagePath == _model.UrlCurrentPageWithoutDomain
+                        IsSelected = subItem.PermissionPagePath == Model.UrlCurrentPageWithoutDomain
                     }).ToList()
                 }).ToList();
 
-                _viewModel.Menu.ForEach(item =>
+                Model.LayoutViewModel.Menu.ForEach(item =>
                 {
                     if (item.HasChildren)
                     {
@@ -121,12 +108,12 @@ namespace SixtyThreeBits.Web.Controllers.Admin
                 });
             }
 
-            _viewModel.UrlRelogin = _model.UrlFactory.Website.CreateUrlRelogin();
-            _viewModel.UrlLogout = _model.UrlFactory.Website.CreateUrlLogout();
+            Model.LayoutViewModel.UrlRelogin = Model.UrlFactory.Website.CreateUrlRelogin();
+            Model.LayoutViewModel.UrlLogout = Model.UrlFactory.Website.CreateUrlLogout();
         }
         void initBreadCrumbs()
         {
-            var pageHierarchy = _model.User.Permissions?.Select(item => new Breadcrumbs63.HierarchyItem<int?>
+            var pageHierarchy = Model.User.Permissions?.Select(item => new Breadcrumbs63.HierarchyItem<int?>
             {
                 ID = item.PermissionID,
                 ParentID = item.PermissionParentID,
@@ -134,30 +121,34 @@ namespace SixtyThreeBits.Web.Controllers.Admin
                 PageTitle = item.PermissionMenuTitleOrCaption
             }).ToList();
 
-            _viewModel.Breadcrumbs = _model.Breadcrumbs = new Breadcrumbs63();
-            _viewModel.Breadcrumbs.InitBreadcrumbsByPageUrl(
+            Model.LayoutViewModel.Breadcrumbs = Model.Breadcrumbs = new Breadcrumbs63();
+            Model.LayoutViewModel.Breadcrumbs.InitBreadcrumbsByPageUrl(
                 pageHierarchy: pageHierarchy,
-                urlCurrentPage: _model.UrlCurrentPageWithDomain
+                urlCurrentPage: Model.UrlCurrentPageWithDomain
             );
-            _viewModel.ShowBreadCrumbs = _viewModel.Breadcrumbs.ItemsCount > 2;
+            Model.LayoutViewModel.ShowBreadCrumbs = Model.LayoutViewModel.Breadcrumbs.ItemsCount > 2;
         }
         void initTabs()
         {
-            _viewModel.Tabs = _model.Tabs;
+            Model.LayoutViewModel.Tabs = Model.Tabs;
         }
         void initPageTitle()
         {
-            _model.PageTitle = _viewModel.PageTitle = new PageTitle63(_model.SystemProperties.ProjectName);
-            var p = _model.User.GetPermission(_model.UrlCurrentPageWithoutDomain);
+            Model.PageTitle = Model.LayoutViewModel.PageTitle = new PageTitle63(Model.SystemProperties.ProjectName);
+            var p = Model.User.GetPermission(Model.UrlCurrentPageWithoutDomain);
             if (p != null)
             {
-                _model.PageTitle.Set(p.PermissionName);
+                Model.PageTitle.Set(p.PermissionName);
             }
-        }        
+        }
         void initSuccessErrorToast()
         {
-            _model.InitSuccessErrorToastNotificationPartialViewModel();
-            _viewModel.SuccessErrorPartialViewModel = _model.SuccessErrorPartialViewModel;
+            Model.ToastNotificationManager = new ToastNotificationManager63(
+                sessionAssistance: Model.SessionAssistance,
+                pluginsClient: Model.LayoutViewModel.PluginsClient
+            );
+            Model.ToastNotificationManager.InitNotificationFromSession();
+            Model.LayoutViewModel.SuccessErrorPartialViewModel = Model.ToastNotificationManager.SuccessErrorToastPartialViewModel;
         }
 
         [NonAction]

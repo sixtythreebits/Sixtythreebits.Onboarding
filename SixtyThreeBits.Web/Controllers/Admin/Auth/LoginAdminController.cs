@@ -17,7 +17,7 @@ namespace SixtyThreeBits.Web.Controllers.Admin
         [Route("login", Name = $"{nameof(LoginAdminController)}{nameof(Login)}")]
         public IActionResult Login()
         {
-            if (Model.IsUserLoggedIn())
+            if (Model.IsUserLoggedIn)
             {
                 var UrlAdminDashboard = Model.UrlFactory.Admin.CreateUrlHomeDashboard();
                 return Redirect(UrlAdminDashboard);
