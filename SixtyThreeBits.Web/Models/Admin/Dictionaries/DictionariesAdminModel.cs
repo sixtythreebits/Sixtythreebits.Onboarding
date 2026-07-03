@@ -64,7 +64,7 @@ namespace SixtyThreeBits.Web.Models.Admin
 
             var repository = RepositoryFactory.CreateDictionariesRepository();
             await repository.DictionariesIUD(
-                databaseAction: Enums.DatabaseActions.INSERT,
+                databaseAction: DatabaseActions.INSERT,
                 dictionaryID: null,
                 dictionary: new DictionariesIudDTO
                 {
@@ -93,7 +93,7 @@ namespace SixtyThreeBits.Web.Models.Admin
 
             var repository = RepositoryFactory.CreateDictionariesRepository();
             await repository.DictionariesIUD(
-                databaseAction: Enums.DatabaseActions.UPDATE,
+                databaseAction: DatabaseActions.UPDATE,
                 dictionaryID: dictionaryID,
                 dictionary: new DictionariesIudDTO
                 {

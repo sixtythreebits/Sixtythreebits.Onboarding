@@ -57,7 +57,7 @@ namespace SixtyThreeBits.Web.Models.Admin
 
             var repository = RepositoryFactory.CreateRolesRepository();
             await repository.RolesIUD(
-                databaseAction: Enums.DatabaseActions.INSERT,
+                databaseAction: DatabaseActions.INSERT,
                 roleID: null,
                 role: new RoleIudDTO
                 {
@@ -79,7 +79,7 @@ namespace SixtyThreeBits.Web.Models.Admin
 
             var repository = RepositoryFactory.CreateRolesRepository();
             await repository.RolesIUD(
-                databaseAction: Enums.DatabaseActions.UPDATE,
+                databaseAction: DatabaseActions.UPDATE,
                 roleID: roleID,
                 role: new RoleIudDTO
                 {
@@ -100,7 +100,7 @@ namespace SixtyThreeBits.Web.Models.Admin
 
             var repository = RepositoryFactory.CreateRolesRepository();
             await repository.RolesIUD(
-                databaseAction: Enums.DatabaseActions.DELETE,
+                databaseAction: DatabaseActions.DELETE,
                 roleID: roleID,
                 role: null
             );

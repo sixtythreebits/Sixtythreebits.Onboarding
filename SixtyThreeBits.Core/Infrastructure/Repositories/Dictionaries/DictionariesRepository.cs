@@ -4,7 +4,6 @@ using SixtyThreeBits.Core.Factories;
 using SixtyThreeBits.Core.Libraries.Common;
 using SixtyThreeBits.Core.Libraries.Database;
 using SixtyThreeBits.Core.Libraries.Extensions;
-using SixtyThreeBits.Core.Utilities;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -44,7 +43,7 @@ namespace SixtyThreeBits.Core.Infrastructure.Repositories
             );
         }
 
-        public async Task<int?> DictionariesIUD(Enums.DatabaseActions databaseAction, int? dictionaryID, DictionariesIudDTO dictionary)
+        public async Task<int?> DictionariesIUD(DatabaseActions databaseAction, int? dictionaryID, DictionariesIudDTO dictionary)
         {
             var dictionaryJson = dictionary.ToJson();
 

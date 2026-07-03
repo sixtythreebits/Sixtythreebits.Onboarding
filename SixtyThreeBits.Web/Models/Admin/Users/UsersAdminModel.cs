@@ -77,7 +77,7 @@ namespace SixtyThreeBits.Web.Models.Admin
             {
                 var repository = RepositoryFactory.CreateUsersRepository();
                 await repository.UsersIUD(
-                    databaseAction: Enums.DatabaseActions.INSERT,
+                    databaseAction: DatabaseActions.INSERT,
                     userID: null,
                     user: new UserIudDTO
                     {
@@ -114,7 +114,7 @@ namespace SixtyThreeBits.Web.Models.Admin
             {
                 var repository = RepositoryFactory.CreateUsersRepository();
                 await repository.UsersIUD(
-                    databaseAction: Enums.DatabaseActions.UPDATE,
+                    databaseAction: DatabaseActions.UPDATE,
                     userID: userID,
                     user: new UserIudDTO
                     {
@@ -142,7 +142,7 @@ namespace SixtyThreeBits.Web.Models.Admin
             await FileStorage.DeleteFile(user.UserAvatarFilename);
 
             await repository.UsersIUD(
-                databaseAction: Enums.DatabaseActions.DELETE,
+                databaseAction: DatabaseActions.DELETE,
                 userID: userID,
                 user: null
             );

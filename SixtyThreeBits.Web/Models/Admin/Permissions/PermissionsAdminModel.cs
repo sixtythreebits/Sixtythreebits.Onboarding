@@ -64,7 +64,7 @@ namespace SixtyThreeBits.Web.Models.Admin
 
             var repository = RepositoryFactory.CreatePermissionsRepository();
             await repository.PermissionsIUD(
-                databaseAction: Enums.DatabaseActions.INSERT,
+                databaseAction: DatabaseActions.INSERT,
                 permissionID: null,
                 permission: new PermissionIudDTO
                 {
@@ -93,7 +93,7 @@ namespace SixtyThreeBits.Web.Models.Admin
 
             var repository = RepositoryFactory.CreatePermissionsRepository();
             await repository.PermissionsIUD(
-                databaseAction: Enums.DatabaseActions.UPDATE,
+                databaseAction: DatabaseActions.UPDATE,
                 permissionID: permissionID,
                 permission: new PermissionIudDTO
                 {

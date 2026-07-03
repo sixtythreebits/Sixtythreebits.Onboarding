@@ -3,7 +3,6 @@ using Microsoft.Extensions.Logging;
 using SixtyThreeBits.Core.Factories;
 using SixtyThreeBits.Core.Libraries.Database;
 using SixtyThreeBits.Core.Libraries.Extensions;
-using SixtyThreeBits.Core.Utilities;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -42,7 +41,7 @@ namespace SixtyThreeBits.Core.Infrastructure.Repositories
             );
         }
 
-        public async Task<int?> PermissionsIUD(Enums.DatabaseActions databaseAction, int? permissionID, PermissionIudDTO permission)
+        public async Task<int?> PermissionsIUD(DatabaseActions databaseAction, int? permissionID, PermissionIudDTO permission)
         {
             var permissionJson = permission.ToJson();
 
