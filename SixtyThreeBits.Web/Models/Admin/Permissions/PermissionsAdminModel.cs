@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using SixtyThreeBits.Core.Infrastructure.Repositories;
 using SixtyThreeBits.Core.Libraries.Extensions;
 using SixtyThreeBits.Core.Properties;
-using SixtyThreeBits.Core.Utilities;
 using SixtyThreeBits.Web.Controllers.Admin;
 using SixtyThreeBits.Web.Domain.Libraries;
 using System.Linq;
@@ -64,7 +63,7 @@ namespace SixtyThreeBits.Web.Models.Admin
 
             var repository = RepositoryFactory.CreatePermissionsRepository();
             await repository.PermissionsIUD(
-                databaseAction: Enums.DatabaseActions.INSERT,
+                databaseAction: DatabaseActions.INSERT,
                 permissionID: null,
                 permission: new PermissionIudDTO
                 {
@@ -93,7 +92,7 @@ namespace SixtyThreeBits.Web.Models.Admin
 
             var repository = RepositoryFactory.CreatePermissionsRepository();
             await repository.PermissionsIUD(
-                databaseAction: Enums.DatabaseActions.UPDATE,
+                databaseAction: DatabaseActions.UPDATE,
                 permissionID: permissionID,
                 permission: new PermissionIudDTO
                 {

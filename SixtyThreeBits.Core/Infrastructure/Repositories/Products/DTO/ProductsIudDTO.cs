@@ -1,6 +1,6 @@
 ﻿namespace SixtyThreeBits.Core.Infrastructure.Repositories
 {
-    public record ProductIudDTO
+    public record ProductsIudDTO
     {
         #region Properties
         public string ProductName { get; init; }

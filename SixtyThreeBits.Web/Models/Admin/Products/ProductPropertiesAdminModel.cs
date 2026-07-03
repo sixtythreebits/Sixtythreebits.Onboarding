@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
 using SixtyThreeBits.Core.Infrastructure.Repositories;
+using SixtyThreeBits.Core.Libraries.Common;
 using SixtyThreeBits.Core.Libraries.Extensions;
 using SixtyThreeBits.Core.Libraries.Validation;
 using SixtyThreeBits.Core.Utilities;
-using SixtyThreeBits.Libraries;
 using SixtyThreeBits.Web.Controllers.Admin;
+using SixtyThreeBits.Web.Domain.Libraries;
 using SixtyThreeBits.Web.Domain.Utilities;
 using SixtyThreeBits.Web.Domain.ViewModels.Base;
 using System.Collections.Generic;
@@ -69,14 +70,14 @@ namespace SixtyThreeBits.Web.Models.Admin
                 if (hasProductCoverImage)
                 {
                     await FileStorage.DeleteFile(Product.ProductCoverImageFilename);
-                    productCoverImageFilename = GetFilenameFromUploadedFile(submitModel.ProductCoverImage);
+                    productCoverImageFilename = submitModel.ProductCoverImage?.FileName.ToAZ09Dash(shouldIncludeGuid: true);
                 }
 
                 var repository = RepositoryFactory.CreateProductsRepository();
                 await repository.ProductsIUD(
-                    databaseAction: Enums.DatabaseActions.UPDATE,
+                    databaseAction: DatabaseActions.UPDATE,
                     productID: Product.ProductID,
-                    product: new ProductIudDTO
+                    product: new ProductsIudDTO
                     {
                         ProductName = submitModel.ProductName,
                         ProductPrice = submitModel.ProductPrice ?? Constants.NullValueFor.Numeric,
@@ -152,9 +153,9 @@ namespace SixtyThreeBits.Web.Models.Admin
 
             var repository = RepositoryFactory.CreateProductsRepository();
             await repository.ProductsIUD(
-                databaseAction: Enums.DatabaseActions.UPDATE,
+                databaseAction: DatabaseActions.UPDATE,
                 productID: Product.ProductID,
-                product: new ProductIudDTO
+                product: new ProductsIudDTO
                 {
                     ProductCoverImageFilename = Constants.NullValueFor.String
                 }

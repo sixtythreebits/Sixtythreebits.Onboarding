@@ -2,8 +2,7 @@
 using Microsoft.Extensions.Logging;
 using SixtyThreeBits.Core.Factories;
 using SixtyThreeBits.Core.Libraries.Database;
-using SixtyThreeBits.Core.Utilities;
-using SixtyThreeBits.Libraries.Extensions;
+using SixtyThreeBits.Core.Libraries.Extensions;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -71,7 +70,7 @@ namespace SixtyThreeBits.Core.Infrastructure.Repositories
             return result;
         }
 
-        public async Task<int?> ProductsIUD(Enums.DatabaseActions databaseAction, int? productID, ProductIudDTO product)
+        public async Task<int?> ProductsIUD(DatabaseActions databaseAction, int? productID, ProductsIudDTO product)
         {
             var productJson = product.ToJson();
             

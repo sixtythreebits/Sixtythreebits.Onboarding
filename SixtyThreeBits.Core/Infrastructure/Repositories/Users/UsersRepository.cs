@@ -3,7 +3,6 @@ using Microsoft.Extensions.Logging;
 using SixtyThreeBits.Core.Factories;
 using SixtyThreeBits.Core.Libraries.Database;
 using SixtyThreeBits.Core.Libraries.Extensions;
-using SixtyThreeBits.Core.Utilities;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -98,7 +97,7 @@ namespace SixtyThreeBits.Core.Infrastructure.Repositories
             return result;
         }
 
-        public async Task<int?> UsersIUD(Enums.DatabaseActions databaseAction, int? userID, UserIudDTO user)
+        public async Task<int?> UsersIUD(DatabaseActions databaseAction, int? userID, UserIudDTO user)
         {
             var userJson = user.ToJson();
 

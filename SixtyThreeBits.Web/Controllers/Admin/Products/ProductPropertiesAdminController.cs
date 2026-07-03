@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using SixtyThreeBits.Libraries.Extensions;
+using SixtyThreeBits.Core.Libraries.Extensions;
 using SixtyThreeBits.Web.Domain.Utilities;
 using SixtyThreeBits.Web.Models.Admin;
 using System.Threading.Tasks;
@@ -67,7 +67,7 @@ namespace SixtyThreeBits.Web.Controllers.Admin
             }
             else
             {
-                Model.ShowSuccessToastNotification();
+                Model.ToastNotificationManager.ShowSuccess();
                 return Redirect(Model.UrlCurrentPageWithDomain);
             }
         }

@@ -2,9 +2,8 @@
 using DevExtreme.AspNet.Mvc.Builders;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SixtyThreeBits.Core.Infrastructure.Repositories;
-using SixtyThreeBits.Core.Utilities;
-using SixtyThreeBits.Libraries;
-using SixtyThreeBits.Libraries.Extensions;
+using SixtyThreeBits.Core.Libraries.Common;
+using SixtyThreeBits.Core.Libraries.Extensions;
 using SixtyThreeBits.Web.Controllers.Admin;
 using SixtyThreeBits.Web.Domain.Libraries;
 using SixtyThreeBits.Web.Domain.Utilities;
@@ -78,9 +77,9 @@ namespace SixtyThreeBits.Web.Models.Admin
 
             var repository = RepositoryFactory.CreateProductsRepository();
             await repository.ProductsIUD(
-                databaseAction: Enums.DatabaseActions.INSERT,
+                databaseAction: DatabaseActions.INSERT,
                 productID: null,
-                product: new ProductIudDTO
+                product: new ProductsIudDTO
                 {
                     ProductName = submitModelValues.ProductName,
                     CategoryID = submitModelValues.CategoryID,
@@ -103,9 +102,9 @@ namespace SixtyThreeBits.Web.Models.Admin
 
             var repository = RepositoryFactory.CreateProductsRepository();
             await repository.ProductsIUD(
-                databaseAction: Enums.DatabaseActions.UPDATE,
+                databaseAction: DatabaseActions.UPDATE,
                 productID: productID,
-                product: new ProductIudDTO
+                product: new ProductsIudDTO
                 {
                     ProductName = submitModelValues.ProductName,
                     CategoryID = submitModelValues.CategoryID,
@@ -127,7 +126,7 @@ namespace SixtyThreeBits.Web.Models.Admin
 
             var repository = RepositoryFactory.CreateProductsRepository();
             await repository.ProductsIUD(
-                databaseAction: Enums.DatabaseActions.DELETE,
+                databaseAction: DatabaseActions.DELETE,
                 productID: productID,
                 product: null
             );
