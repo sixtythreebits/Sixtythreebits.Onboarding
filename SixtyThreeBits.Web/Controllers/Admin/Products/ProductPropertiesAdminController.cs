@@ -66,8 +66,7 @@ namespace SixtyThreeBits.Web.Controllers.Admin
                 return View(_viewName, viewModel);
             }
             else
-            {
-                Model.ToastNotificationManager.ShowSuccess();
+            {                
                 return Redirect(Model.UrlCurrentPageWithDomain);
             }
         }

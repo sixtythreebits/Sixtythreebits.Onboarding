@@ -124,5 +124,5 @@ namespace SixtyThreeBits.Core.Infrastructure.Repositories
             return result;
         }
         #endregion
-    }        
+    }
 }

@@ -93,6 +93,7 @@ namespace SixtyThreeBits.Web.Models.Admin
                 }
                 else
                 {
+                    ToastNotificationManager.ShowSuccess();
                     if (hasProductCoverImage)
                     {
                         var fileStream = submitModel.ProductCoverImage.OpenReadStream();

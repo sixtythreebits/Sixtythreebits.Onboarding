@@ -18,23 +18,22 @@ namespace SixtyThreeBits.Web.Controllers.Website
         {
             await base.OnActionExecutionAsync(context, async () =>
             {
-                var model = WebUtilities.GetModelFromController<ProductWebsiteModel>(context.Controller);
-                var productID = model.RouteData.Values[RouteKeys63.ProductID]?.ToString().ToInt();
+                var productID = Model.RouteData.Values[RouteKeys63.ProductID]?.ToString().ToInt();
 
-                var repository = model.RepositoryFactory.CreateProductsRepository();
-                model.Product = await repository.ProductsGetSingleByID(productID);
+                var repository = Model.RepositoryFactory.CreateProductsRepository();
+                Model.Product = await repository.ProductsGetSingleByID(productID);
 
-                if (model.Product == null)
+                if (Model.Product == null)
                 {
-                    context.Result = model.GetNotFoundWebsiteViewResult();
+                    context.Result = Model.GetNotFoundWebsiteViewResult();
                     return new ActionExecutedContext(context, context.Filters, context.Controller) { Result = context.Result, Canceled = true };
                 }
                 else
                 {
-                    if (!model.IsAjaxRequest)
+                    if (!Model.IsAjaxRequest)
                     {
-                        var pageTitle = model.Product.ProductName;
-                        model.PageTitle.Set(pageTitle);
+                        var pageTitle = Model.Product.ProductName;
+                        Model.PageTitle.Set(pageTitle);
                     }
 
                     return await next();

@@ -11,8 +11,8 @@ namespace SixtyThreeBits.Web.Controllers.Website
         #endregion
 
         #region Actions
-        [Route("products", Name = $"{nameof(ProductsWebsiteController)}{nameof(Product)}")]
-        public async Task<IActionResult> Product()
+        [Route("products", Name = $"{nameof(ProductsWebsiteController)}{nameof(Products)}")]
+        public async Task<IActionResult> Products()
         {
             var viewModel = await Model.GetViewModel();
             return View(_viewName, viewModel);
