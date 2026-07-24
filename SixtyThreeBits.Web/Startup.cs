@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Rewrite;
@@ -11,11 +10,7 @@ using Microsoft.Extensions.Hosting;
 using SixtyThreeBits.Core.Factories;
 using SixtyThreeBits.Core.Libraries.Loggers;
 using SixtyThreeBits.Core.Utilities;
-using SixtyThreeBits.Web.Domain.Libraries;
-using SixtyThreeBits.Web.Domain.Utilities;
-using SixtyThreeBits.Web.Domain.ViewModels.Shared;
 using System;
-using System.Threading.Tasks;
 
 namespace SixtyThreeBits.Web
 {
