@@ -70,7 +70,7 @@ namespace SixtyThreeBits.Web.Models.Admin
                 if (hasProductCoverImage)
                 {
                     await FileStorage.DeleteFile(Product.ProductCoverImageFilename);
-                    productCoverImageFilename = submitModel.ProductCoverImage?.FileName.ToAZ09Dash(shouldIncludeGuid: true);
+                    productCoverImageFilename = submitModel.ProductCoverImage.FileName.ToAZ09Dash(shouldIncludeGuid: true);
                 }
 
                 var repository = RepositoryFactory.CreateProductsRepository();
@@ -104,6 +104,7 @@ namespace SixtyThreeBits.Web.Models.Admin
 
             return viewModel;
         }
+
         ValidationResult63 validateSubmitModel(ViewModel submitModel)
         {
             var result = new ValidationResult63();
