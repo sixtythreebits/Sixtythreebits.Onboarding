@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
-using SixtyThreeBits.Core.Libraries.Extensions;
 using SixtyThreeBits.Web.Domain.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace SixtyThreeBits.Web.Domain.Libraries
@@ -33,80 +33,30 @@ namespace SixtyThreeBits.Web.Domain.Libraries
         }
         #endregion
 
-        #region Methods
-        string createUrl(string routeName, RouteValueDictionary values)
+        #region Methods        
+        public string CreateUrl(string controllerName, string actionName, Dictionary<string,object> routeValues = null, bool shouldCreateAbsolutePath = false)
         {
-            var url = _url.RouteUrl(
-                routeName: routeName,
-                values: values,
-                protocol: _protocol
-            );
-            return url;
-        }
-
-        string createUrl(string controllerName, string actionName, RouteValueDictionary values)
-        {
-            var url = createUrl(
-                routeName: $"{controllerName}{actionName}",
-                values: values
-            );
-            return url;
-        }
-
-        string createUrlWithLanguage(string controllerName, string actionName, string languageCultureCode, RouteValueDictionary values)
-        {
-            var url = default(string);
-            if (string.IsNullOrWhiteSpace(languageCultureCode))
-            {
-                languageCultureCode = _languageCultureCodeSystem;
-            }
-
-            var isLanguageDefault = languageCultureCode == _languageCultureCodeDefault;
-
-            if (isLanguageDefault)
-            {
-                url = createUrl(
-                    routeName: $"{controllerName}{actionName}",
-                    values: values
-                );
-            }
-            else
-            {
-                if (values == null)
-                {
-                    values = new RouteValueDictionary();
-                }
-                values.Add(key: RouteKeys63.LanguageCultureCode, _languageCultureCodeSystem);
-
-                url = createUrl(
-                    routeName: $"{controllerName}{actionName}{nameof(RouteKeys63.LanguageCultureCode)}",
-                    values: values
-                );
-            }
-
-            return url;
-        }
-
-
-        public string CreateUrl(string controllerName, string actionName, Dictionary<string,object> routeValues = null)
-        {
-            var routeValueDict = routeValues.HasElements() ? new RouteValueDictionary(routeValues) : null;
+            var routeValueDictionary = routeValues?.Any() == true ? new RouteValueDictionary(routeValues) : null;
 
             var url = createUrl(
                 controllerName: controllerName,
                 actionName: actionName,
-                values: routeValueDict
+                values: routeValueDictionary,
+                shouldCreateAbsolutePath: shouldCreateAbsolutePath
             );
             return url;
         }
 
-        public string CreateUrlWithLanguage(string controllerName, string actionName, string languageCultureCode = null)
+        public string CreateUrlWithLanguage(string controllerName, string actionName, string languageCultureCode = null, Dictionary<string, object> routeValues = null, bool shouldCreateAbsolutePath = false)
         {
+            var routeValueDictionary = routeValues?.Any() == true ? new RouteValueDictionary(routeValues) : null;
+
             var url = createUrlWithLanguage(
                 controllerName: controllerName,
                 actionName: actionName,
                 languageCultureCode: languageCultureCode,
-                values: null
+                values: routeValueDictionary,
+                shouldCreateAbsolutePath: shouldCreateAbsolutePath
             );
             return url;
         }
@@ -127,6 +77,77 @@ namespace SixtyThreeBits.Web.Domain.Libraries
 
                     return values[index++].ToString();
                 });
+        }
+        #endregion
+
+        #region Private Methods
+        string createUrl(string routeName, RouteValueDictionary values, bool shouldCreateAbsolutePath)
+        {
+            var url = default(string);
+            if (shouldCreateAbsolutePath)
+            {
+                url = _url.RouteUrl(
+                    routeName: routeName,
+                    values: values,
+                    protocol: _protocol
+                );
+            }
+            else
+            {
+                url = _url.RouteUrl(
+                    routeName: routeName,
+                    values: values
+                );
+            }
+            
+            return url;
+        }
+
+        string createUrl(string controllerName, string actionName, RouteValueDictionary values, bool shouldCreateAbsolutePath)
+        {
+            var url = createUrl(
+                routeName: $"{controllerName}{actionName}",
+                values: values,
+                shouldCreateAbsolutePath: shouldCreateAbsolutePath
+            );
+            return url;
+        }
+
+        string createUrlWithLanguage(string controllerName, string actionName, string languageCultureCode, RouteValueDictionary values, bool shouldCreateAbsolutePath)
+        {
+            var url = default(string);
+            if (string.IsNullOrWhiteSpace(languageCultureCode))
+            {
+                languageCultureCode = _languageCultureCodeSystem;
+            }
+
+            var isLanguageDefault = languageCultureCode == _languageCultureCodeDefault;
+
+            if (isLanguageDefault)
+            {
+                url = createUrl(
+                    controllerName: controllerName,
+                    actionName: actionName,
+                    values: values,
+                    shouldCreateAbsolutePath: shouldCreateAbsolutePath
+                );
+            }
+            else
+            {
+                if (values == null)
+                {
+                    values = new RouteValueDictionary();
+                }
+                values.Add(RouteKeys63.LanguageCultureCode, _languageCultureCodeSystem);
+
+                url = createUrl(
+                    routeName: $"{controllerName}{actionName}{nameof(RouteKeys63.LanguageCultureCode)}",
+                    values: values,
+                    shouldCreateAbsolutePath: shouldCreateAbsolutePath
+                );
+            }
+
+            return url;
         }
         #endregion
     }

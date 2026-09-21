@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Routing;
-using SixtyThreeBits.Web.Controllers.Website;
-using SixtyThreeBits.Web.Domain.Utilities;
+﻿using SixtyThreeBits.Web.Controllers.Website;
 
 namespace SixtyThreeBits.Web.Domain.Libraries
 {
@@ -23,30 +21,27 @@ namespace SixtyThreeBits.Web.Domain.Libraries
             #region Methods
             public string CreateUrlHome()
             {
-                var url = _urlFactory63.createUrl(
+                var url = _urlFactory63.CreateUrl(
                     controllerName: nameof(HomeWebsiteController),
-                    actionName: nameof(HomeWebsiteController.Index),
-                    values: null
+                    actionName: nameof(HomeWebsiteController.Index)
                 );
                 return url;
             }
 
             public string CreateUrlLogout()
             {
-                var url = _urlFactory63.createUrl(
+                var url = _urlFactory63.CreateUrl(
                     controllerName: nameof(LogoutController),
-                    actionName: nameof(LogoutController.Logout),
-                    values: null
+                    actionName: nameof(LogoutController.Logout)
                 );
                 return url;
             }
 
             public string CreateUrlRelogin()
             {
-                var url = _urlFactory63.createUrl(
+                var url = _urlFactory63.CreateUrl(
                     controllerName: nameof(ReloginController),
-                    actionName: nameof(ReloginController.Relogin),
-                    values: null
+                    actionName: nameof(ReloginController.Relogin)
                 );
                 return url;
             }           
