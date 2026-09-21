@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace SixtyThreeBits.Core.Infrastructure.Repositories
 {
@@ -14,7 +14,7 @@ namespace SixtyThreeBits.Core.Infrastructure.Repositories
         public DateTime? ProductDateCreated { get; init; }
         public int? CategoryID { get; init; }
         public string CategoryName { get; init; }
-        public List<ProductImage> ProductImages { get; init; }
+        public ReadOnlyCollection<ProductImage> ProductImages { get; init; }
         #endregion
 
         #region Nested Classes
