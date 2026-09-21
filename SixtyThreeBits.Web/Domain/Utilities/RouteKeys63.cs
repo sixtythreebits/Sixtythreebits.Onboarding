@@ -3,6 +3,7 @@
     public static class RouteKeys63
     {
         #region Properties
+        public const string LanguageCultureCode = "languageCultureCode";
         public const string ProductID = "productID";
         #endregion
     }
