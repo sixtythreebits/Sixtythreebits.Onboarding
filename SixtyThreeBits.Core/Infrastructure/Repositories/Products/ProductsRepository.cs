@@ -4,7 +4,7 @@ using SixtyThreeBits.Core.Factories;
 using SixtyThreeBits.Core.Libraries.Common;
 using SixtyThreeBits.Core.Libraries.Database;
 using SixtyThreeBits.Core.Libraries.Extensions;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,7 +20,7 @@ namespace SixtyThreeBits.Core.Infrastructure.Repositories
         #endregion
 
         #region Methods
-        public async Task<Result63<List<CategoriesListDTO>>> CategoriesList()
+        public async Task<Result63<ReadOnlyCollection<CategoriesListDTO>>> CategoriesList()
         {
             var result = await TryAsync(
                 logString: $"{nameof(CategoriesList)}()",
@@ -35,7 +35,7 @@ namespace SixtyThreeBits.Core.Infrastructure.Repositories
 
                         var resultQueryable = sqb.ExecuteTableValuedFunction<CategoriesListDTO>();
                         resultQueryable = resultQueryable.OrderBy(item => item.CategoryName);
-                        var result = await resultQueryable.ToListAsync();
+                        var result = await resultQueryable.ToReadOnlyListAsync();
 
                         return result;
                     }
@@ -101,7 +101,7 @@ namespace SixtyThreeBits.Core.Infrastructure.Repositories
             return result;
         }
 
-        public async Task<Result63<List<ProductsListDTO>>> ProductsList()
+        public async Task<Result63<ReadOnlyCollection<ProductsListDTO>>> ProductsList()
         {
             var result = await TryAsync(
                 logString: $"{nameof(ProductsList)}()",
@@ -116,7 +116,7 @@ namespace SixtyThreeBits.Core.Infrastructure.Repositories
 
                         var resultQueryable = sqb.ExecuteTableValuedFunction<ProductsListDTO>();
                         resultQueryable = resultQueryable.OrderByDescending(item => item.ProductDateCreated);
-                        var result = await resultQueryable.ToListAsync();
+                        var result = await resultQueryable.ToReadOnlyListAsync();
 
                         return result;
                     }

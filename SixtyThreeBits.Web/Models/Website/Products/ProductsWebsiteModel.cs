@@ -2,6 +2,7 @@
 using SixtyThreeBits.Web.Controllers.Website;
 using SixtyThreeBits.Web.Domain.Utilities;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -27,7 +28,7 @@ namespace SixtyThreeBits.Web.Models.Website
                     actionName: nameof(ProductWebsiteController.Product),
                     routeValues: new Dictionary<string, object> { { RouteKeys63.ProductID, item.ProductID }  }
                 )
-            }).ToList();
+            }).ToList().AsReadOnly();
 
             PageTitle.Set("Products");
 
@@ -39,7 +40,7 @@ namespace SixtyThreeBits.Web.Models.Website
         public class ViewModel
         {
             #region Properties
-            public List<Product> Products { get; set; }
+            public ReadOnlyCollection<Product> Products { get; set; }
             public bool HasProducts => Products.HasElements();
             #endregion
 
