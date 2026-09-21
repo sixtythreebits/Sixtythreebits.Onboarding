@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Routing;
-using SixtyThreeBits.Web.Controllers.Admin;
-using SixtyThreeBits.Web.Domain.Utilities;
-using System.Collections.Generic;
-using System.Linq;
+﻿using SixtyThreeBits.Web.Controllers.Admin;
 
 namespace SixtyThreeBits.Web.Domain.Libraries
 {
@@ -25,20 +21,18 @@ namespace SixtyThreeBits.Web.Domain.Libraries
             #region Methods
             public string CreateUrlHomeDashboard()
             {
-                var url = _urlFactory63.createUrl(
+                var url = _urlFactory63.CreateUrl(
                     controllerName: nameof(HomeAdminController),
-                    actionName: nameof(HomeAdminController.Dashboard),
-                    values: null
+                    actionName: nameof(HomeAdminController.Dashboard)
                 );
                 return url;
             }
 
             public string CreateUrlLogin()
             {
-                var url = _urlFactory63.createUrl(
+                var url = _urlFactory63.CreateUrl(
                     controllerName: nameof(LoginAdminController),
-                    actionName: nameof(LoginAdminController.Login),
-                    values: null
+                    actionName: nameof(LoginAdminController.Login)
                 );
                 return url;
             }
