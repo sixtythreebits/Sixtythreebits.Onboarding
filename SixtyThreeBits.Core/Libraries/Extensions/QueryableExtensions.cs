@@ -8,7 +8,7 @@ namespace SixtyThreeBits.Core.Libraries.Extensions
     public static class QueryableExtensions
     {
         #region Methods
-        public static async Task<ReadOnlyCollection<T>> ToReadOnlyListAsync<T>(this IQueryable<T> source)
+        public static async Task<ReadOnlyCollection<T>> ToReadOnlyCollectionAsync<T>(this IQueryable<T> source)
         {
             return (await source.ToListAsync()).AsReadOnly();
         }

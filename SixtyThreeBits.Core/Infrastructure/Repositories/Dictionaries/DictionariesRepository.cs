@@ -94,7 +94,7 @@ namespace SixtyThreeBits.Core.Infrastructure.Repositories
                             .ThenBy(item => item.DictionarySortIndex)
                             .ThenBy(item => item.DictionaryCaption).OrderByDescending(item => item.DictionaryIsDefault);
                             
-                        var result = await resultQueryable.ToReadOnlyListAsync();
+                        var result = await resultQueryable.ToReadOnlyCollectionAsync();
 
                         return result;
                     }
@@ -127,7 +127,7 @@ namespace SixtyThreeBits.Core.Infrastructure.Repositories
                             .OrderByDescending(item => item.DictionaryIsDefault)
                             .ThenBy(item => item.DictionarySortIndex)
                             .ThenBy(item => item.DictionaryCaption);
-                        var result = await resultQueryable.ToReadOnlyListAsync();
+                        var result = await resultQueryable.ToReadOnlyCollectionAsync();
 
                         return result;
                     }

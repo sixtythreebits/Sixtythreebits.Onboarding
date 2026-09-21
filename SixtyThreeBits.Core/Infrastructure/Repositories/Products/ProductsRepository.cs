@@ -35,7 +35,7 @@ namespace SixtyThreeBits.Core.Infrastructure.Repositories
 
                         var resultQueryable = sqb.ExecuteTableValuedFunction<CategoriesListDTO>();
                         resultQueryable = resultQueryable.OrderBy(item => item.CategoryName);
-                        var result = await resultQueryable.ToReadOnlyListAsync();
+                        var result = await resultQueryable.ToReadOnlyCollectionAsync();
 
                         return result;
                     }
@@ -116,7 +116,7 @@ namespace SixtyThreeBits.Core.Infrastructure.Repositories
 
                         var resultQueryable = sqb.ExecuteTableValuedFunction<ProductsListDTO>();
                         resultQueryable = resultQueryable.OrderByDescending(item => item.ProductDateCreated);
-                        var result = await resultQueryable.ToReadOnlyListAsync();
+                        var result = await resultQueryable.ToReadOnlyCollectionAsync();
 
                         return result;
                     }

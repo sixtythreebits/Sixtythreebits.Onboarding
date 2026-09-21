@@ -66,7 +66,7 @@ namespace SixtyThreeBits.Core.Infrastructure.Repositories
 
                         var resultQueryable = sqb.ExecuteTableValuedFunction<RoleDTO>();
                         resultQueryable = resultQueryable.OrderBy(item => item.RoleCode);
-                        var result = await resultQueryable.ToReadOnlyListAsync();
+                        var result = await resultQueryable.ToReadOnlyCollectionAsync();
 
                         return result;
                     }
