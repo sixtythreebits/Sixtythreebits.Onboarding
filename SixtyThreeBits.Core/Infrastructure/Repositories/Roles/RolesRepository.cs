@@ -1,10 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using SixtyThreeBits.Core.Factories;
 using SixtyThreeBits.Core.Libraries.Common;
 using SixtyThreeBits.Core.Libraries.Database;
 using SixtyThreeBits.Core.Libraries.Extensions;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,7 +16,7 @@ namespace SixtyThreeBits.Core.Infrastructure.Repositories
     {
         #region Contructors
         public RolesRepository(DbContextFactory dbContextFactory, ILogger logger) : base(dbContextFactory, logger)
-        {            
+        {
         }
         #endregion
 
@@ -50,7 +51,7 @@ namespace SixtyThreeBits.Core.Infrastructure.Repositories
             return result;
         }
 
-        public async Task<Result63<List<RoleDTO>>> RolesList()
+        public async Task<Result63<ReadOnlyCollection<RoleDTO>>> RolesList()
         {
             var result = await TryAsync(
                 logString: $"{nameof(RolesList)}()",
@@ -65,35 +66,16 @@ namespace SixtyThreeBits.Core.Infrastructure.Repositories
 
                         var resultQueryable = sqb.ExecuteTableValuedFunction<RoleDTO>();
                         resultQueryable = resultQueryable.OrderBy(item => item.RoleCode);
-                        var result = await resultQueryable.ToListAsync();
-                        
+                        var result = await resultQueryable.ToReadOnlyListAsync();
+
                         return result;
                     }
                 }
             );
             return result;
-        }
+        }        
 
-        public async Task<Result63<List<KeyValueTuple<int?,string>>>> RolesListAsKeyValueTuple(bool IsRoleCodeAsKey = false)
-        {
-            var rolesResult = await RolesList();
-            if (rolesResult.IsError)
-            {
-                return Result63<List<KeyValueTuple<int?, string>>>.Failure(errorMessage: rolesResult.ErrorMessage, exception: rolesResult.Exception);
-            }
-            else
-            {
-                var result = rolesResult.Value
-                    ?.Select(item => new KeyValueTuple<int?, string>
-                    {
-                        Key = IsRoleCodeAsKey ? item.RoleCode : item.RoleID,
-                        Value = item.RoleName
-                    }).ToList();
-                return Result63<List<KeyValueTuple<int?, string>>>.Success(result);
-            }
-        }
-
-        public async Task<Result63> RolesPermissionsUpdate(int? roleID, List<int?> permissionIDs)
+        public async Task<Result63> RolesPermissionsUpdate(int? roleID, ReadOnlyCollection<int?> permissionIDs)
         {
             var permissionIDsJson = permissionIDs.ToJson();
             var result = await TryAsync(
@@ -118,5 +100,5 @@ namespace SixtyThreeBits.Core.Infrastructure.Repositories
             return result;
         }
         #endregion
-    }    
+    }
 }

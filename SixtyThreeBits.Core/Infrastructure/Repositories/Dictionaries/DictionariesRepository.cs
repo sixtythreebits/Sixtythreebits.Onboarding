@@ -1,10 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using SixtyThreeBits.Core.Factories;
 using SixtyThreeBits.Core.Libraries.Common;
 using SixtyThreeBits.Core.Libraries.Database;
 using SixtyThreeBits.Core.Libraries.Extensions;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,11 +16,11 @@ namespace SixtyThreeBits.Core.Infrastructure.Repositories
     {
         #region Contructors
         public DictionariesRepository(DbContextFactory dbContextFactory, ILogger logger) : base(dbContextFactory, logger)
-        {            
+        {
         }
         #endregion
 
-        #region Methods        
+        #region Methods
         public async Task<Result63> DictionariesDeleteRecursive(int? dictionaryID)
         {
             var result = await TryAsync(
@@ -74,7 +75,7 @@ namespace SixtyThreeBits.Core.Infrastructure.Repositories
             return result;
         }
 
-        public async Task<Result63<List<DictionariesDTO>>> DictionariesList()
+        public async Task<Result63<ReadOnlyCollection<DictionariesDTO>>> DictionariesList()
         {
             var result = await TryAsync(
                 logString: $"{nameof(DictionariesList)}()",
@@ -91,9 +92,10 @@ namespace SixtyThreeBits.Core.Infrastructure.Repositories
                         resultQueryable = resultQueryable
                             .OrderByDescending(item => item.DictionaryIsDefault)
                             .ThenBy(item => item.DictionarySortIndex)
-                            .ThenBy(item => item.DictionaryCaption);
-                        var result = await resultQueryable.ToListAsync();
-                        
+                            .ThenBy(item => item.DictionaryCaption).OrderByDescending(item => item.DictionaryIsDefault);
+                            
+                        var result = await resultQueryable.ToReadOnlyListAsync();
+
                         return result;
                     }
                 }
@@ -101,7 +103,7 @@ namespace SixtyThreeBits.Core.Infrastructure.Repositories
             return result;
         }
 
-        public async Task<Result63<List<DictionariesDTO>>> DictionariesListByLevelCodeIsVisible(int? dictionaryLevel, int? dictionaryCode, bool? dictionaryIsVisible = null)
+        public async Task<Result63<ReadOnlyCollection<DictionariesDTO>>> DictionariesListByLevelCodeIsVisible(int? dictionaryLevel, int? dictionaryCode, bool? dictionaryIsVisible = null)
         {
             var result = await TryAsync(
                 logString: $"{nameof(DictionariesListByLevelCodeIsVisible)}({nameof(dictionaryLevel)} = {dictionaryLevel}, {nameof(dictionaryCode)} = {dictionaryCode}, {nameof(dictionaryIsVisible)} = {dictionaryIsVisible})",
@@ -125,53 +127,14 @@ namespace SixtyThreeBits.Core.Infrastructure.Repositories
                             .OrderByDescending(item => item.DictionaryIsDefault)
                             .ThenBy(item => item.DictionarySortIndex)
                             .ThenBy(item => item.DictionaryCaption);
-                        var result = await resultQueryable.ToListAsync();                        
+                        var result = await resultQueryable.ToReadOnlyListAsync();
 
                         return result;
                     }
                 }
             );
             return result;
-        }
-
-        public async Task<Result63<List<KeyValueTuple<int?, string>>>> DictionariesListAsKeyValueTuple(int? dictionaryCode, bool isDictionaryIntCodeAsKey = false)
-        {
-            var dictionariesResult = await DictionariesListByLevelCodeIsVisible(dictionaryLevel: 1, dictionaryCode: dictionaryCode);
-            if (dictionariesResult.IsError)
-            {
-                return Result63<List<KeyValueTuple<int?, string>>>.Failure(errorMessage: dictionariesResult.ErrorMessage, exception: dictionariesResult.Exception);
-            }
-            else
-            {
-                var result = dictionariesResult.Value
-                    ?.Select(item => new KeyValueTuple<int?, string>
-                    {
-                        Key = isDictionaryIntCodeAsKey ? item.DictionaryIntCode : item.DictionaryID,
-                        Value = item.DictionaryCaption
-                    }).ToList();
-                return Result63<List<KeyValueTuple<int?, string>>>.Success(result);
-            }
-        }
-
-        public async Task<Result63<List<KeyValueSelectedTuple<int?, string>>>> DictionariesListAsKeyValueSelectedTuple(int? dictionaryCode, int? selectedValue, bool isDictionaryIntCodeAsKey = false)
-        {
-            var dictionariesResult = await DictionariesListByLevelCodeIsVisible(dictionaryLevel: 1, dictionaryCode: dictionaryCode);
-            if (dictionariesResult.IsError)
-            {
-                return Result63<List<KeyValueSelectedTuple<int?, string>>>.Failure(errorMessage: dictionariesResult.ErrorMessage, exception: dictionariesResult.Exception);
-            }
-            else
-            {
-                var result = dictionariesResult.Value
-                    ?.Select(item => new KeyValueSelectedTuple<int?, string>
-                    {
-                        Key = isDictionaryIntCodeAsKey ? item.DictionaryIntCode : item.DictionaryID,
-                        Value = item.DictionaryCaption,
-                        IsSelected = isDictionaryIntCodeAsKey ? (item.DictionaryIntCode == selectedValue) : (item.DictionaryID == selectedValue)
-                    }).ToList();
-                return Result63<List<KeyValueSelectedTuple<int?, string>>>.Success(result);
-            }
-        }
+        }        
         #endregion
     }
 }

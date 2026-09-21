@@ -12,6 +12,7 @@ using SixtyThreeBits.Web.Controllers.Admin;
 using SixtyThreeBits.Web.Domain.Libraries;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -33,8 +34,12 @@ namespace SixtyThreeBits.Web.Models.Admin
             viewModel.Grid.IsEditButtonVisible = User.HasPermission(viewModel.Grid.UrlUpdate);
             viewModel.Grid.IsDeleteButtonVisible = User.HasPermission(viewModel.Grid.UrlDelete);
 
-            var rolesResult = await repository.RolesListAsKeyValueTuple();
-            viewModel.Grid.Roles = rolesResult.Value;
+            var rolesResult = await repository.RolesList();
+            viewModel.Grid.Roles = rolesResult.Value?.Select(item => new KeyValueTuple<int?, string>
+            {
+                Key = item.RoleID,
+                Value = item.RoleName
+            }).ToList().AsReadOnly();
 
             viewModel.IsAddNewButtonVisible = User.HasPermission(viewModel.Grid.UrlAddNew);
 
@@ -197,7 +202,7 @@ namespace SixtyThreeBits.Web.Models.Admin
             public class GridModel : DevExtremeGridModelBase63<GridModel.GridItem>
             {
                 #region Properties
-                public List<KeyValueTuple<int?, string>> Roles { get; set; }
+                public ReadOnlyCollection<KeyValueTuple<int?, string>> Roles { get; set; }
                 #endregion
 
                 #region Methods

@@ -4,7 +4,7 @@ using SixtyThreeBits.Core.Factories;
 using SixtyThreeBits.Core.Libraries.Common;
 using SixtyThreeBits.Core.Libraries.Database;
 using SixtyThreeBits.Core.Libraries.Extensions;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
@@ -128,7 +128,7 @@ namespace SixtyThreeBits.Core.Infrastructure.Repositories
             return result;
         }
 
-        public async Task<Result63<List<UsersListDTO>>> UsersList()
+        public async Task<Result63<ReadOnlyCollection<UsersListDTO>>> UsersList()
         {
             var result = await TryAsync(
                 logString: $"{nameof(UsersList)}()",
@@ -143,7 +143,7 @@ namespace SixtyThreeBits.Core.Infrastructure.Repositories
 
                         var resultQueryable = sqb.ExecuteTableValuedFunction<UsersListDTO>();
                         resultQueryable = resultQueryable.OrderByDescending(item => item.UserDateCreated);
-                        var result = await resultQueryable.ToListAsync();
+                        var result = await resultQueryable.ToReadOnlyListAsync();
                         
                         return result;
                     }
