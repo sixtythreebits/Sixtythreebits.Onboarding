@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using SixtyThreeBits.Core.Properties;
 using SixtyThreeBits.Web.Controllers.Admin;
 using SixtyThreeBits.Web.Domain.Libraries;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -207,7 +207,7 @@ namespace SixtyThreeBits.Web.Models.Admin
         {
             #region Properties
             public int? RoleID { get; set; }
-            public List<int?> PermissionIDs { get; set; }
+            public ReadOnlyCollection<int?> PermissionIDs { get; set; }
             #endregion
         }
         #endregion

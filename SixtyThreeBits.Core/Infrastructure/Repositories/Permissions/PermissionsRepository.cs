@@ -4,7 +4,7 @@ using SixtyThreeBits.Core.Factories;
 using SixtyThreeBits.Core.Libraries.Common;
 using SixtyThreeBits.Core.Libraries.Database;
 using SixtyThreeBits.Core.Libraries.Extensions;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
@@ -73,7 +73,7 @@ namespace SixtyThreeBits.Core.Infrastructure.Repositories
             return result;
         }
 
-        public async Task<Result63<List<PermissionsListDTO>>> PermissionsList()
+        public async Task<Result63<ReadOnlyCollection<PermissionsListDTO>>> PermissionsList()
         {
             var result = await TryAsync(
                 logString: $"{nameof(PermissionsList)}()",
@@ -88,7 +88,7 @@ namespace SixtyThreeBits.Core.Infrastructure.Repositories
 
                         var resultQueryable = sqb.ExecuteTableValuedFunction<PermissionsListDTO>();
                         resultQueryable = resultQueryable.OrderBy(P => P.PermissionSortIndex);
-                        var result = await resultQueryable.ToListAsync();
+                        var result = await resultQueryable.ToReadOnlyListAsync();
                         
                         return result;
                     }
@@ -97,7 +97,7 @@ namespace SixtyThreeBits.Core.Infrastructure.Repositories
             return result;
         }
 
-        public async Task<Result63<List<PermissionsListByRoleIDDTO>>> PermissionsListByRoleID(int? roleID)
+        public async Task<Result63<ReadOnlyCollection<PermissionsListByRoleIDDTO>>> PermissionsListByRoleID(int? roleID)
         {
             var result = await TryAsync(
                 logString: $"{nameof(PermissionsListByRoleID)}({nameof(roleID)} = {roleID}",
@@ -115,8 +115,8 @@ namespace SixtyThreeBits.Core.Infrastructure.Repositories
                         );
 
                         var resultQueryable = sqb.ExecuteTableValuedFunction<PermissionsListByRoleIDDTO>();
-                        var result = await resultQueryable.ToListAsync();
-                        
+                        var result = await resultQueryable.ToReadOnlyListAsync();
+
                         return result;
                     }
                 }
