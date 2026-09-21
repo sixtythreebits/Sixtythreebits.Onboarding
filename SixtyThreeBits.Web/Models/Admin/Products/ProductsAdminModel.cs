@@ -9,6 +9,7 @@ using SixtyThreeBits.Web.Domain.Libraries;
 using SixtyThreeBits.Web.Domain.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -28,7 +29,7 @@ namespace SixtyThreeBits.Web.Models.Admin
             {
                 Key = item.CategoryID,
                 Value = item.CategoryName
-            }).ToList();
+            }).ToList().AsReadOnly();
 
             viewModel.Grid = new ViewModel.GridModel(categories);
             viewModel.Grid.UrlLoad = UrlFactory.CreateUrl(controllerName: nameof(ProductsAdminController), actionName: nameof(ProductsAdminController.Grid));
@@ -152,11 +153,11 @@ namespace SixtyThreeBits.Web.Models.Admin
             public class GridModel : DevExtremeGridModelBase63<GridModel.GridItem>
             {
                 #region Properties
-                readonly IReadOnlyList<KeyValueTuple<int?, string>> _categories;
+                readonly ReadOnlyCollection<KeyValueTuple<int?, string>> _categories;
                 #endregion
 
                 #region Constructors
-                public GridModel(IReadOnlyList<KeyValueTuple<int?, string>> categories)
+                public GridModel(ReadOnlyCollection<KeyValueTuple<int?, string>> categories)
                 {
                     _categories = categories;
                 }

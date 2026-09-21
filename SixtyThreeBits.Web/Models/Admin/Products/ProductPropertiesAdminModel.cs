@@ -9,6 +9,7 @@ using SixtyThreeBits.Web.Domain.Libraries;
 using SixtyThreeBits.Web.Domain.Utilities;
 using SixtyThreeBits.Web.Domain.ViewModels.Base;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -49,7 +50,7 @@ namespace SixtyThreeBits.Web.Models.Admin
                 Key = item.CategoryID,
                 Value = item.CategoryName,
                 IsSelected = item.CategoryID == Product.CategoryID,
-            }).ToList();
+            }).ToList().AsReadOnly();
             
             return viewModel;
         }
@@ -190,7 +191,7 @@ namespace SixtyThreeBits.Web.Models.Admin
             public IFormFile ProductCoverImage { get; set; }
             public bool ProductIsPublished { get; set; }
             public int? CategoryID { get; set; }
-            public List<KeyValueSelectedTuple<int?, string>> Categories { get; set; }
+            public ReadOnlyCollection<KeyValueSelectedTuple<int?, string>> Categories { get; set; }
             public bool HasCategories => Categories.HasElements();
             public string UrlDeleteImage { get; set; }
             #endregion
