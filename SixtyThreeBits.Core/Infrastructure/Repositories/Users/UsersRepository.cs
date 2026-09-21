@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using SixtyThreeBits.Core.Factories;
+using SixtyThreeBits.Core.Libraries.Common;
 using SixtyThreeBits.Core.Libraries.Database;
 using SixtyThreeBits.Core.Libraries.Extensions;
 using System.Collections.Generic;
@@ -19,11 +20,11 @@ namespace SixtyThreeBits.Core.Infrastructure.Repositories
         #endregion
 
         #region Methods
-        public async Task<UserDTO> UsersGetSingleByID(int? userID)
+        public async Task<Result63<UserDTO>> UsersGetSingleByID(int? userID)
         {
-            var result = await TryToReturnAsyncTask(
+            var result = await TryAsync(
                 logString: $"{nameof(UsersGetSingleByID)}({nameof(userID)} = {userID})", 
-                asyncFuncToTry: async () =>
+                tryFunc: async () =>
                 {
                     using (var dbContext = _dbContextFactory.CreateDbContext())
                     {
@@ -44,11 +45,11 @@ namespace SixtyThreeBits.Core.Infrastructure.Repositories
             return result;
         }
 
-        public async Task<UserDTO> UsersGetSingleByEmailAndPassword(string userEmail, string userPassword)
+        public async Task<Result63<UserDTO>> UsersGetSingleByEmailAndPassword(string userEmail, string userPassword)
         {
-            var result = await TryToReturnAsyncTask(
-                logString: $"{nameof(UsersGetSingleByEmailAndPassword)}({nameof(userEmail)} = {userEmail}, {nameof(userPassword)} = {userPassword})", 
-                asyncFuncToTry: async () =>
+            var result = await TryAsync(
+                logString: $"{nameof(UsersGetSingleByEmailAndPassword)}({nameof(userEmail)} = {userEmail}, {nameof(userPassword)} = {userPassword})",
+                tryFunc: async () =>
                 {
                     using (var dbContext = _dbContextFactory.CreateDbContext())
                     {
@@ -72,11 +73,11 @@ namespace SixtyThreeBits.Core.Infrastructure.Repositories
             return result;
         }
 
-        public async Task<bool> UsersIsEmailUnique(string userEmail, int? userID = null)
+        public async Task<Result63<bool>> UsersIsEmailUnique(string userEmail, int? userID = null)
         {
-            var result = await TryToReturn(
-                logString: $"{nameof(UsersIsEmailUnique)}({nameof(userEmail)} = {userEmail}, {nameof(userID)} = {userID})", 
-                funcToTry: async () =>
+            var result = await TryAsync(
+                logString: $"{nameof(UsersIsEmailUnique)}({nameof(userEmail)} = {userEmail}, {nameof(userID)} = {userID})",
+                tryFunc: async () =>
                 {
                     using (var dbContext = _dbContextFactory.CreateDbContext())
                     {
@@ -97,13 +98,13 @@ namespace SixtyThreeBits.Core.Infrastructure.Repositories
             return result;
         }
 
-        public async Task<int?> UsersIUD(DatabaseActions databaseAction, int? userID, UserIudDTO user)
+        public async Task<Result63<int?>> UsersIUD(DatabaseActions databaseAction, int? userID, UserIudDTO user)
         {
             var userJson = user.ToJson();
 
-            userID = await TryToReturnAsyncTask(
-                logString: $"{nameof(UsersIUD)}({nameof(databaseAction)} = {databaseAction}, {nameof(userID)} = {user}, {nameof(userJson)} = {userJson})", 
-                asyncFuncToTry: async () =>
+            var result = await TryAsync(
+                logString: $"{nameof(UsersIUD)}({nameof(databaseAction)} = {databaseAction}, {nameof(userID)} = {user}, {nameof(userJson)} = {userJson})",
+                tryFunc: async () =>
                 {
                     using (var dbContext = _dbContextFactory.CreateDbContext())
                     {
@@ -124,14 +125,14 @@ namespace SixtyThreeBits.Core.Infrastructure.Repositories
                     }
                 }
             );
-            return userID;
+            return result;
         }
 
-        public async Task<List<UsersListDTO>> UsersList()
+        public async Task<Result63<List<UsersListDTO>>> UsersList()
         {
-            var result = await TryToReturnAsyncTask(
-                logString: $"{nameof(UsersList)}()", 
-                asyncFuncToTry: async () =>
+            var result = await TryAsync(
+                logString: $"{nameof(UsersList)}()",
+                tryFunc: async () =>
                 {
                     using (var dbContext = _dbContextFactory.CreateDbContext())
                     {

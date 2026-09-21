@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using SixtyThreeBits.Core.Factories;
+using SixtyThreeBits.Core.Libraries.Common;
 using SixtyThreeBits.Core.Libraries.Database;
 using SixtyThreeBits.Core.Libraries.Extensions;
 using System.Collections.Generic;
@@ -19,11 +20,11 @@ namespace SixtyThreeBits.Core.Infrastructure.Repositories
         #endregion
 
         #region Methods
-        public async Task PermissionsDeleteRecursive(int? permissionID)
+        public async Task<Result63> PermissionsDeleteRecursive(int? permissionID)
         {
-            await TryExecuteAsyncTask(
-                logString: $"{nameof(PermissionsDeleteRecursive)}({nameof(permissionID)} = {permissionID})", 
-                asyncFuncToTry: async () =>
+            var result = await TryAsync(
+                logString: $"{nameof(PermissionsDeleteRecursive)}({nameof(permissionID)} = {permissionID})",
+                tryFunc: async () =>
                 {
                     using (var dbContext = _dbContextFactory.CreateDbContext())
                     {
@@ -35,19 +36,20 @@ namespace SixtyThreeBits.Core.Infrastructure.Repositories
                                 permissionID.ToSqlParameter(SqlDbType.Int)
                             ]
                         );
-                        await sqb.ExecuteStoredProcedure();                        
+                        await sqb.ExecuteStoredProcedure();
                     }
                 }
             );
+            return result;
         }
 
-        public async Task<int?> PermissionsIUD(DatabaseActions databaseAction, int? permissionID, PermissionIudDTO permission)
+        public async Task<Result63<int?>> PermissionsIUD(DatabaseActions databaseAction, int? permissionID, PermissionIudDTO permission)
         {
             var permissionJson = permission.ToJson();
 
-            permissionID = await TryToReturnAsyncTask(
-                logString: $"{nameof(PermissionsIUD)}({nameof(databaseAction)} = {databaseAction}, {nameof(permissionID)} = {permissionID}, {nameof(permission)} = {permissionJson})", 
-                asyncFuncToTry: async () =>
+            var result = await TryAsync(
+                logString: $"{nameof(PermissionsIUD)}({nameof(databaseAction)} = {databaseAction}, {nameof(permissionID)} = {permissionID}, {nameof(permission)} = {permissionJson})",
+                tryFunc: async () =>
                 {
                     using (var dbContext = _dbContextFactory.CreateDbContext())
                     {
@@ -68,14 +70,14 @@ namespace SixtyThreeBits.Core.Infrastructure.Repositories
                     }
                 }
             );
-            return permissionID;
+            return result;
         }
 
-        public async Task<List<PermissionsListDTO>> PermissionsList()
+        public async Task<Result63<List<PermissionsListDTO>>> PermissionsList()
         {
-            var result = await TryToReturnAsyncTask(
-                logString: $"{nameof(PermissionsList)}()", 
-                asyncFuncToTry: async () =>
+            var result = await TryAsync(
+                logString: $"{nameof(PermissionsList)}()",
+                tryFunc: async () =>
                 {
                     using (var dbContext = _dbContextFactory.CreateDbContext())
                     {
@@ -95,11 +97,11 @@ namespace SixtyThreeBits.Core.Infrastructure.Repositories
             return result;
         }
 
-        public async Task<List<PermissionsListByRoleIDDTO>> PermissionsListByRoleID(int? roleID)
+        public async Task<Result63<List<PermissionsListByRoleIDDTO>>> PermissionsListByRoleID(int? roleID)
         {
-            var result = await TryToReturnAsyncTask(
-                logString: $"{nameof(PermissionsListByRoleID)}({nameof(roleID)} = {roleID}", 
-                asyncFuncToTry: async () =>
+            var result = await TryAsync(
+                logString: $"{nameof(PermissionsListByRoleID)}({nameof(roleID)} = {roleID}",
+                tryFunc: async () =>
                 {
                     using (var dbContext = _dbContextFactory.CreateDbContext())
                     {

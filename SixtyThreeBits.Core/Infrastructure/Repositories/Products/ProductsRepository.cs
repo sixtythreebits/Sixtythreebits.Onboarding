@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using SixtyThreeBits.Core.Factories;
+using SixtyThreeBits.Core.Libraries.Common;
 using SixtyThreeBits.Core.Libraries.Database;
 using SixtyThreeBits.Core.Libraries.Extensions;
 using System.Collections.Generic;
@@ -19,11 +20,11 @@ namespace SixtyThreeBits.Core.Infrastructure.Repositories
         #endregion
 
         #region Methods
-        public async Task<List<CategoriesListDTO>> CategoriesList()
+        public async Task<Result63<List<CategoriesListDTO>>> CategoriesList()
         {
-            var result = await TryToReturnAsyncTask(
+            var result = await TryAsync(
                 logString: $"{nameof(CategoriesList)}()",
-                asyncFuncToTry: async () =>
+                tryFunc: async () =>
                 {
                     using (var dbContext = _dbContextFactory.CreateDbContext())
                     {
@@ -44,11 +45,11 @@ namespace SixtyThreeBits.Core.Infrastructure.Repositories
             return result;
         }
 
-        public async Task<ProductDTO> ProductsGetSingleByID(int? productID)
+        public async Task<Result63<ProductDTO>> ProductsGetSingleByID(int? productID)
         {
-            var result = await TryToReturnAsyncTask(
+            var result = await TryAsync(
                 logString: $"{nameof(ProductsGetSingleByID)}({nameof(productID)} = {productID})",
-                asyncFuncToTry: async () =>
+                tryFunc: async () =>
                 {
                     using (var dbContext = _dbContextFactory.CreateDbContext())
                     {
@@ -70,13 +71,13 @@ namespace SixtyThreeBits.Core.Infrastructure.Repositories
             return result;
         }
 
-        public async Task<int?> ProductsIUD(DatabaseActions databaseAction, int? productID, ProductsIudDTO product)
+        public async Task<Result63<int?>> ProductsIUD(DatabaseActions databaseAction, int? productID, ProductsIudDTO product)
         {
             var productJson = product.ToJson();
-            
-            productID = await TryToReturnAsyncTask(
+
+            var result = await TryAsync(
                 logString: $"{nameof(ProductsIUD)}({nameof(databaseAction)} = {databaseAction}, {nameof(productID)} = {product}, {nameof(productJson)} = {productJson})",
-                asyncFuncToTry: async () =>
+                tryFunc: async () =>
                 {
                     using (var dbContext = _dbContextFactory.CreateDbContext())
                     {
@@ -97,14 +98,14 @@ namespace SixtyThreeBits.Core.Infrastructure.Repositories
                     }
                 }
             );
-            return productID;
+            return result;
         }
 
-        public async Task<List<ProductsListDTO>> ProductsList()
+        public async Task<Result63<List<ProductsListDTO>>> ProductsList()
         {
-            var result = await TryToReturnAsyncTask(
+            var result = await TryAsync(
                 logString: $"{nameof(ProductsList)}()",
-                asyncFuncToTry: async () =>
+                tryFunc: async () =>
                 {
                     using (var dbContext = _dbContextFactory.CreateDbContext())
                     {
