@@ -23,7 +23,8 @@ namespace SixtyThreeBits.Web.Controllers.Admin
                 var productID = model.RouteData.Values[RouteKeys63.ProductID]?.ToString().ToInt();
 
                 var repository = model.RepositoryFactory.CreateProductsRepository();
-                model.Product = await repository.ProductsGetSingleByID(productID);
+                var productResult = await repository.ProductsGetSingleByID(productID);
+                model.Product = productResult.Value;
 
                 if (model.Product == null)
                 {

@@ -15,7 +15,8 @@ namespace SixtyThreeBits.Web.Models.Website
             var viewModel = new ViewModel();
 
             var repository = RepositoryFactory.CreateProductsRepository();
-            viewModel.Products = (await repository.ProductsList())?
+            var productsResult = (await repository.ProductsList());
+            viewModel.Products = productsResult.Value?
             .Select(item => new ViewModel.Product
             {
                 ProductName = item.ProductName,

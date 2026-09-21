@@ -42,7 +42,8 @@ namespace SixtyThreeBits.Web.Models.Admin
             );
 
             var reopsitory = RepositoryFactory.CreateProductsRepository();
-            viewModel.Categories = (await reopsitory.CategoriesList())?
+            var categoriesResult = await reopsitory.CategoriesList();
+            viewModel.Categories = categoriesResult.Value?
             .Select(item => new KeyValueSelectedTuple<int?, string>
             {
                 Key = item.CategoryID,
@@ -74,7 +75,7 @@ namespace SixtyThreeBits.Web.Models.Admin
                 }
 
                 var repository = RepositoryFactory.CreateProductsRepository();
-                await repository.ProductsIUD(
+                var result = await repository.ProductsIUD(
                     databaseAction: DatabaseActions.UPDATE,
                     productID: Product.ProductID,
                     product: new ProductsIudDTO
@@ -87,9 +88,9 @@ namespace SixtyThreeBits.Web.Models.Admin
                     }
                 );
 
-                if (repository.IsError)
+                if (result.IsError)
                 {
-                    viewModel.AddToastError(repository.ErrorMessage);
+                    viewModel.AddToastError(result.ErrorMessage);
                 }
                 else
                 {
@@ -154,7 +155,7 @@ namespace SixtyThreeBits.Web.Models.Admin
             await FileStorage.DeleteFile(Product.ProductCoverImageFilename);
 
             var repository = RepositoryFactory.CreateProductsRepository();
-            await repository.ProductsIUD(
+            var result = await repository.ProductsIUD(
                 databaseAction: DatabaseActions.UPDATE,
                 productID: Product.ProductID,
                 product: new ProductsIudDTO
@@ -163,9 +164,9 @@ namespace SixtyThreeBits.Web.Models.Admin
                 }
             );
 
-            if (repository.IsError)
+            if (result.IsError)
             {
-                viewModel.Data = repository.ErrorMessage;
+                viewModel.Data = result.ErrorMessage;
             }
             else
             {

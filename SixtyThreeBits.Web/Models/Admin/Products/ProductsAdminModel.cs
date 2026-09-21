@@ -22,7 +22,8 @@ namespace SixtyThreeBits.Web.Models.Admin
             var viewModel = new ViewModel();
 
             var repository = RepositoryFactory.CreateProductsRepository();
-            var categories = (await repository.CategoriesList())?
+            var categoriesResult = await repository.CategoriesList();
+            var categories = categoriesResult.Value?
             .Select(item => new KeyValueTuple<int?, string>
             {
                 Key = item.CategoryID,
@@ -47,12 +48,12 @@ namespace SixtyThreeBits.Web.Models.Admin
             var viewModel = new AjaxResponse();
 
             var repository = RepositoryFactory.CreateProductsRepository();
-            var products = await repository.ProductsList();
+            var productsResult = await repository.ProductsList();
 
-            viewModel.IsSuccess = !repository.IsError;
-            viewModel.Data = 
-                repository.IsError ? repository.ErrorMessage :
-                products.Select(item => new ViewModel.GridModel.GridItem
+            viewModel.IsSuccess = !productsResult.IsError;
+            viewModel.Data =
+                productsResult.IsError ? productsResult.ErrorMessage :
+                productsResult.Value.Select(item => new ViewModel.GridModel.GridItem
                 {
                     ProductID = item.ProductID,
                     ProductName = item.ProductName,
@@ -76,7 +77,7 @@ namespace SixtyThreeBits.Web.Models.Admin
             var submitModelValues = submitModel.Values.DeserializeJsonTo<ViewModel.GridModel.GridItem>();
 
             var repository = RepositoryFactory.CreateProductsRepository();
-            await repository.ProductsIUD(
+            var result = await repository.ProductsIUD(
                 databaseAction: DatabaseActions.INSERT,
                 productID: null,
                 product: new ProductsIudDTO
@@ -88,8 +89,8 @@ namespace SixtyThreeBits.Web.Models.Admin
                 }
             );
 
-            viewModel.IsSuccess = !repository.IsError;
-            viewModel.Data = repository.ErrorMessage;
+            viewModel.IsSuccess = !result.IsError;
+            viewModel.Data = result.ErrorMessage;
 
             return viewModel;
         }
@@ -101,7 +102,7 @@ namespace SixtyThreeBits.Web.Models.Admin
             var submitModelValues = submitModel.Values.DeserializeJsonTo<ViewModel.GridModel.GridItem>();
 
             var repository = RepositoryFactory.CreateProductsRepository();
-            await repository.ProductsIUD(
+            var result = await repository.ProductsIUD(
                 databaseAction: DatabaseActions.UPDATE,
                 productID: productID,
                 product: new ProductsIudDTO
@@ -113,8 +114,8 @@ namespace SixtyThreeBits.Web.Models.Admin
                 }
             );
 
-            viewModel.IsSuccess = !repository.IsError;
-            viewModel.Data = repository.ErrorMessage;
+            viewModel.IsSuccess = !result.IsError;
+            viewModel.Data = result.ErrorMessage;
 
             return viewModel;
         }
@@ -125,14 +126,14 @@ namespace SixtyThreeBits.Web.Models.Admin
             var productID = submitModel.Key.ToInt();
 
             var repository = RepositoryFactory.CreateProductsRepository();
-            await repository.ProductsIUD(
+            var result = await repository.ProductsIUD(
                 databaseAction: DatabaseActions.DELETE,
                 productID: productID,
                 product: null
             );
 
-            viewModel.IsSuccess = !repository.IsError;
-            viewModel.Data = repository.ErrorMessage;
+            viewModel.IsSuccess = !result.IsError;
+            viewModel.Data = result.ErrorMessage;
 
             return viewModel;
         }
