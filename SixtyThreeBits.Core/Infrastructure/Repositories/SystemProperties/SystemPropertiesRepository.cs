@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using SixtyThreeBits.Core.Factories;
+using SixtyThreeBits.Core.Libraries.Common;
 using SixtyThreeBits.Core.Libraries.Database;
 using SixtyThreeBits.Core.Libraries.Extensions;
 using System.Threading.Tasks;
@@ -15,11 +16,11 @@ namespace SixtyThreeBits.Core.Infrastructure.Repositories
         #endregion
 
         #region Methods
-        public async Task<SystemPropertiesDTO> SystemPropertiesGet()
+        public async Task<Result63<SystemPropertiesDTO>> SystemPropertiesGet()
         {
-            var result = await TryToReturnAsyncTask(
+            var result = await TryAsync(
                 logString: $"{nameof(SystemPropertiesGet)}()", 
-                asyncFuncToTry: async () =>
+                tryFunc: async () =>
                 {
                     using (var dbContext = _dbContextFactory.CreateDbContext())
                     {
@@ -35,7 +36,7 @@ namespace SixtyThreeBits.Core.Infrastructure.Repositories
                     }
                 }
             );
-            return result ?? new SystemPropertiesDTO();
+            return result;
         }        
         #endregion
     }        

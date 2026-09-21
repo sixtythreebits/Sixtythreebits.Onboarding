@@ -12,7 +12,8 @@ namespace SixtyThreeBits.Web.Models.Website
             if (sessionUser != null)
             {
                 var repository = RepositoryFactory.CreateUsersRepository();
-                var user = await repository.UsersGetSingleByID(sessionUser.UserID);
+                var userResult = await repository.UsersGetSingleByID(sessionUser.UserID);
+                var user = userResult.Value;
                 if (user != null && user.UserIsActive)
                 {
                     SessionAssistance.SetUser(user);

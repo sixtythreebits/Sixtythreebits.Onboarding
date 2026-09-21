@@ -20,13 +20,13 @@ namespace SixtyThreeBits.Core.Infrastructure.Repositories
         #endregion
 
         #region Methods
-        public async Task<int?> RolesIUD(DatabaseActions databaseAction, int? roleID, RoleIudDTO role)
+        public async Task<Result63<int?>> RolesIUD(DatabaseActions databaseAction, int? roleID, RoleIudDTO role)
         {
             var roleJson = role.ToJson();
 
-            roleID = await TryToReturnAsyncTask(
-                logString: $"{nameof(RolesIUD)}({nameof(databaseAction)} = {databaseAction}, {nameof(roleID)} = {roleID}, {nameof(role)} = {roleJson})", 
-                asyncFuncToTry: async () =>
+            var result = await TryAsync(
+                logString: $"{nameof(RolesIUD)}({nameof(databaseAction)} = {databaseAction}, {nameof(roleID)} = {roleID}, {nameof(role)} = {roleJson})",
+                tryFunc: async () =>
                 {
                     using (var dbContext = _dbContextFactory.CreateDbContext())
                     {
@@ -47,14 +47,14 @@ namespace SixtyThreeBits.Core.Infrastructure.Repositories
                     }
                 }
             );
-            return roleID;
+            return result;
         }
 
-        public async Task<List<RoleDTO>> RolesList()
+        public async Task<Result63<List<RoleDTO>>> RolesList()
         {
-            var result = await TryToReturnAsyncTask(
-                logString: $"{nameof(RolesList)}()", 
-                asyncFuncToTry: async () =>
+            var result = await TryAsync(
+                logString: $"{nameof(RolesList)}()",
+                tryFunc: async () =>
                 {
                     using (var dbContext = _dbContextFactory.CreateDbContext())
                     {
@@ -74,23 +74,31 @@ namespace SixtyThreeBits.Core.Infrastructure.Repositories
             return result;
         }
 
-        public async Task<List<KeyValueTuple<int?,string>>> RolesListAsKeyValueTuple(bool IsRoleCodeAsKey = false)
+        public async Task<Result63<List<KeyValueTuple<int?,string>>>> RolesListAsKeyValueTuple(bool IsRoleCodeAsKey = false)
         {
-            var result = (await RolesList())
-                ?.Select(item => new KeyValueTuple<int?, string>
-                {
-                    Key = IsRoleCodeAsKey ? item.RoleCode : item.RoleID,
-                    Value = item.RoleName
-                }).ToList();            
-            return result;
+            var rolesResult = await RolesList();
+            if (rolesResult.IsError)
+            {
+                return Result63<List<KeyValueTuple<int?, string>>>.Failure(errorMessage: rolesResult.ErrorMessage, exception: rolesResult.Exception);
+            }
+            else
+            {
+                var result = rolesResult.Value
+                    ?.Select(item => new KeyValueTuple<int?, string>
+                    {
+                        Key = IsRoleCodeAsKey ? item.RoleCode : item.RoleID,
+                        Value = item.RoleName
+                    }).ToList();
+                return Result63<List<KeyValueTuple<int?, string>>>.Success(result);
+            }
         }
 
-        public async Task RolesPermissionsUpdate(int? roleID, List<int?> permissionIDs)
+        public async Task<Result63> RolesPermissionsUpdate(int? roleID, List<int?> permissionIDs)
         {
             var permissionIDsJson = permissionIDs.ToJson();
-            await TryExecuteAsyncTask(
-                logString: $"{nameof(RolesPermissionsUpdate)}({nameof(roleID)} = {roleID}, {nameof(permissionIDs)} = {permissionIDsJson})", 
-                asyncFuncToTry: async () =>
+            var result = await TryAsync(
+                logString: $"{nameof(RolesPermissionsUpdate)}({nameof(roleID)} = {roleID}, {nameof(permissionIDs)} = {permissionIDsJson})",
+                tryFunc: async () =>
                 {
                     using (var dbContext = _dbContextFactory.CreateDbContext())
                     {
@@ -103,10 +111,11 @@ namespace SixtyThreeBits.Core.Infrastructure.Repositories
                                 permissionIDsJson.ToSqlParameter(SqlDbType.NVarChar)
                             ]
                         );
-                        await sqb.ExecuteStoredProcedure();                        
+                        await sqb.ExecuteStoredProcedure();
                     }
                 }
             );
+            return result;
         }
         #endregion
     }    

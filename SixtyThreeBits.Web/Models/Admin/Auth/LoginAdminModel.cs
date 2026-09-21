@@ -26,7 +26,8 @@ namespace SixtyThreeBits.Web.Models.Admin
             bool isAuthenticated = false;
 
             var repository = RepositoryFactory.CreateUsersRepository();
-            var user = await repository.UsersGetSingleByEmailAndPassword(userEmail: viewModel.Username, userPassword: viewModel.Password);
+            var userResult = await repository.UsersGetSingleByEmailAndPassword(userEmail: viewModel.Username, userPassword: viewModel.Password);
+            var user = userResult.Value;
             if (user == null)
             {
                 viewModel.IsLoginFailed = true;

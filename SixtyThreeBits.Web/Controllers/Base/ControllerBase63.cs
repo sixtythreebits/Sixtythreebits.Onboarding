@@ -81,7 +81,8 @@ namespace SixtyThreeBits.Web.Controllers.Base
                 if (userID != null)
                 {
                     var repository = Model.RepositoryFactory.CreateUsersRepository();
-                    Model.User = await repository.UsersGetSingleByID(userID);
+                    var userResult = await repository.UsersGetSingleByID(userID);
+                    Model.User = userResult.Value;
                     if (Model.User != null)
                     {
                         Model.SessionAssistance.SetUser(Model.User);
@@ -92,7 +93,8 @@ namespace SixtyThreeBits.Web.Controllers.Base
         async Task initSystemProperties()
         {
             var repository = Model.RepositoryFactory.CreateSystemPropertiesRepository();
-            Model.SystemProperties = await repository.SystemPropertiesGet();
+            var systemPropertiesResult = await repository.SystemPropertiesGet();
+            Model.SystemProperties = systemPropertiesResult.Value;
         }
         void initFileStorage()
         {

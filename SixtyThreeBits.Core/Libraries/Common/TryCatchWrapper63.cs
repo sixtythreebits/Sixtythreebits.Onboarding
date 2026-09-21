@@ -11,10 +11,6 @@ namespace SixtyThreeBits.Core.Libraries.Common
     {
         #region Properties
         readonly ILogger _logger;
-
-        public bool IsError { private set; get; }
-        public string ErrorMessage { private set; get; }
-        public Exception Exception { private set; get; }
         #endregion
 
         #region Constructors
@@ -25,165 +21,163 @@ namespace SixtyThreeBits.Core.Libraries.Common
         #endregion
 
         #region Methods
-        protected void TryExecute(string logString, Action actionToTry, Action actionForCatch = null, [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = 0)
+        protected Result63 Try(string logString, Action tryAction, [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = 0)
         {
-            try
-            {
-                IsError = false;
-                ErrorMessage = null;
-                actionToTry();
-            }
-            catch (Exception ex)
-            {
-                if (actionForCatch == null)
-                {
-                    processException(
-                        logString: logString,
-                        exception: ex,
-                        callerFilePath: callerFilePath,
-                        callerLineNumber: callerLineNumber
-                    );
-                }
-                else
-                {
-                    Exception = ex;
-                    actionForCatch.Invoke();
-                }
-            }
-        }
+            var errorMessage = default(string);
+            var exception = default(Exception);
+            var result = default(Result63);
 
-        protected async Task TryExecuteAsyncTask(string logString, Func<Task> asyncFuncToTry, Func<Task> asyncFuncForCatch = null, Action actionForCatch = null, [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = 0)
-        {
             try
             {
-                IsError = false;
-                ErrorMessage = null;
-                await asyncFuncToTry();
+                tryAction();
+                result = Result63.Success();
             }
             catch (Exception ex)
             {
-                if (actionForCatch == null)
-                {
-                    processException(
-                        logString: logString,
-                        exception: ex,
-                        callerFilePath: callerFilePath,
-                        callerLineNumber: callerLineNumber
-                    );
-                }
-                else if (asyncFuncForCatch != null)
-                {
-                    await asyncFuncForCatch();
-                }
-                else
-                {
-                    actionForCatch();
-                }
+                exception = ex;
+                errorMessage = getErrorMessageFromException(exception);
+                logError(
+                    exception: exception,
+                    errorMessage: errorMessage,
+                    logString: logString,
+                    callerFilePath: callerFilePath,
+                    callerLineNumber: callerLineNumber
+                );
+                result = Result63.Failure(errorMessage: errorMessage, exception: exception);
             }
-        }
 
-        protected T TryToReturn<T>(string logString, Func<T> funcToTry, Func<T> funcForCatch = null, [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = 0)
-        {
-            var result = default(T);
-            try
-            {
-                IsError = false;
-                ErrorMessage = null;
-                result = funcToTry();
-            }
-            catch (Exception ex)
-            {
-                if (funcForCatch == null)
-                {
-                    processException(
-                        logString: logString,
-                        exception: ex,
-                        callerFilePath: callerFilePath,
-                        callerLineNumber: callerLineNumber
-                    );
-                }
-                else
-                {
-                    Exception = ex;
-                    result = funcForCatch();
-                }
-            }
             return result;
         }
 
-        protected async Task<T> TryToReturnAsyncTask<T>(string logString = null, Func<Task<T>> asyncFuncToTry = null, Func<Task<T>> asyncFuncForCatch = null, Func<T> funcForCatch = null, [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = 0)
+        protected Result63<T> Try<T>(string logString, Func<T> tryFunc, [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = 0)
         {
-            var result = default(T);
+            var errorMessage = default(string);
+            var resultValue = default(T);
+            var exception = default(Exception);
+            var result = default(Result63<T>);
+
             try
             {
-                IsError = false;
-                ErrorMessage = null;
-                result = await asyncFuncToTry();
+                resultValue = tryFunc();
+                result = Result63<T>.Success(resultValue);
             }
             catch (Exception ex)
             {
-                Exception = ex;
-
-                if (asyncFuncForCatch == null && funcForCatch == null)
-                {
-                    processException(
-                        logString: logString,
-                        exception: ex,
-                        callerFilePath: callerFilePath,
-                        callerLineNumber: callerLineNumber
-                    );
-                }
-                else if (asyncFuncForCatch != null)
-                {
-                    result = await asyncFuncForCatch();
-                }
-                else
-                {
-                    result = funcForCatch();
-                }
+                exception = ex;
+                errorMessage = getErrorMessageFromException(exception);                
+                logError(
+                    exception: exception,
+                    errorMessage: errorMessage,
+                    logString: logString,
+                    callerFilePath: callerFilePath,
+                    callerLineNumber: callerLineNumber
+                );
+                result = Result63<T>.Failure(errorMessage: errorMessage, exception: exception);
             }
+
             return result;
         }
 
-        void processException(string logString, Exception exception, [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = 0)
+        protected async Task<Result63<T>> TryAsync<T>(string logString, Func<Task<T>> tryFunc, [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = 0)
         {
-            if (_logger != null)
+            var errorMessage = default(string);
+            var resultValue = default(T);
+            var exception = default(Exception);
+            var result = default(Result63<T>);
+
+            try
             {
-                var errorMessageBuilder = new StringBuilder();
-                if (exception is SqlException)
+                resultValue = await tryFunc();
+                result = Result63<T>.Success(resultValue);
+            }
+            catch (Exception ex)
+            {
+                exception = ex;
+                errorMessage = getErrorMessageFromException(exception);
+                logError(
+                    exception: exception,
+                    errorMessage: errorMessage,
+                    logString: logString,
+                    callerFilePath: callerFilePath,
+                    callerLineNumber: callerLineNumber
+                );
+                result = Result63<T>.Failure(errorMessage: errorMessage, exception: exception);
+            }
+
+            return result;
+        }
+
+        protected async Task<Result63> TryAsync(string logString, Func<Task> tryFunc, [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = 0)
+        {
+            var errorMessage = default(string);
+            var exception = default(Exception);
+            var result = default(Result63);
+
+            try
+            {
+                await tryFunc();
+                result = Result63.Success();
+            }
+            catch (Exception ex)
+            {
+                exception = ex;
+                errorMessage = getErrorMessageFromException(exception);
+                logError(
+                    exception: exception,
+                    errorMessage: errorMessage,
+                    logString: logString,
+                    callerFilePath: callerFilePath,
+                    callerLineNumber: callerLineNumber
+                );
+                result = Result63.Failure(errorMessage: errorMessage, exception: exception);
+            }
+
+            return result;
+        }
+        #endregion
+
+        #region Private Methods
+        string getErrorMessageFromException(Exception exception)
+        {
+            var errorMessageBuilder = new StringBuilder();
+            if (exception is SqlException)
+            {
+                var ex = exception as SqlException;
+                for (int i = 0; i < ex.Errors.Count; i++)
                 {
-                    var ex = exception as SqlException;
-                    for (int i = 0; i < ex.Errors.Count; i++)
+                    if (ex.Errors[i].Number > 50000)
                     {
-                        if (ex.Errors[i].Number > 50000)
-                        {
-                            errorMessageBuilder.Append(ex.Message);
-                        }
-                        else
-                        {
-                            errorMessageBuilder.Append(ex.Errors[i].Message).Append(Environment.NewLine);
-                        }
-                    }
-                }
-                else
-                {
-                    if (exception.InnerException == null)
-                    {
-                        errorMessageBuilder.Append($"{exception.Message}{Environment.NewLine}");
+                        errorMessageBuilder.Append(ex.Message);
                     }
                     else
                     {
-                        errorMessageBuilder.Append($"Exception: {exception.Message}{Environment.NewLine}InnerException: {exception.InnerException.Message}{Environment.NewLine}");
+                        errorMessageBuilder.Append(ex.Errors[i].Message).Append(Environment.NewLine);
                     }
-                    errorMessageBuilder.Append($"{Environment.NewLine}StackTrace:{Environment.NewLine}{exception.StackTrace}{Environment.NewLine}");
                 }
+            }
+            else
+            {
+                if (exception.InnerException == null)
+                {
+                    errorMessageBuilder.Append($"{exception.Message}{Environment.NewLine}");
+                }
+                else
+                {
+                    errorMessageBuilder.Append($"Exception: {exception.Message}{Environment.NewLine}InnerException: {exception.InnerException.Message}{Environment.NewLine}");
+                }
+                errorMessageBuilder.Append($"{Environment.NewLine}StackTrace:{Environment.NewLine}{exception.StackTrace}{Environment.NewLine}");
+            }
 
-                var message = string.Format("Source File - {0}{4}Line Number - {1}{4}{2} --- {3}", callerFilePath, callerLineNumber, logString, errorMessageBuilder.ToString(), Environment.NewLine);
+            return errorMessageBuilder.ToString();
+        }
+
+        void logError(Exception exception, string errorMessage, string logString, string callerFilePath, int callerLineNumber)
+        {
+            if (_logger != null)
+            {
+                var message = string.Format("Source File - {0}{4}Line Number - {1}{4}{2} --- {3}", callerFilePath, callerLineNumber, logString, errorMessage, Environment.NewLine);
                 _logger.LogError(exception: exception, message: message);
             }
-            IsError = true;
-            Exception = exception;
-            ErrorMessage = exception.Message;            
         }
         #endregion
     }

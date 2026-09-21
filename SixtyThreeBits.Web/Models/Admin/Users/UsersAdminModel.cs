@@ -25,14 +25,17 @@ namespace SixtyThreeBits.Web.Models.Admin
             var viewModel = new ViewModel();
 
             viewModel.Grid = new ViewModel.GridModel();
-            var repository = RepositoryFactory.CreateRolesRepository();
-            viewModel.Grid.Roles = await repository.RolesListAsKeyValueTuple();
+            var repository = RepositoryFactory.CreateRolesRepository();            
             viewModel.Grid.UrlLoad = UrlFactory.CreateUrl(controllerName: nameof(UsersAdminController), actionName: nameof(UsersAdminController.Grid));
             viewModel.Grid.UrlAddNew = UrlFactory.CreateUrl(controllerName: nameof(UsersAdminController), actionName: nameof(UsersAdminController.GridAdd));
             viewModel.Grid.UrlUpdate = UrlFactory.CreateUrl(controllerName: nameof(UsersAdminController), actionName: nameof(UsersAdminController.GridUpdate));
             viewModel.Grid.UrlDelete = UrlFactory.CreateUrl(controllerName: nameof(UsersAdminController), actionName: nameof(UsersAdminController.GridDelete));
             viewModel.Grid.IsEditButtonVisible = User.HasPermission(viewModel.Grid.UrlUpdate);
             viewModel.Grid.IsDeleteButtonVisible = User.HasPermission(viewModel.Grid.UrlDelete);
+
+            var rolesResult = await repository.RolesListAsKeyValueTuple();
+            viewModel.Grid.Roles = rolesResult.Value;
+
             viewModel.IsAddNewButtonVisible = User.HasPermission(viewModel.Grid.UrlAddNew);
 
             return viewModel;
@@ -43,10 +46,10 @@ namespace SixtyThreeBits.Web.Models.Admin
             var viewModel = new AjaxResponse();
             var repository = RepositoryFactory.CreateUsersRepository();
 
-            var users = await repository.UsersList();
+            var usersResult = await repository.UsersList();
 
-            viewModel.IsSuccess = !repository.IsError;
-            viewModel.Data = repository.IsError ? repository.ErrorMessage : users.Select(item => new ViewModel.GridModel.GridItem
+            viewModel.IsSuccess = !usersResult.IsError;
+            viewModel.Data = usersResult.IsError ? usersResult.ErrorMessage : usersResult.Value.Select(item => new ViewModel.GridModel.GridItem
             {
                 UserID = item.UserID,
                 UserFirstname = item.UserFirstname,
@@ -76,7 +79,7 @@ namespace SixtyThreeBits.Web.Models.Admin
             else
             {
                 var repository = RepositoryFactory.CreateUsersRepository();
-                await repository.UsersIUD(
+                var result = await repository.UsersIUD(
                     databaseAction: DatabaseActions.INSERT,
                     userID: null,
                     user: new UserIudDTO
@@ -88,8 +91,8 @@ namespace SixtyThreeBits.Web.Models.Admin
                         UserLastname = submitModelValues.UserLastname
                     }
                 );
-                viewModel.IsSuccess = !repository.IsError;
-                viewModel.Data = repository.ErrorMessage;                
+                viewModel.IsSuccess = !result.IsError;
+                viewModel.Data = result.ErrorMessage;                
             }
 
             return viewModel;
@@ -113,7 +116,7 @@ namespace SixtyThreeBits.Web.Models.Admin
             else
             {
                 var repository = RepositoryFactory.CreateUsersRepository();
-                await repository.UsersIUD(
+                var result = await repository.UsersIUD(
                     databaseAction: DatabaseActions.UPDATE,
                     userID: userID,
                     user: new UserIudDTO
@@ -125,8 +128,8 @@ namespace SixtyThreeBits.Web.Models.Admin
                         UserLastname = submitModelValues.UserLastname
                     }
                 );
-                viewModel.IsSuccess = !repository.IsError;
-                viewModel.Data = repository.ErrorMessage;
+                viewModel.IsSuccess = !result.IsError;
+                viewModel.Data = result.ErrorMessage;
             }
 
             return viewModel;
@@ -138,16 +141,18 @@ namespace SixtyThreeBits.Web.Models.Admin
             var userID = submitModel.Key.ToInt();
 
             var repository = RepositoryFactory.CreateUsersRepository();
-            var user = await repository.UsersGetSingleByID(userID);
+            var userResult = await repository.UsersGetSingleByID(userID);
+            var user = userResult.Value;
+
             await FileStorage.DeleteFile(user.UserAvatarFilename);
 
-            await repository.UsersIUD(
+            var result = await repository.UsersIUD(
                 databaseAction: DatabaseActions.DELETE,
                 userID: userID,
                 user: null
             );
-            viewModel.IsSuccess = !repository.IsError;
-            viewModel.Data = repository.ErrorMessage;
+            viewModel.IsSuccess = !result.IsError;
+            viewModel.Data = result.ErrorMessage;
 
             return viewModel;
         }
@@ -164,8 +169,11 @@ namespace SixtyThreeBits.Web.Models.Admin
                 validateUnique: true,
                 validationPredicateReturnTrueWhenError: async () =>
                 {
+                    var isError = false;
                     var repository = RepositoryFactory.CreateUsersRepository();
-                    var isEmailUnique = await repository.UsersIsEmailUnique(submitModelValues.UserEmail, userID);
+                    var result = await repository.UsersIsEmailUnique(submitModelValues.UserEmail, userID);
+                    var isEmailUnique = result.Value;
+                    isError = !isEmailUnique;
                     return !isEmailUnique;
                 }
             );

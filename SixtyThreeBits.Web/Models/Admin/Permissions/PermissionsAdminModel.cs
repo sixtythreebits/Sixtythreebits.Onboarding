@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using SixtyThreeBits.Core.Infrastructure.Repositories;
 using SixtyThreeBits.Core.Libraries.Extensions;
 using SixtyThreeBits.Core.Properties;
-using SixtyThreeBits.Core.Utilities;
 using SixtyThreeBits.Web.Controllers.Admin;
 using SixtyThreeBits.Web.Domain.Libraries;
 using System.Linq;
@@ -38,10 +37,10 @@ namespace SixtyThreeBits.Web.Models.Admin
             var viewModel = new AjaxResponse();
             var repository = RepositoryFactory.CreatePermissionsRepository();
 
-            var permissions = await repository.PermissionsList();
+            var permissionsResult = await repository.PermissionsList();
 
-            viewModel.IsSuccess = !repository.IsError;
-            viewModel.Data = repository.IsError ? repository.ErrorMessage : permissions.Select(item => new ViewModel.TreeModel.TreeItem
+            viewModel.IsSuccess = !permissionsResult.IsError;
+            viewModel.Data = permissionsResult.IsError ? permissionsResult.ErrorMessage : permissionsResult.Value.Select(item => new ViewModel.TreeModel.TreeItem
             {
                 PermissionID = item.PermissionID,
                 PermissionParentID = item.PermissionParentID,
@@ -63,7 +62,7 @@ namespace SixtyThreeBits.Web.Models.Admin
             var submitModelValues = submitModel.Values.DeserializeJsonTo<ViewModel.TreeModel.TreeItem>();
 
             var repository = RepositoryFactory.CreatePermissionsRepository();
-            await repository.PermissionsIUD(
+            var result = await repository.PermissionsIUD(
                 databaseAction: DatabaseActions.INSERT,
                 permissionID: null,
                 permission: new PermissionIudDTO
@@ -79,8 +78,8 @@ namespace SixtyThreeBits.Web.Models.Admin
                 }
             );
 
-            viewModel.IsSuccess = !repository.IsError;
-            viewModel.Data = repository.ErrorMessage;
+            viewModel.IsSuccess = !result.IsError;
+            viewModel.Data = result.ErrorMessage;
 
             return viewModel;
         }
@@ -92,7 +91,7 @@ namespace SixtyThreeBits.Web.Models.Admin
             var submitModelValues = submitModel.Values.DeserializeJsonTo<ViewModel.TreeModel.TreeItem>();
 
             var repository = RepositoryFactory.CreatePermissionsRepository();
-            await repository.PermissionsIUD(
+            var result = await repository.PermissionsIUD(
                 databaseAction: DatabaseActions.UPDATE,
                 permissionID: permissionID,
                 permission: new PermissionIudDTO
@@ -108,8 +107,8 @@ namespace SixtyThreeBits.Web.Models.Admin
                 }   
             );
 
-            viewModel.IsSuccess=!repository.IsError;
-            viewModel.Data = repository.ErrorMessage;                 
+            viewModel.IsSuccess = !result.IsError;
+            viewModel.Data = result.ErrorMessage;
 
             return viewModel;
         }
@@ -119,9 +118,9 @@ namespace SixtyThreeBits.Web.Models.Admin
             var viewModel = new AjaxResponse();
             var permissionID = submitModel.Key.ToInt();
             var repository = RepositoryFactory.CreatePermissionsRepository();
-            await repository.PermissionsDeleteRecursive(permissionID);
-            viewModel.IsSuccess = !repository.IsError;
-            viewModel.Data = repository.ErrorMessage;
+            var result = await repository.PermissionsDeleteRecursive(permissionID);
+            viewModel.IsSuccess = !result.IsError;
+            viewModel.Data = result.ErrorMessage;
             return viewModel;
         }
         #endregion
