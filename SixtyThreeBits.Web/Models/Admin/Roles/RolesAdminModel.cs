@@ -36,10 +36,10 @@ namespace SixtyThreeBits.Web.Models.Admin
             var viewModel = new AjaxResponse();
             var repository = RepositoryFactory.CreateRolesRepository();
 
-            var roles = await repository.RolesList();
+            var rolesResult = await repository.RolesList();
 
-            viewModel.IsSuccess = !repository.IsError;
-            viewModel.Data = repository.IsError ? repository.ErrorMessage : roles.Select(Item => new ViewModel.GridModel.GridItem
+            viewModel.IsSuccess = !rolesResult.IsError;
+            viewModel.Data = rolesResult.IsError ? rolesResult.ErrorMessage : rolesResult.Value.Select(Item => new ViewModel.GridModel.GridItem
             {
                 RoleID = Item.RoleID,
                 RoleName = Item.RoleName,
@@ -55,7 +55,7 @@ namespace SixtyThreeBits.Web.Models.Admin
             var submitModelValues = submitModel.Values.DeserializeJsonTo<ViewModel.GridModel.GridItem>();
 
             var repository = RepositoryFactory.CreateRolesRepository();
-            await repository.RolesIUD(
+            var result = await repository.RolesIUD(
                 databaseAction: DatabaseActions.INSERT,
                 roleID: null,
                 role: new RoleIudDTO
@@ -64,8 +64,8 @@ namespace SixtyThreeBits.Web.Models.Admin
                     RoleCode = submitModelValues.RoleCode
                 }
             );
-            viewModel.IsSuccess = !repository.IsError;
-            viewModel.Data = repository.ErrorMessage;
+            viewModel.IsSuccess = !result.IsError;
+            viewModel.Data = result.ErrorMessage;
 
             return viewModel;
         }
@@ -77,17 +77,17 @@ namespace SixtyThreeBits.Web.Models.Admin
             var submitModelValues = submitModel.Values.DeserializeJsonTo<ViewModel.GridModel.GridItem>();
 
             var repository = RepositoryFactory.CreateRolesRepository();
-            await repository.RolesIUD(
+            var result = await repository.RolesIUD(
                 databaseAction: DatabaseActions.UPDATE,
                 roleID: roleID,
                 role: new RoleIudDTO
                 {
                     RoleName = submitModelValues.RoleName,
                     RoleCode = submitModelValues.RoleCode
-                }                
+                }
             );
-            viewModel.IsSuccess = !repository.IsError;
-            viewModel.Data = repository.ErrorMessage;
+            viewModel.IsSuccess = !result.IsError;
+            viewModel.Data = result.ErrorMessage;
 
             return viewModel;
         }
@@ -98,13 +98,13 @@ namespace SixtyThreeBits.Web.Models.Admin
             var roleID = submitModel.Key.ToInt();
 
             var repository = RepositoryFactory.CreateRolesRepository();
-            await repository.RolesIUD(
+            var result = await repository.RolesIUD(
                 databaseAction: DatabaseActions.DELETE,
                 roleID: roleID,
                 role: null
             );
-            viewModel.IsSuccess = !repository.IsError;
-            viewModel.Data = repository.ErrorMessage;
+            viewModel.IsSuccess = !result.IsError;
+            viewModel.Data = result.ErrorMessage;
 
             return viewModel;
         }

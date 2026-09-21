@@ -11,8 +11,4 @@
   <ItemGroup>
     <ProjectReference Include="..\SixtyThreeBits.Core\SixtyThreeBits.Core.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Filters\Admin\" />
-    <Folder Include="Filters\Website\" />
-  </ItemGroup>
 </Project>

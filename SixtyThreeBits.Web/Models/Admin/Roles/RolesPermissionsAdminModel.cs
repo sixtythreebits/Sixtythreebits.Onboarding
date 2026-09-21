@@ -33,10 +33,10 @@ namespace SixtyThreeBits.Web.Models.Admin
         {
             var viewModel = new AjaxResponse();
             var repository = RepositoryFactory.CreatePermissionsRepository();
-            var permissionIDs = (await repository.PermissionsListByRoleID(roleID))?.Select(item => item.PermissionID).ToList();
+            var permissionsResult = await repository.PermissionsListByRoleID(roleID);
 
-            viewModel.IsSuccess = true;
-            viewModel.Data = permissionIDs;
+            viewModel.IsSuccess = !permissionsResult.IsError;
+            viewModel.Data = permissionsResult.IsError ? permissionsResult.ErrorMessage : permissionsResult.Value.Select(item => item.PermissionID).ToList();
 
             return viewModel;
         }
@@ -46,10 +46,10 @@ namespace SixtyThreeBits.Web.Models.Admin
             var viewModel = new AjaxResponse();
             var repository = RepositoryFactory.CreateRolesRepository();
 
-            var roles = await repository.RolesList();
+            var rolesResult = await repository.RolesList();
 
-            viewModel.IsSuccess = !repository.IsError;
-            viewModel.Data = repository.IsError ? repository.ErrorMessage : roles.Select(Item => new ViewModel.RolesGridModel.GridItem
+            viewModel.IsSuccess = !rolesResult.IsError;
+            viewModel.Data = rolesResult.IsError ? rolesResult.ErrorMessage : rolesResult.Value.Select(Item => new ViewModel.RolesGridModel.GridItem
             {
                 RoleID = Item.RoleID,
                 RoleName = Item.RoleName
@@ -63,10 +63,10 @@ namespace SixtyThreeBits.Web.Models.Admin
             var viewModel = new AjaxResponse();
             var repository = RepositoryFactory.CreatePermissionsRepository();
 
-            var permissions = await repository.PermissionsList();
+            var permissionsResult = await repository.PermissionsList();
 
-            viewModel.IsSuccess = !repository.IsError;
-            viewModel.Data = repository.IsError ? repository.ErrorMessage : permissions.Select(item => new ViewModel.PermissionsTreeModel.TreeItem
+            viewModel.IsSuccess = !permissionsResult.IsError;
+            viewModel.Data = permissionsResult.IsError ? permissionsResult.ErrorMessage : permissionsResult.Value.Select(item => new ViewModel.PermissionsTreeModel.TreeItem
             {
                 PermissionID = item.PermissionID,
                 PermissionParentID = item.PermissionParentID,
@@ -81,11 +81,11 @@ namespace SixtyThreeBits.Web.Models.Admin
             var viewModel = new AjaxResponse();
             var repository = RepositoryFactory.CreateRolesRepository();
 
-            await repository.RolesPermissionsUpdate(
+            var result = await repository.RolesPermissionsUpdate(
                 roleID: submitModel.RoleID,
                 permissionIDs: submitModel.PermissionIDs
             );
-            viewModel.IsSuccess = !repository.IsError;
+            viewModel.IsSuccess = !result.IsError;
 
             return viewModel;
         }

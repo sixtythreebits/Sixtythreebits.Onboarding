@@ -38,10 +38,10 @@ namespace SixtyThreeBits.Web.Models.Admin
             var viewModel = new AjaxResponse();
             var repository = RepositoryFactory.CreateDictionariesRepository();
 
-            var dictionaries = (await repository.DictionariesList());
+            var dictionariesResult = await repository.DictionariesList();
 
-            viewModel.IsSuccess = !repository.IsError;
-            viewModel.Data = repository.IsError ? repository.ErrorMessage : dictionaries.Select(item => new ViewModel.TreeModel.TreeItem
+            viewModel.IsSuccess = !dictionariesResult.IsError;
+            viewModel.Data = dictionariesResult.IsError ? dictionariesResult.ErrorMessage : dictionariesResult.Value.Select(item => new ViewModel.TreeModel.TreeItem
             {
                 DictionaryID = item.DictionaryID,
                 DictionaryParentID = item.DictionaryParentID,
@@ -63,7 +63,7 @@ namespace SixtyThreeBits.Web.Models.Admin
             var submitModelValues = submitModel.Values.DeserializeJsonTo<ViewModel.TreeModel.TreeItem>();
 
             var repository = RepositoryFactory.CreateDictionariesRepository();
-            await repository.DictionariesIUD(
+            var result = await repository.DictionariesIUD(
                 databaseAction: DatabaseActions.INSERT,
                 dictionaryID: null,
                 dictionary: new DictionariesIudDTO
@@ -79,8 +79,8 @@ namespace SixtyThreeBits.Web.Models.Admin
                 }
             );
 
-            viewModel.IsSuccess = !repository.IsError;
-            viewModel.Data = repository.ErrorMessage;
+            viewModel.IsSuccess = !result.IsError;
+            viewModel.Data = result.ErrorMessage;
 
             return viewModel;
         }
@@ -92,7 +92,7 @@ namespace SixtyThreeBits.Web.Models.Admin
             var submitModelValues = submitModel.Values.DeserializeJsonTo<ViewModel.TreeModel.TreeItem>();
 
             var repository = RepositoryFactory.CreateDictionariesRepository();
-            await repository.DictionariesIUD(
+            var result = await repository.DictionariesIUD(
                 databaseAction: DatabaseActions.UPDATE,
                 dictionaryID: dictionaryID,
                 dictionary: new DictionariesIudDTO
@@ -108,8 +108,8 @@ namespace SixtyThreeBits.Web.Models.Admin
                 }
             );
 
-            viewModel.IsSuccess = !repository.IsError;
-            viewModel.Data = repository.ErrorMessage;
+            viewModel.IsSuccess = !result.IsError;
+            viewModel.Data = result.ErrorMessage;
 
             return viewModel;
         }
@@ -120,10 +120,10 @@ namespace SixtyThreeBits.Web.Models.Admin
             var dictionaryID = submitModel.Key.ToInt();
 
             var repository = RepositoryFactory.CreateDictionariesRepository();
-            await repository.DictionariesDeleteRecursive(dictionaryID);
+            var result = await repository.DictionariesDeleteRecursive(dictionaryID);
 
-            viewModel.IsSuccess = !repository.IsError;
-            viewModel.Data = repository.ErrorMessage;
+            viewModel.IsSuccess = !result.IsError;
+            viewModel.Data = result.ErrorMessage;
 
             return viewModel;
         }
