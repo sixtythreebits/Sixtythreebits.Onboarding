@@ -88,7 +88,7 @@ namespace SixtyThreeBits.Core.Infrastructure.Repositories
 
                         var resultQueryable = sqb.ExecuteTableValuedFunction<PermissionsListDTO>();
                         resultQueryable = resultQueryable.OrderBy(P => P.PermissionSortIndex);
-                        var result = await resultQueryable.ToReadOnlyListAsync();
+                        var result = await resultQueryable.ToReadOnlyCollectionAsync();
                         
                         return result;
                     }
@@ -115,7 +115,7 @@ namespace SixtyThreeBits.Core.Infrastructure.Repositories
                         );
 
                         var resultQueryable = sqb.ExecuteTableValuedFunction<PermissionsListByRoleIDDTO>();
-                        var result = await resultQueryable.ToReadOnlyListAsync();
+                        var result = await resultQueryable.ToReadOnlyCollectionAsync();
 
                         return result;
                     }
